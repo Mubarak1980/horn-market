@@ -1,1 +1,173 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product | Horn Market</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+
+<body>
+
+<!-- ================= PAGE WRAPPER ================= -->
+<section class="auth-page">
+
+    <div class="auth-card">
+
+        <!-- HEADER -->
+        <div class="auth-logo">
+            <h1>📦 Add New Product</h1>
+        </div>
+
+        <div class="auth-title">
+            <h2>Sell Your Product</h2>
+            <p>Fill in the details below</p>
+        </div>
+
+        <!-- ALERT BOX -->
+        <div id="alertBox"></div>
+
+        <!-- FORM -->
+        <div class="auth-form">
+
+            <!-- PRODUCT NAME -->
+            <div class="form-group">
+                <label>Product Name</label>
+                <input
+                    type="text"
+                    id="productName"
+                    class="auth-input"
+                    placeholder="e.g. iPhone 15 Pro"
+                />
+            </div>
+
+            <!-- PRICE -->
+            <div class="form-group">
+                <label>Price</label>
+                <input
+                    type="number"
+                    id="productPrice"
+                    class="auth-input"
+                    placeholder="Enter price"
+                />
+            </div>
+
+            <!-- CATEGORY -->
+            <div class="form-group">
+                <label>Category</label>
+                <input
+                    type="text"
+                    id="productCategory"
+                    class="auth-input"
+                    placeholder="electronics, clothing, fashion"
+                />
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="form-group">
+                <label>Description</label>
+                <textarea
+                    id="productDescription"
+                    class="auth-input"
+                    rows="4"
+                    placeholder="Describe your product"
+                ></textarea>
+            </div>
+
+            <!-- IMAGE -->
+            <div class="form-group">
+                <label>Image URL</label>
+                <input
+                    type="text"
+                    id="productImage"
+                    class="auth-input"
+                    placeholder="Enter image link"
+                />
+            </div>
+
+            <!-- BUTTON -->
+            <button
+                class="auth-btn"
+                onclick="addProduct()"
+            >
+                Add Product
+            </button>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="auth-footer">
+            <p>
+                Back to
+                <a href="../index.html">Home</a>
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="../js/main.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/api.js"></script>
+
+<script>
+/* ========================================
+   ADD PRODUCT FUNCTION
+======================================== */
+
+function addProduct() {
+
+    const name =
+        document.getElementById("productName").value;
+
+    const price =
+        document.getElementById("productPrice").value;
+
+    const category =
+        document.getElementById("productCategory").value;
+
+    const description =
+        document.getElementById("productDescription").value;
+
+    const image =
+        document.getElementById("productImage").value;
+
+    if (!name || !price || !category) {
+        showAlert("Please fill required fields", "error");
+        return;
+    }
+
+    const newProduct = {
+        id: Date.now(),
+        name,
+        price: Number(price),
+        category,
+        description,
+        image,
+        featured: false,
+        createdAt: new Date().toISOString()
+    };
+
+    // Save using API layer (future backend ready)
+    let products =
+        getFromStorage("products") || [];
+
+    products.push(newProduct);
+
+    saveToStorage("products", products);
+
+    showAlert("Product added successfully!");
+
+    setTimeout(() => {
+        window.location.href = "../index.html";
+    }, 1000);
+}
+</script>
+
+</body>
+</html>
