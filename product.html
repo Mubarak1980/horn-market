@@ -1,1 +1,114 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product | Horn Market</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .product-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: white;
+      display: flex;
+      flex-wrap: wrap;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .product-image {
+      flex: 1;
+      min-width: 300px;
+      background: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .product-details {
+      flex: 1;
+      padding: 30px;
+    }
+
+    .product-title {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 22px;
+      color: #e63946;
+      margin-bottom: 15px;
+    }
+
+    .description {
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .quantity {
+      margin-bottom: 20px;
+    }
+
+    .quantity input {
+      width: 60px;
+      padding: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .product-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+      <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+          <img src="logo.png" alt="Horn Market Logo" style="height: 30px; vertical-align: middle; margin-right: 5px;"> 
+          Horn Market
+      </div>
+      <nav class="nav">
+          <a href="index.html">Home</a>
+          <a href="profile.html">Profile</a>
+      </nav>
+  </header>
+
+  <div class="product-container" style="margin-top: 100px;">
+
+    <div class="product-image">
+      <img src="logo.png" alt="Product">
+    </div>
+
+    <div class="product-details">
+      <h1 class="product-title">Sample Product</h1>
+      <div class="price">$49.99</div>
+
+      <p class="description">
+        Product description goes here.
+      </p>
+
+      <div class="quantity">
+        <label>Quantity:</label>
+        <input type="number" value="1" min="1">
+      </div>
+
+      <button class="btn">Add to Cart</button>
+    </div>
+
+  </div>
+
+</body>
+</html>
