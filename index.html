@@ -6,6 +6,7 @@
     <title>Horn Market</title>
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 
 <body>
@@ -13,65 +14,50 @@
 <!-- ================= HEADER ================= -->
 <header class="header">
 
-    <div class="container grid grid-3" style="align-items:center;">
-
-        <!-- LOGO -->
-        <div>
-            <h2>🛒 Horn Market</h2>
-        </div>
-
-        <!-- SEARCH -->
-        <div>
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search products..."
-            >
-        </div>
-
-        <!-- NAV -->
-        <nav style="text-align:right;">
-            <a href="pages/login.html">Login</a> |
-            <a href="pages/signup.html">Sign Up</a> |
-            <a href="pages/profile.html">Profile</a>
-        </nav>
-
+    <div class="logo">
+        🛒 Horn Market
     </div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search electronics, clothing, fashion...">
+        <button onclick="searchProducts()">🔍</button>
+    </div>
+
+    <nav class="nav">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+        <a href="profile.html">Profile</a>
+    </nav>
 
 </header>
 
-<!-- ================= HERO ================= -->
-<section class="container mt-3 text-center">
+<!-- ================= HERO SECTION ================= -->
+<section class="hero">
 
-    <div class="section-title">
-        <h2>Buy & Sell Everything in One Place</h2>
+    <div class="hero-content">
+        <h1>Buy & Sell Everything in One Place</h1>
         <p>Electronics • Clothing • Fashion</p>
+        <button onclick="scrollToProducts()">Explore Now</button>
     </div>
-
-    <button class="btn mt-2" onclick="scrollToProducts()">
-        Explore Products
-    </button>
 
 </section>
 
 <!-- ================= CATEGORIES ================= -->
-<section class="container mt-3">
+<section class="categories">
 
-    <div class="section-title">
-        <h2>Categories</h2>
-    </div>
+    <h2>Categories</h2>
 
-    <div class="grid grid-3 text-center">
+    <div class="category-grid">
 
-        <div class="card" onclick="filterCategory('electronics')">
+        <div class="category-card" onclick="filterCategory('electronics')">
             📱 Electronics
         </div>
 
-        <div class="card" onclick="filterCategory('clothing')">
+        <div class="category-card" onclick="filterCategory('clothing')">
             👕 Clothing
         </div>
 
-        <div class="card" onclick="filterCategory('fashion')">
+        <div class="category-card" onclick="filterCategory('fashion')">
             ⌚ Fashion
         </div>
 
@@ -79,42 +65,39 @@
 
 </section>
 
-<!-- ================= PRODUCTS ================= -->
-<section class="container mt-3" id="productsSection">
+<!-- ================= FEATURED PRODUCTS ================= -->
+<section class="products" id="productsSection">
 
-    <div class="section-title">
-        <h2>Featured Products</h2>
-    </div>
+    <h2>Featured Products</h2>
 
-    <!-- PRODUCT GRID (JS LOADS HERE) -->
-    <div class="grid grid-3" id="productGrid">
+    <div class="product-grid" id="productGrid">
 
-        <!-- SAMPLE (fallback only) -->
-        <div class="card">
-            <h3>Loading products...</h3>
+        <!-- Products will be loaded from products.js -->
+
+        <div class="product-card">
+            <img src="assets/images/sample.jpg" alt="product">
+            <h3>Sample Product</h3>
+            <p class="price">$100</p>
+            <button onclick="viewProduct(1)">View</button>
         </div>
 
     </div>
 
 </section>
 
-<!-- ================= TRUST SECTION ================= -->
-<section class="container mt-3">
+<!-- ================= WHY US ================= -->
+<section class="why-us">
 
-    <div class="grid grid-3 text-center">
+    <div class="feature-box">
+        🔒 Safe & Trusted Sellers
+    </div>
 
-        <div class="card">
-            🔒 Safe & Trusted Sellers
-        </div>
+    <div class="feature-box">
+        💰 Best Prices
+    </div>
 
-        <div class="card">
-            💰 Best Prices
-        </div>
-
-        <div class="card">
-            ⚡ Fast Communication
-        </div>
-
+    <div class="feature-box">
+        ⚡ Fast Communication
     </div>
 
 </section>
@@ -122,16 +105,12 @@
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
 
-    <div class="container">
+    <p>© 2026 Horn Market. All rights reserved.</p>
 
-        <p>© 2026 Horn Market. All rights reserved.</p>
-
-        <div class="mt-1">
-            <a href="#">About</a> |
-            <a href="#">Contact</a> |
-            <a href="#">Terms</a>
-        </div>
-
+    <div class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Terms</a>
     </div>
 
 </footer>
