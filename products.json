@@ -1,1 +1,107 @@
 
+[
+  {
+    "id": 1,
+    "name": "iPhone 15 Pro",
+    "price": 1200,
+    "category": "electronics",
+    "description": "Latest Apple flagship smartphone with A17 Pro chip.",
+    "image": "assets/images/products/iphone15.jpg",
+    "featured": true,
+    "sellerId": 101,
+    "sellerName": "Tech Store",
+    "rating": 4.8,
+    "createdAt": "2026-06-19T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "Samsung Galaxy S24",
+    "price": 999,
+    "category": "electronics",
+    "description": "High-performance Android smartphone with advanced AI camera.",
+    "image": "assets/images/products/samsung-s24.jpg",
+    "featured": true,
+    "sellerId": 102,
+    "sellerName": "Mobile World",
+    "rating": 4.7,
+    "createdAt": "2026-06-18T12:30:00Z"
+  },
+  {
+    "id": 3,
+    "name": "Men's Leather Jacket",
+    "price": 85,
+    "category": "clothing",
+    "description": "Premium quality leather jacket for winter fashion.",
+    "image": "assets/images/products/leather-jacket.jpg",
+    "featured": false,
+    "sellerId": 103,
+    "sellerName": "Urban Fashion",
+    "rating": 4.5,
+    "createdAt": "2026-06-17T09:15:00Z"
+  },
+  {
+    "id": 4,
+    "name": "Nike Air Force 1",
+    "price": 110,
+    "category": "fashion",
+    "description": "Classic sneakers with timeless street style.",
+    "image": "assets/images/products/nike-af1.jpg",
+    "featured": true,
+    "sellerId": 104,
+    "sellerName": "Shoe Hub",
+    "rating": 4.9,
+    "createdAt": "2026-06-16T14:20:00Z"
+  },
+  {
+    "id": 5,
+    "name": "MacBook Air M2",
+    "price": 1350,
+    "category": "electronics",
+    "description": "Lightweight Apple laptop powered by M2 chip.",
+    "image": "assets/images/products/macbook-air.jpg",
+    "featured": true,
+    "sellerId": 101,
+    "sellerName": "Tech Store",
+    "rating": 4.9,
+    "createdAt": "2026-06-15T11:45:00Z"
+  },
+  {
+    "id": 6,
+    "name": "Casual Hoodie",
+    "price": 40,
+    "category": "clothing",
+    "description": "Comfortable everyday hoodie for all seasons.",
+    "image": "assets/images/products/hoodie.jpg",
+    "featured": false,
+    "sellerId": 103,
+    "sellerName": "Urban Fashion",
+    "rating": 4.3,
+    "createdAt": "2026-06-14T08:10:00Z"
+  },
+  {
+    "id": 7,
+    "name": "Smart Watch Pro",
+    "price": 199,
+    "category": "electronics",
+    "description": "Fitness tracking smartwatch with heart rate monitor.",
+    "image": "assets/images/products/smartwatch.jpg",
+    "featured": false,
+    "sellerId": 105,
+    "sellerName": "Gadget Hub",
+    "rating": 4.6,
+    "createdAt": "2026-06-13T16:00:00Z"
+  },
+  {
+    "id": 8,
+    "name": "Designer Sunglasses",
+    "price": 75,
+    "category": "fashion",
+    "description": "Stylish UV-protected sunglasses for modern look.",
+    "image": "assets/images/products/sunglasses.jpg",
+    "featured": false,
+    "sellerId": 104,
+    "sellerName": "Shoe Hub",
+    "rating": 4.4,
+    "createdAt": "2026-06-12T13:25:00Z"
+  }
+]
