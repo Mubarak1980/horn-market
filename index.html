@@ -1,1 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horn Market</title>
 
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="header">
+
+    <div class="logo">
+        🛒 Horn Market
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search electronics, clothing, fashion...">
+        <button onclick="searchProducts()">🔍</button>
+    </div>
+
+    <nav class="nav">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+        <a href="profile.html">Profile</a>
+    </nav>
+
+</header>
+
+<!-- ================= HERO SECTION ================= -->
+<section class="hero">
+
+    <div class="hero-content">
+        <h1>Buy & Sell Everything in One Place</h1>
+        <p>Electronics • Clothing • Fashion</p>
+        <button onclick="scrollToProducts()">Explore Now</button>
+    </div>
+
+</section>
+
+<!-- ================= CATEGORIES ================= -->
+<section class="categories">
+
+    <h2>Categories</h2>
+
+    <div class="category-grid">
+
+        <div class="category-card" onclick="filterCategory('electronics')">
+            📱 Electronics
+        </div>
+
+        <div class="category-card" onclick="filterCategory('clothing')">
+            👕 Clothing
+        </div>
+
+        <div class="category-card" onclick="filterCategory('fashion')">
+            ⌚ Fashion
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FEATURED PRODUCTS ================= -->
+<section class="products" id="productsSection">
+
+    <h2>Featured Products</h2>
+
+    <div class="product-grid" id="productGrid">
+
+        <!-- Products will be loaded from products.js -->
+
+        <div class="product-card">
+            <img src="assets/images/sample.jpg" alt="product">
+            <h3>Sample Product</h3>
+            <p class="price">$100</p>
+            <button onclick="viewProduct(1)">View</button>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= WHY US ================= -->
+<section class="why-us">
+
+    <div class="feature-box">
+        🔒 Safe & Trusted Sellers
+    </div>
+
+    <div class="feature-box">
+        💰 Best Prices
+    </div>
+
+    <div class="feature-box">
+        ⚡ Fast Communication
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+
+    <p>© 2026 Horn Market. All rights reserved.</p>
+
+    <div class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Terms</a>
+    </div>
+
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script src="js/main.js"></script>
+<script src="js/products.js"></script>
+<script src="js/search.js"></script>
+
+</body>
+</html>
