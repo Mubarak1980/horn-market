@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horn Market</title>
 
-    <!-- Fixed Paths: Removed 'css/' prefix since files are in the root directory -->
+    <!-- Fixed Paths: Files are in the root directory -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="home.css">
 </head>
@@ -15,8 +15,10 @@
 <!-- ================= HEADER ================= -->
 <header class="header">
 
+    <!-- Fixed Path: Using your logo.png file directly from the root folder -->
     <div class="logo">
-        🛒 Horn Market
+        <img src="logo.png" alt="Horn Market Logo" style="height: 30px; vertical-align: middle; margin-right: 5px;"> 
+        Horn Market
     </div>
 
     <div class="search-box">
@@ -73,10 +75,11 @@
 
     <div class="product-grid" id="productGrid">
 
-        <!-- Products will be loaded from products.js -->
+        <!-- Products will be loaded dynamically from products.js -->
 
         <div class="product-card">
-            <img src="assets/images/sample.jpg" alt="product">
+            <!-- Fixed Path: Replaced missing asset path with your logo as a temporary placeholder image -->
+            <img src="logo.png" alt="product" style="width: 100%; max-width: 200px; height: auto;">
             <h3>Sample Product</h3>
             <p class="price">$100</p>
             <button onclick="viewProduct(1)">View</button>
@@ -117,7 +120,7 @@
 </footer>
 
 <!-- ================= SCRIPTS ================= -->
-<!-- Fixed Paths: Removed 'js/' prefix since files are in the root directory -->
+<!-- Fixed Paths: Files are in the root directory -->
 <script src="main.js"></script>
 <script src="products.js"></script>
 <script src="search.js"></script>
