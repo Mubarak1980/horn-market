@@ -33,6 +33,12 @@ function initializeDatabaseDefaults() {
     if (!getFromStorage("orders")) {
         saveToStorage("orders", []);
     }
+    if (!getFromStorage("cart")) {
+        saveToStorage("cart", []);
+    }
+    if (!getFromStorage("favorites")) {
+        saveToStorage("favorites", []);
+    }
 }
 
 /* ========================================
@@ -72,8 +78,18 @@ function updateNavbarState() {
     if (loggedInUser) {
         // If logged in, customize links to show Dashboard and Logout dynamically
         navContainer.innerHTML = `
+            <a href="index.html">🏠 Home</a>
             <a href="dashboard.html">📊 Dashboard</a>
             <a href="#" class="logout-link" onclick="handleLogout(event)">🚪 Logout</a>
+            <a href="#" id="cartButton" style="position: relative; font-weight: 600;">
+                🛒 Cart (<span id="cartCount">0</span>)
+            </a>
+        `;
+    } else {
+        // Default guest navbar if no session profile token is present
+        navContainer.innerHTML = `
+            <a href="index.html">🏠 Home</a>
+            <a href="login.html">🔑 Login</a>
             <a href="#" id="cartButton" style="position: relative; font-weight: 600;">
                 🛒 Cart (<span id="cartCount">0</span>)
             </a>
@@ -111,23 +127,13 @@ function updateFavoritesCount() {
     }
 }
 
-function addToCart(product) {
-    let cart = getFromStorage("cart") || [];
-    cart.push(product);
-    saveToStorage("cart", cart);
-
-    updateCartCount();
-    showAlert(`${product.name} added to cart!`, "success");
-}
-
 function initializeCartClickTrigger() {
-    const cartButtonAnchor = document.getElementById("cartCount") ? document.getElementById("cartCount").parentNode : null;
-    if (cartButtonAnchor) {
-        cartButtonAnchor.addEventListener("click", (e) => {
+    // Looks for the cart button text structure or parent anchor wrapper cleanly
+    const cartBtn = document.getElementById("cartButton") || document.getElementById("cartCount")?.parentNode;
+    if (cartBtn) {
+        cartBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            if (typeof toggleCartDrawer === "function") {
-                toggleCartDrawer();
-            }
+            toggleCartDrawer();
         });
     }
 }
@@ -136,7 +142,11 @@ function toggleCartDrawer() {
     const drawer = document.getElementById("cartDrawer");
     const overlay = document.getElementById("cartOverlay");
     
-    if (!drawer) return;
+    if (!drawer) {
+        // If your layout page does not contain a drawer container element, fall back to redirecting to cart page
+        window.location.href = "cart.html";
+        return;
+    }
     
     drawer.classList.toggle("open");
     if (overlay) overlay.classList.toggle("open");
@@ -165,13 +175,13 @@ function renderCartDrawerItems() {
     container.innerHTML = cart.map((product, index) => {
         subtotalSum += Number(product.price || 0);
         return `
-            <div class="cart-item-row">
-                <img src="${product.image || 'logo.png'}" alt="${product.name}">
-                <div class="cart-item-details">
-                    <h4>${product.name}</h4>
-                    <span class="price">${formatPrice(product.price)}</span>
+            <div class="cart-item-row" style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                <img src="${product.image || 'logo.png'}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: contain; background: #f1f5f9; border-radius: 6px;">
+                <div class="cart-item-details" style="flex: 1;">
+                    <h4 style="margin: 0; font-size: 0.95rem;">${product.name}</h4>
+                    <span class="price" style="color: var(--primary-color); font-weight: 700; font-size: 0.9rem;">${formatPrice(product.price)}</span>
                 </div>
-                <button class="remove-item-btn" onclick="removeFromCartIndex(${index})">✕ Remove</button>
+                <button class="remove-item-btn" onclick="removeFromCartIndex(${index})" style="background: none; border: none; color: var(--danger-color, #dc2626); cursor: pointer; font-size: 0.85rem; font-weight: 600;">✕ Remove</button>
             </div>
         `;
     }).join("");
@@ -200,16 +210,21 @@ function proceedToCheckout() {
     removeFromStorage("cart");
     updateCartCount();
     toggleCartDrawer();
+    
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 1500);
 }
 
 /* ========================================
    FORMAT PRICE & DATES
 ======================================== */
 function formatPrice(price) {
-    return `$${Number(price).toFixed(2)}`;
+    return `$${Number(price || 0).toFixed(2)}`;
 }
 
 function formatDate(date) {
+    if (!date) return "N/A";
     return new Date(date).toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
