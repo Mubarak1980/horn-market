@@ -1,4 +1,3 @@
-
 /* ========================================
    HEADER
 ======================================== */
@@ -11,21 +10,26 @@
     position: sticky;
     top: 0;
     z-index: 1000;
+    background: #ffffff; /* Ensures text doesn't bleed into background content on scroll */
+    border-bottom: 1px solid var(--border-color);
 }
 
 .logo {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--primary-color);
+    white-space: nowrap;
 }
 
 .nav {
     display: flex;
     gap: 20px;
+    align-items: center;
 }
 
 .nav a {
-    font-weight: 500;
+    font-weight: 600;
+    color: var(--text-dark);
     transition: var(--transition);
 }
 
@@ -33,14 +37,21 @@
     color: var(--primary-color);
 }
 
+/* Auth state toggle styling helpers */
+.nav .logout-link {
+    color: var(--danger-color);
+    cursor: pointer;
+}
+
 /* ========================================
-   SEARCH BAR
+   SEARCH BAR & AUTOCOMPLETE ANCHOR
 ======================================== */
 
 .search-box {
     flex: 1;
     display: flex;
     max-width: 650px;
+    position: relative; /* CRITICAL: Holds the autocomplete suggestion rows in place */
 }
 
 .search-box input {
@@ -51,8 +62,9 @@
 .search-box button {
     background: var(--primary-color);
     color: white;
-    padding: 0 20px;
+    padding: 0 24px;
     border-radius: 0 var(--radius) var(--radius) 0;
+    font-weight: 600;
 }
 
 .search-box button:hover {
@@ -64,7 +76,7 @@
 ======================================== */
 
 .hero {
-    min-height: 500px;
+    min-height: 480px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -72,8 +84,8 @@
 
     background:
         linear-gradient(
-            rgba(37,99,235,0.85),
-            rgba(29,78,216,0.85)
+            rgba(37, 99, 235, 0.88),
+            rgba(29, 78, 216, 0.92)
         );
 
     color: white;
@@ -87,10 +99,12 @@
 .hero h1 {
     font-size: 3.5rem;
     margin-bottom: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
 .hero p {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     margin-bottom: 30px;
     opacity: .95;
 }
@@ -98,13 +112,15 @@
 .hero button {
     background: white;
     color: var(--primary-color);
-    padding: 15px 35px;
+    padding: 16px 40px;
     border-radius: var(--radius);
     font-weight: 700;
+    box-shadow: var(--shadow-sm);
 }
 
 .hero button:hover {
     transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 /* ========================================
@@ -112,7 +128,7 @@
 ======================================== */
 
 .categories {
-    padding: 80px 5%;
+    padding: 60px 5% 40px;
 }
 
 .categories h2 {
@@ -129,14 +145,13 @@
 
 .category-card {
     background: white;
-    padding: 40px 20px;
+    padding: 35px 20px;
     border-radius: var(--radius);
     text-align: center;
     font-size: 1.2rem;
     font-weight: 600;
-
+    border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
-
     cursor: pointer;
     transition: var(--transition);
 }
@@ -144,107 +159,55 @@
 .category-card:hover {
     transform: translateY(-6px);
     box-shadow: var(--shadow-md);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
 /* ========================================
-   PRODUCTS
+   PRODUCTS CONTAINER
 ======================================== */
 
 .products {
-    padding: 80px 5%;
+    padding: 40px 5% 60px;
 }
 
 .products h2 {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     font-size: 2rem;
 }
 
-.product-grid {
-    display: grid;
-    grid-template-columns:
-        repeat(auto-fill, minmax(250px, 1fr));
-    gap: 25px;
-}
-
-.product-card {
-    background: white;
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition);
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
-}
-
-.product-card img {
-    height: 220px;
-    object-fit: cover;
-}
-
-.product-card h3 {
-    padding: 15px 15px 5px;
-    font-size: 1.1rem;
-}
-
-.product-card p {
-    padding: 0 15px;
-}
-
-.price {
-    color: var(--success-color);
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-top: 8px;
-}
-
-.product-card button {
-    margin: 15px;
-    width: calc(100% - 30px);
-    padding: 12px;
-
-    background: var(--primary-color);
-    color: white;
-
-    border-radius: var(--radius);
-}
-
-.product-card button:hover {
-    background: var(--primary-hover);
-}
+/* NOTE: Removed local .product-card rules to prevent CSS specificity clash with style.css */
 
 /* ========================================
    WHY US
 ======================================== */
 
 .why-us {
-    padding: 80px 5%;
+    padding: 60px 5%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
+    background: #f1f5f9;
 }
 
 .feature-box {
     background: white;
     text-align: center;
-    padding: 35px 20px;
+    padding: 40px 25px;
     border-radius: var(--radius);
     box-shadow: var(--shadow-sm);
-
     font-size: 1.1rem;
     font-weight: 600;
+    border: 1px solid var(--border-color);
 }
 
 /* ========================================
-   FOOTER
+   FOOTER LINKS
 ======================================== */
 
 .footer-links {
     margin-top: 15px;
-
     display: flex;
     justify-content: center;
     gap: 25px;
@@ -252,10 +215,12 @@
 
 .footer-links a {
     color: #cbd5e1;
+    font-weight: 500;
 }
 
 .footer-links a:hover {
     color: white;
+    text-decoration: underline;
 }
 
 /* ========================================
@@ -280,30 +245,44 @@
 @media (max-width: 768px) {
 
     .header {
-        flex-direction: column;
+        padding: 15px 4%;
+        gap: 15px;
     }
 
     .nav {
         width: 100%;
         justify-content: center;
-        flex-wrap: wrap;
+        gap: 15px;
+        order: 3; /* Places navigation links cleanly at the bottom of the stacked mobile bar */
     }
 
     .search-box {
         width: 100%;
+        order: 2;
+    }
+
+    .hero {
+        min-height: 400px;
+        padding: 40px 15px;
     }
 
     .hero h1 {
         font-size: 2rem;
     }
 
+    .hero p {
+        font-size: 1.1rem;
+    }
+
     .category-grid,
     .why-us {
         grid-template-columns: 1fr;
+        gap: 15px;
     }
 
     .footer-links {
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
+        align-items: center;
     }
 }
