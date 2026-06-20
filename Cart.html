@@ -1,1 +1,53 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Shopping Cart | Horn Market</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+
+    <header class="cart-header-nav">
+        <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
+            🛒 Horn Market
+        </div>
+        <a href="index.html" class="back-home-btn">← Continue Shopping</a>
+    </header>
+
+    <main class="cart-page-container">
+        <h1 class="page-title">Shopping Cart</h1>
+
+        <div class="cart-layout-wrapper">
+            <section class="cart-items-section">
+                <div id="cartPageItemsList">
+                    </div>
+            </section>
+
+            <aside class="order-summary-card">
+                <h3>Order Summary</h3>
+                <hr>
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="summarySubtotal">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span class="free-badge">FREE</span>
+                </div>
+                <hr>
+                <div class="summary-row total-row">
+                    <span>Total Amount</span>
+                    <span id="summaryTotal">$0.00</span>
+                </div>
+                <button class="checkout-submit-btn" onclick="processFinalCheckout()">Proceed to Secure Checkout</button>
+            </aside>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
+    <script src="cart.js"></script>
+</body>
+</html>
