@@ -63,9 +63,9 @@ async function loadProducts() {
                     name: "iPhone 15 Pro Max", 
                     price: 1199, 
                     category: "electronics", 
-                    image: "logo.png", 
+                    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500&auto=format&fit=crop&q=60", 
                     featured: true, 
-                    description: "256GB, Titanium Black, Brand New condition. Certified authentic distribution.",
+                    description: "256GB, Titanium Black, Brand New condition. Factory unlocked and certified authentic distribution.",
                     createdAt: new Date().toISOString() 
                 },
                 { 
@@ -73,9 +73,9 @@ async function loadProducts() {
                     name: "Wireless Bluetooth Headphones", 
                     price: 89, 
                     category: "electronics", 
-                    image: "logo.png", 
+                    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60", 
                     featured: true, 
-                    description: "High fidelity noise cancellation audio driver system with premium comfort earcups.",
+                    description: "High fidelity noise cancellation audio driver system with premium comfort memory-foam earcups.",
                     createdAt: new Date().toISOString() 
                 },
                 { 
@@ -83,9 +83,9 @@ async function loadProducts() {
                     name: "Premium Laptop Core i7", 
                     price: 850, 
                     category: "electronics", 
-                    image: "logo.png", 
+                    image: "https://images.unsplash.com/photo-1496181130204-755241544e35?w=500&auto=format&fit=crop&q=60", 
                     featured: true, 
-                    description: "16GB RAM, 512GB SSD. Perfect computing powerhouse for local developers and businesses.",
+                    description: "16GB RAM, 512GB SSD Fast NVMe Storage. Perfect portable computing powerhouse for local developers, students, and businesses.",
                     createdAt: new Date().toISOString() 
                 }
             ];
@@ -149,7 +149,7 @@ function createProductCard(product) {
     
     return `
         <div class="product-card">
-            <img src="${product.image || 'logo.png'}" alt="${product.name || 'Marketplace Item'}"/>
+            <img src="${product.image || 'logo.png'}" alt="${product.name || 'Marketplace Item'}" style="object-fit: contain; background: #f8fafc; padding: 10px; height: 200px; width: 100%;"/>
             <h3>${product.name || 'Unnamed Product'}</h3>
             <p class="price">
                 ${safePriceText}
