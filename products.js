@@ -141,7 +141,7 @@ function getFeaturedProducts() {
 ======================================== */
 
 function filterCategory(category) {
-    if (category.toLowerCase() === 'all') {
+    if (!category || category.toLowerCase() === 'all' || category.toLowerCase() === 'default') {
         displayProducts(products);
         return;
     }
@@ -156,6 +156,11 @@ function filterCategory(category) {
 ======================================== */
 
 function sortProducts(type) {
+    if (!type || type === 'default') {
+        displayProducts(products);
+        return;
+    }
+
     let sorted = [...products];
 
     switch (type) {
@@ -194,9 +199,11 @@ function addToCart(productId) {
         // Push the whole product object so cart.html can display its image and name immediately!
         cart.push(selectedItem);
         saveToStorage("cart", cart);
-        showAlert("Added to cart successfully!");
+        if (typeof showAlert === "function") showAlert("Added to cart successfully!");
+        else alert("Added to cart successfully!");
     } else {
-        showAlert("Item is already in your cart.");
+        if (typeof showAlert === "function") showAlert("Item is already in your cart.");
+        else alert("Item is already in your cart.");
     }
 
     if (typeof updateCartCount === "function") {
@@ -248,6 +255,18 @@ function showError(containerId, message) {
             ${message}
         </p>
     `;
+}
+
+/* ========================================
+   BRIDGE UTILITIES FOR INDEX.HTML CALLS
+======================================== */
+
+function setCategory(categoryName) {
+    filterCategory(categoryName);
+}
+
+function setSortType(sortValue) {
+    sortProducts(sortValue);
 }
 
 /* ========================================
