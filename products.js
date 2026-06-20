@@ -1,8 +1,32 @@
 /* ========================================
-   PRODUCTS STATE
+   PRODUCTS STATE & RECOVERS
 ======================================== */
 
 let products = [];
+
+// Helper functions fallback safeguards (in case main.js has timing issues loading)
+function safeGetFromStorage(key) {
+    try {
+        if (typeof getFromStorage === "function") return getFromStorage(key);
+        const data = localStorage.getItem(key);
+        return data ? JSON.parse(data) : null;
+    } catch (e) {
+        console.error("Storage read error:", e);
+        return null;
+    }
+}
+
+function safeSaveToStorage(key, data) {
+    try {
+        if (typeof saveToStorage === "function") {
+            saveToStorage(key, data);
+            return;
+        }
+        localStorage.setItem(key, JSON.stringify(data));
+    } catch (e) {
+        console.error("Storage write error:", e);
+    }
+}
 
 /* ========================================
    LOAD PRODUCTS (FROM DATA OR API)
@@ -16,46 +40,77 @@ async function loadProducts() {
 
         let jsonProducts = [];
         
-        // 1. Fetch from JSON file with a fallback guard if the file doesn't exist yet
+        // 1. Fetch from JSON database file with complete error shielding
         try {
             const response = await fetch("products.json");
             if (response.ok) {
                 jsonProducts = await response.json();
             } else {
-                console.warn("products.json not found or empty, using local database memory.");
+                console.warn("products.json not found or empty, checking local storage memory next.");
             }
         } catch (e) {
-            console.warn("Network fetch skipped or failed. Falling back to memory storage.");
+            console.warn("Network fetch skipped or offline. Falling back to storage layers.");
         }
 
         // 2. Load custom listings created by users from localStorage
-        let localProducts = getFromStorage("products") || [];
+        let localProducts = safeGetFromStorage("products") || [];
 
-        // 3. Fallback Starter Kit: If BOTH are empty, inject sample electronics items so your page looks great!
+        // 3. Fallback Core Starter Kit: If BOTH files and database caches are empty, load default electronics
         if (jsonProducts.length === 0 && localProducts.length === 0) {
             const starterProducts = [
-                { id: 101, name: "iPhone 15 Pro Max", price: 1199, category: "electronics", image: "logo.png", featured: true, createdAt: new Date().toISOString() },
-                { id: 102, name: "Wireless Bluetooth Headphones", price: 89, category: "electronics", image: "logo.png", featured: true, createdAt: new Date().toISOString() },
-                { id: 103, name: "Premium Laptop Core i7", price: 850, category: "electronics", image: "logo.png", featured: true, createdAt: new Date().toISOString() }
+                { 
+                    id: 101, 
+                    name: "iPhone 15 Pro Max", 
+                    price: 1199, 
+                    category: "electronics", 
+                    image: "logo.png", 
+                    featured: true, 
+                    description: "256GB, Titanium Black, Brand New condition. Certified authentic distribution.",
+                    createdAt: new Date().toISOString() 
+                },
+                { 
+                    id: 102, 
+                    name: "Wireless Bluetooth Headphones", 
+                    price: 89, 
+                    category: "electronics", 
+                    image: "logo.png", 
+                    featured: true, 
+                    description: "High fidelity noise cancellation audio driver system with premium comfort earcups.",
+                    createdAt: new Date().toISOString() 
+                },
+                { 
+                    id: 103, 
+                    name: "Premium Laptop Core i7", 
+                    price: 850, 
+                    category: "electronics", 
+                    image: "logo.png", 
+                    featured: true, 
+                    description: "16GB RAM, 512GB SSD. Perfect computing powerhouse for local developers and businesses.",
+                    createdAt: new Date().toISOString() 
+                }
             ];
-            saveToStorage("products", starterProducts);
-            localProducts = starterProducts;
+            // CRITICAL FIX: Save them immediately so product.html can view them directly on page loads!
+            safeSaveToStorage("products", starterProducts);
+            products = starterProducts;
+        } else {
+            // Merge files array data and local updates together cleanly
+            products = [...jsonProducts, ...localProducts];
+            // Force save to local sync stream cache
+            safeSaveToStorage("products", products);
         }
 
-        // Combine all items cleanly
-        products = [...jsonProducts, ...localProducts];
         displayProducts(products);
 
     } catch (error) {
-        console.error("Product load error:", error);
+        console.error("Product load runtime error:", error);
         
-        // Final fallback: attempt emergency retrieval
-        let localProducts = getFromStorage("products") || [];
-        if (localProducts.length > 0) {
-            products = localProducts;
+        // Final fallback: attempt emergency retrieval from local memory cache
+        let emergencyProducts = safeGetFromStorage("products") || [];
+        if (emergencyProducts.length > 0) {
+            products = emergencyProducts;
             displayProducts(products);
         } else {
-            showError("productGrid", "Failed to load products. Please check database file.");
+            showError("productGrid", "Failed to load products marketplace catalog registry.");
         }
     }
 }
@@ -72,8 +127,8 @@ function displayProducts(list) {
 
     if (!list || list.length === 0) {
         grid.innerHTML = `
-            <p class="text-muted" style="grid-column: 1/-1; text-align: center; padding: 40px;">
-                No products found matching that filter.
+            <p class="text-muted" style="grid-column: 1/-1; text-align: center; padding: 40px; font-size: 1rem;">
+                No active marketplace items found matching that selection.
             </p>
         `;
         return;
@@ -89,13 +144,13 @@ function displayProducts(list) {
 ======================================== */
 
 function createProductCard(product) {
-    // Safety check for price formatting helper function
+    // Safety check formatting metrics to keep pricing text looking crisp
     const safePriceText = typeof formatPrice === "function" ? formatPrice(product.price) : `$${product.price}`;
     
     return `
         <div class="product-card">
-            <img src="${product.image || 'logo.png'}" alt="${product.name || 'Market Item'}"/>
-            <h3>${product.name}</h3>
+            <img src="${product.image || 'logo.png'}" alt="${product.name || 'Marketplace Item'}"/>
+            <h3>${product.name || 'Unnamed Product'}</h3>
             <p class="price">
                 ${safePriceText}
             </p>
@@ -112,7 +167,7 @@ function createProductCard(product) {
 }
 
 /* ========================================
-   VIEW PRODUCT
+   VIEW PRODUCT ROUTER PARAMETERS
 ======================================== */
 
 function viewProduct(id) {
@@ -137,7 +192,7 @@ function getFeaturedProducts() {
 }
 
 /* ========================================
-   CATEGORY FILTER (BRIDGE FOR SEARCH.JS)
+   CATEGORY FILTER (BRIDGED EVENTS SYSTEM)
 ======================================== */
 
 function filterCategory(category) {
@@ -152,7 +207,7 @@ function filterCategory(category) {
 }
 
 /* ========================================
-   SORTING SYSTEM
+   SORTING ENGINE SYSTEM
 ======================================== */
 
 function sortProducts(type) {
@@ -181,29 +236,30 @@ function sortProducts(type) {
 }
 
 /* ========================================
-   CART SYSTEM (UPDATED TO PREVENT DUPLICATION CONFLICTS)
+   CART DATA SYSTEM OBJECT INJECTION
 ======================================== */
 
 function addToCart(productId) {
-    let cart = getFromStorage("cart") || [];
+    let cart = safeGetFromStorage("cart") || [];
     
-    // Find the full item details from our available catalog array
+    // Find item data matching index tracking markers
     const selectedItem = products.find(p => p.id === Number(productId));
     
     if (!selectedItem) return;
 
-    // Check if the item object is already inside the cart array list
+    // Duplication check validation
     const alreadyInCart = cart.some(item => item.id === Number(productId));
 
     if (!alreadyInCart) {
-        // Push the whole product object so cart.html can display its image and name immediately!
+        // Push the complete product object maps payload directly so checkout systems can read it instantly!
         cart.push(selectedItem);
-        saveToStorage("cart", cart);
+        safeSaveToStorage("cart", cart);
+        
         if (typeof showAlert === "function") showAlert("Added to cart successfully!");
         else alert("Added to cart successfully!");
     } else {
-        if (typeof showAlert === "function") showAlert("Item is already in your cart.");
-        else alert("Item is already in your cart.");
+        if (typeof showAlert === "function") showAlert("Item is already in your cart summary checklist.");
+        else alert("Item is already in your cart summary checklist.");
     }
 
     if (typeof updateCartCount === "function") {
@@ -212,38 +268,34 @@ function addToCart(productId) {
 }
 
 /* ========================================
-   FAVORITES SYSTEM
+   FAVORITES ENGINE SYSTEM
 ======================================== */
 
 function addToFavorites(productId) {
-    let favorites = getFromStorage("favorites") || [];
+    let favorites = safeGetFromStorage("favorites") || [];
 
     if (!favorites.includes(productId)) {
         favorites.push(productId);
     }
 
-    saveToStorage("favorites", favorites);
+    safeSaveToStorage("favorites", favorites);
     if (typeof updateFavoritesCount === "function") {
         updateFavoritesCount();
     }
-    showAlert("Added to favorites");
+    if (typeof showAlert === "function") showAlert("Added to favorites");
 }
-
-/* ========================================
-   REMOVE FAVORITE
-======================================== */
 
 function removeFavorite(productId) {
-    let favorites = getFromStorage("favorites") || [];
+    let favorites = safeGetFromStorage("favorites") || [];
     favorites = favorites.filter(id => id !== productId);
-    saveToStorage("favorites", favorites);
+    safeSaveToStorage("favorites", favorites);
     if (typeof updateFavoritesCount === "function") {
         updateFavoritesCount();
     }
 }
 
 /* ========================================
-   ERROR HANDLING
+   ERROR MODAL RENDERING WINDOWS
 ======================================== */
 
 function showError(containerId, message) {
@@ -251,14 +303,14 @@ function showError(containerId, message) {
     if (!container) return;
 
     container.innerHTML = `
-        <p style="color:var(--danger-color); text-align:center; padding:40px; grid-column: 1/-1; font-weight: 600;">
-            ${message}
+        <p style="color:var(--danger-color, #dc2626); text-align:center; padding:40px; grid-column: 1/-1; font-weight: 600; font-size:1.1rem;">
+            ⚠️ ${message}
         </p>
     `;
 }
 
 /* ========================================
-   BRIDGE UTILITIES FOR INDEX.HTML CALLS
+   INDEX.HTML EVENTS BRIDGE UTILITIES
 ======================================== */
 
 function setCategory(categoryName) {
@@ -270,7 +322,7 @@ function setSortType(sortValue) {
 }
 
 /* ========================================
-   INIT
+   INITIALIZER ENGINE LIFE PIPELINE
 ======================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
