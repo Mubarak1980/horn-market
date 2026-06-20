@@ -1,4 +1,3 @@
-
 /* ========================================
    PRODUCTS STATE
 ======================================== */
@@ -15,24 +14,35 @@ async function loadProducts() {
 
         showLoading("productGrid");
 
-        // In future: replace with api.getProducts()
-        const response =
-            await fetch("data/products.json");
+        // Fixed Path: Removed 'data/' folder prefix
+        const response = await fetch("products.json");
 
         if (!response.ok) {
-            throw new Error("Failed to load products");
+            throw new Error("Failed to load products JSON");
         }
 
-        products = await response.json();
+        let jsonProducts = await response.json();
+        
+        // Smart Blend: Get user-created listings from localStorage if they exist
+        let localProducts = getFromStorage("products") || [];
+        
+        // Combine them so everything loads together instantly
+        products = [...jsonProducts, ...localProducts];
 
         displayProducts(products);
 
     } catch (error) {
 
         console.error("Product load error:", error);
-
-        showError("productGrid", "Failed to load products");
-
+        
+        // Fallback: If network fails, try loading purely from local storage memory
+        let localProducts = getFromStorage("products") || [];
+        if (localProducts.length > 0) {
+            products = localProducts;
+            displayProducts(products);
+        } else {
+            showError("productGrid", "Failed to load products");
+        }
     }
 }
 
@@ -104,9 +114,8 @@ function createProductCard(product) {
 ======================================== */
 
 function viewProduct(id) {
-
-    window.location.href =
-        `pages/product.html?id=${id}`;
+    // Fixed Path: Removed 'pages/' folder prefix
+    window.location.href = `product.html?id=${id}`;
 }
 
 /* ========================================
@@ -251,7 +260,7 @@ function showError(containerId, message) {
     if (!container) return;
 
     container.innerHTML = `
-        <p style="color:red;">
+        <p style="color:red; text-align:center; padding:20px;">
             ${message}
         </p>
     `;
