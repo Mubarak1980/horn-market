@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,18 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product | Horn Market</title>
 
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="auth.css">
 </head>
 
 <body>
 
-<!-- ================= PAGE WRAPPER ================= -->
 <section class="auth-page">
 
     <div class="auth-card">
 
-        <!-- HEADER -->
         <div class="auth-logo">
             <h1>📦 Add New Product</h1>
         </div>
@@ -27,13 +23,10 @@
             <p>Fill in the details below</p>
         </div>
 
-        <!-- ALERT BOX -->
         <div id="alertBox"></div>
 
-        <!-- FORM -->
         <div class="auth-form">
 
-            <!-- PRODUCT NAME -->
             <div class="form-group">
                 <label>Product Name</label>
                 <input
@@ -44,7 +37,6 @@
                 />
             </div>
 
-            <!-- PRICE -->
             <div class="form-group">
                 <label>Price</label>
                 <input
@@ -55,18 +47,16 @@
                 />
             </div>
 
-            <!-- CATEGORY -->
             <div class="form-group">
                 <label>Category</label>
-                <input
-                    type="text"
-                    id="productCategory"
-                    class="auth-input"
-                    placeholder="electronics, clothing, fashion"
-                />
+                <select id="productCategory" class="auth-input" style="background: #fff;">
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="other">Other</option>
+                </select>
             </div>
 
-            <!-- DESCRIPTION -->
             <div class="form-group">
                 <label>Description</label>
                 <textarea
@@ -77,18 +67,16 @@
                 ></textarea>
             </div>
 
-            <!-- IMAGE -->
             <div class="form-group">
-                <label>Image URL</label>
+                <label>Image URL (Optional)</label>
                 <input
                     type="text"
                     id="productImage"
                     class="auth-input"
-                    placeholder="Enter image link"
+                    placeholder="e.g. logo.png or online image link"
                 />
             </div>
 
-            <!-- BUTTON -->
             <button
                 class="auth-btn"
                 onclick="addProduct()"
@@ -98,11 +86,10 @@
 
         </div>
 
-        <!-- FOOTER -->
         <div class="auth-footer">
             <p>
                 Back to
-                <a href="../index.html">Home</a>
+                <a href="index.html">Home</a> or <a href="dashboard.html">Dashboard</a>
             </p>
         </div>
 
@@ -110,10 +97,8 @@
 
 </section>
 
-<!-- ================= SCRIPTS ================= -->
-<script src="../js/main.js"></script>
-<script src="../js/auth.js"></script>
-<script src="../js/api.js"></script>
+<script src="main.js"></script>
+<script src="auth.js"></script>
 
 <script>
 /* ========================================
@@ -121,29 +106,49 @@
 ======================================== */
 
 function addProduct() {
+    // SECURITY: Ensure user is actually logged in before creating listings
+    const user = getCurrentUser();
+    if (!user) {
+        if (typeof showAlert === "function") {
+            showAlert("You must be logged in to add products.", "error");
+        } else {
+            alert("You must be logged in to add products.");
+        }
+        return;
+    }
 
     const name =
-        document.getElementById("productName").value;
+        document.getElementById("productName").value.trim();
 
     const price =
-        document.getElementById("productPrice").value;
+        document.getElementById("productPrice").value.trim();
 
     const category =
         document.getElementById("productCategory").value;
 
     const description =
-        document.getElementById("productDescription").value;
+        document.getElementById("productDescription").value.trim();
 
-    const image =
-        document.getElementById("productImage").value;
+    let image =
+        document.getElementById("productImage").value.trim();
 
     if (!name || !price || !category) {
-        showAlert("Please fill required fields", "error");
+        if (typeof showAlert === "function") {
+            showAlert("Please fill required fields", "error");
+        } else {
+            alert("Please fill required fields");
+        }
         return;
+    }
+
+    // Default placeholder fallback asset if string is left empty
+    if (!image) {
+        image = "logo.png";
     }
 
     const newProduct = {
         id: Date.now(),
+        sellerId: user.id, // FIXED: Links the product explicitly to the logged in vendor profile
         name,
         price: Number(price),
         category,
@@ -153,19 +158,21 @@ function addProduct() {
         createdAt: new Date().toISOString()
     };
 
-    // Save using API layer (future backend ready)
-    let products =
-        getFromStorage("products") || [];
+    let products = getFromStorage("products") || [];
 
     products.push(newProduct);
-
     saveToStorage("products", products);
 
-    showAlert("Product added successfully!");
+    if (typeof showAlert === "function") {
+        showAlert("Product added successfully!", "success");
+    } else {
+        alert("Product added successfully!");
+    }
 
     setTimeout(() => {
-        window.location.href = "../index.html";
-    }, 1000);
+        // Automatically takes them back to their vendor desk view profile
+        window.location.href = "dashboard.html";
+    }, 1200);
 }
 </script>
 
