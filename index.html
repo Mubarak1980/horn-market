@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horn Market</title>
+    <title>Horn Market | Premium Marketplace</title>
 
-    <!-- Fixed Paths: Files are in the root directory -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="home.css">
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
 <header class="header">
 
-    <!-- Fixed Path: Using your logo.png file directly from the root folder -->
-    <div class="logo">
-        <img src="logo.png" alt="Horn Market Logo" style="height: 30px; vertical-align: middle; margin-right: 5px;"> 
-        Horn Market
+    <div class="logo" style="display: flex; align-items: center; cursor: pointer;" onclick="window.location.reload()">
+        <img src="logo.png" alt="Horn Market Logo" style="height: 35px; margin-right: 8px;"> 
+        <span>Horn Market</span>
     </div>
 
     <div class="search-box">
@@ -29,38 +26,39 @@
     <nav class="nav">
         <a href="login.html">Login</a>
         <a href="signup.html">Sign Up</a>
-        <a href="profile.html">Profile</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="#" id="cartButton" style="position: relative; font-weight: 600;">
+            🛒 Cart (<span id="cartCount">0</span>)
+        </a>
     </nav>
 
 </header>
 
-<!-- ================= HERO SECTION ================= -->
 <section class="hero">
 
     <div class="hero-content">
         <h1>Buy & Sell Everything in One Place</h1>
-        <p>Electronics • Clothing • Fashion</p>
+        <p>Your trusted regional hub for premium electronics, fashion, and lifestyle items.</p>
         <button onclick="scrollToProducts()">Explore Now</button>
     </div>
 
 </section>
 
-<!-- ================= CATEGORIES ================= -->
 <section class="categories">
 
     <h2>Categories</h2>
 
     <div class="category-grid">
 
-        <div class="category-card" onclick="filterCategory('electronics')">
+        <div class="category-card" onclick="setCategory('electronics')">
             📱 Electronics
         </div>
 
-        <div class="category-card" onclick="filterCategory('clothing')">
+        <div class="category-card" onclick="setCategory('clothing')">
             👕 Clothing
         </div>
 
-        <div class="category-card" onclick="filterCategory('fashion')">
+        <div class="category-card" onclick="setCategory('fashion')">
             ⌚ Fashion
         </div>
 
@@ -68,28 +66,28 @@
 
 </section>
 
-<!-- ================= FEATURED PRODUCTS ================= -->
 <section class="products" id="productsSection">
 
-    <h2>Featured Products</h2>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+        <h2 style="margin-bottom: 0; text-align: left;">Featured Products</h2>
+        
+        <select onchange="setSortType(this.value)" style="width: auto; padding: 8px 15px; border-radius: 8px; font-weight: 600;">
+            <option value="default">Sort by: Default</option>
+            <option value="low">Price: Low to High</option>
+            <option value="high">Price: High to Low</option>
+            <option value="name">Name: A-Z</option>
+            <option value="newest">Newest Items</option>
+        </select>
+    </div>
 
     <div class="product-grid" id="productGrid">
-
-        <!-- Products will be loaded dynamically from products.js -->
-
-        <div class="product-card">
-            <!-- Fixed Path: Replaced missing asset path with your logo as a temporary placeholder image -->
-            <img src="logo.png" alt="product" style="width: 100%; max-width: 200px; height: auto;">
-            <h3>Sample Product</h3>
-            <p class="price">$100</p>
-            <button onclick="viewProduct(1)">View</button>
+        <div class="text-center" style="grid-column: 1/-1; padding: 40px 0; color: var(--text-light);">
+            Loading marketplace catalogue items...
         </div>
-
     </div>
 
 </section>
 
-<!-- ================= WHY US ================= -->
 <section class="why-us">
 
     <div class="feature-box">
@@ -106,7 +104,6 @@
 
 </section>
 
-<!-- ================= FOOTER ================= -->
 <footer class="footer">
 
     <p>© 2026 Horn Market. All rights reserved.</p>
@@ -119,11 +116,39 @@
 
 </footer>
 
-<!-- ================= SCRIPTS ================= -->
-<!-- Fixed Paths: Files are in the root directory -->
+<div id="cartDrawer" class="cart-drawer">
+    <div class="cart-drawer-header">
+        <h2>🛒 Your Shopping Cart</h2>
+        <button class="close-drawer-btn" onclick="toggleCartDrawer()">✕</button>
+    </div>
+    
+    <div id="cartItemsContainer" class="cart-drawer-body">
+        </div>
+    
+    <div class="cart-drawer-footer">
+        <div class="cart-subtotal">
+            <span>Total:</span>
+            <span id="cartSubtotalAmount">$0</span>
+        </div>
+        <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+    </div>
+</div>
+<div id="cartOverlay" class="cart-overlay" onclick="toggleCartDrawer()"></div>
+
+<script src="auth.js"></script>
 <script src="main.js"></script>
 <script src="products.js"></script>
 <script src="search.js"></script>
+
+<script>
+// Quick utility helper to handle smooth scrolling from the hero button banner trigger
+function scrollToProducts() {
+    const section = document.getElementById("productsSection");
+    if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+</script>
 
 </body>
 </html>
