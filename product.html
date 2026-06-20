@@ -7,24 +7,102 @@
   
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="product.css">
+  
+  <style>
+    /* ====================================================
+       RESPONSIVE HEADER & EMBEDDED MOBILE LAYOUT CORRECTIONS
+       ==================================================== */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 5%;
+        background: #ffffff;
+        box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.1));
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .header .logo {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary-color, #2563eb);
+    }
+
+    .header .logo img {
+        height: 35px;
+        margin-right: 8px;
+    }
+
+    .header .nav {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .header .nav a {
+        font-weight: 600;
+        text-decoration: none;
+        color: var(--text-dark, #1e293b);
+        transition: color 0.2s ease;
+    }
+
+    .header .nav a:hover {
+        color: var(--primary-color, #2563eb);
+    }
+
+    /* Target small mobile screens */
+    @media (max-width: 600px) {
+        .header {
+            flex-direction: column !important;
+            justify-content: center !important;
+            text-align: center !important;
+            padding: 15px 10px !important;
+        }
+
+        .header .logo {
+            font-size: 1.5rem !important;
+        }
+
+        .header .nav {
+            width: 100% !important;
+            justify-content: center !important;
+            gap: 25px !important;
+            padding-top: 5px;
+        }
+        
+        .product-section {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 20px !important;
+        }
+        
+        .main-image {
+            height: 280px !important;
+        }
+    }
+  </style>
 </head>
 <body>
 
-  <header class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 5%;">
-      <div class="logo" onclick="window.location.href='index.html'" style="display: flex; align-items: center; cursor: pointer; font-size: 1.8rem; font-weight: 700; color: var(--primary-color);">
-          <img src="logo.png" alt="Horn Market Logo" style="height: 35px; margin-right: 8px;"> 
+  <header class="header">
+      <div class="logo" onclick="window.location.href='index.html'">
+          <img src="logo.png" alt="Horn Market Logo"> 
           Horn Market
       </div>
-      <nav class="nav" style="display: flex; gap: 20px; align-items: center;">
-          <a href="index.html" style="font-weight: 600;">Home</a>
-          <a href="cart.html" style="font-weight: 600;">🛒 Cart</a>
+      <nav class="nav">
+          <a href="index.html">🏠 Home</a>
+          <a href="cart.html">🛒 Cart (<span id="cartCount">0</span>)</a>
       </nav>
   </header>
 
   <main class="product-page">
     <div id="dynamicProductSection" class="product-section">
         <div style="grid-column: 1/-1; text-align: center; padding: 60px 0; color: var(--text-light);">
-            Fetching premium item configurations...
+            Loading premium item configuration matrix...
         </div>
     </div>
   </main>
@@ -42,7 +120,7 @@
         const container = document.getElementById("dynamicProductSection");
         if (!container) return;
 
-        // 1. Grab the product identity token from URL address attributes parameters
+        // 1. Read URL query parameters securely
         const urlParams = new URLSearchParams(window.location.search);
         const productId = Number(urlParams.get('id'));
 
@@ -51,15 +129,15 @@
             return;
         }
 
-        // 2. Safely capture data lists items arrays dictionary cache
+        // 2. Fetch the catalog array from storage
         let storedCatalog = [];
         try {
             storedCatalog = JSON.parse(localStorage.getItem("products")) || [];
         } catch (e) {
-            console.error("Local storage lookup mapping error:", e);
+            console.error("Local storage listing parsing failure:", e);
         }
 
-        // 3. Match the electronic asset tracking instance identity
+        // 3. Match ID to locate the electronic asset item profile
         activeInspectedProduct = storedCatalog.find(p => p.id === productId);
 
         if (!activeInspectedProduct) {
@@ -67,16 +145,16 @@
             return;
         }
 
-        // 4. Formulate pricing formatting helper metrics
+        // 4. Formatting currency calculations setup
         const outputPrice = typeof formatPrice === "function" ? formatPrice(activeInspectedProduct.price) : `$${activeInspectedProduct.price}`;
 
-        // 5. Build dynamic injection mapping layouts blocks
+        // 5. Build layout templates with classes mapped directly to your product.css
         container.innerHTML = `
             <div class="product-gallery">
                 <img src="${activeInspectedProduct.image || 'logo.png'}" class="main-image" alt="${activeInspectedProduct.name}">
                 <div class="thumbnail-list">
                     <img src="${activeInspectedProduct.image || 'logo.png'}" alt="Thumb 1" style="border-color: var(--primary-color);">
-                    <img src="logo.png" alt="Thumb 2 Default">
+                    <img src="logo.png" alt="Thumb 2 Backup Fallback">
                 </div>
             </div>
 
@@ -86,10 +164,10 @@
                 <div class="product-rating">⭐⭐⭐⭐⭐ (Verified Listing)</div>
                 <div class="product-price">${outputPrice}</div>
                 <p class="product-description">
-                    ${activeInspectedProduct.description || 'Premium regional item entry. Guaranteed verified parameters and authentic system architecture modules tailored for user deployment.'}
+                    ${activeInspectedProduct.description || 'Premium regional item entry. Guaranteed verified parameter arrays and authentic system architecture modules tailored for user deployment.'}
                 </p>
                 <div style="margin-top: 30px;">
-                    <button class="btn" style="width:100%; padding: 14px;" onclick="executeMainCartAddition()">🛒 Add to Shopping Cart</button>
+                    <button class="btn" style="width:100%; padding: 14px; font-weight:700;" onclick="executeMainCartAddition()">🛒 Add to Shopping Cart</button>
                 </div>
             </div>
 
@@ -97,18 +175,25 @@
                 <h3>Seller Profile</h3>
                 <div class="seller-name">👤 Ahmed Regional Trader</div>
                 <div class="seller-location">📍 Mogadishu / Hargeisa, Horn Hub</div>
-                <hr style="border:0; border-top:1px solid var(--border-color); margin-bottom:15px;">
+                <hr style="border:0; border-top:1px solid var(--border-color, #e2e8f0); margin-bottom:15px;">
                 <button class="contact-btn" onclick="window.open('https://wa.me/252610000000', '_blank')">💬 Contact via WhatsApp</button>
                 <button class="message-btn" onclick="alert('Starting live app chat messenger pipeline...')">⚡ Message Seller</button>
             </div>
         `;
+        
+        // Synced helper execution fallback
+        if (typeof updateCartCount === "function") {
+            updateCartCount();
+        }
     }
 
     function executeMainCartAddition() {
         if (!activeInspectedProduct) return;
 
         let basket = [];
-        try { basket = JSON.parse(localStorage.getItem("cart")) || []; } catch (e) {}
+        try { 
+            basket = JSON.parse(localStorage.getItem("cart")) || []; 
+        } catch (e) {}
 
         const itemInBasket = basket.some(item => item.id === activeInspectedProduct.id);
 
@@ -118,8 +203,12 @@
             if (typeof showAlert === "function") showAlert("Successfully placed in shopping cart!", "success");
             else alert("Successfully placed in shopping cart!");
         } else {
-            if (typeof showAlert === "function") showAlert("Item is already in your shopping cart summary checklist.", "warning");
-            else alert("Item is already in your shopping cart summary checklist.");
+            if (typeof showAlert === "function") showAlert("Item is already in your shopping cart layout checkout tracking list.", "warning");
+            else alert("Item is already in your shopping cart checkout layout tracking list.");
+        }
+
+        if (typeof updateCartCount === "function") {
+            updateCartCount();
         }
     }
 
@@ -128,8 +217,8 @@
         if (container) {
             container.innerHTML = `
                 <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px;">
-                    <p style="color: var(--danger-color); font-weight: 600; font-size: 1.2rem; margin-bottom: 20px;">${msg}</p>
-                    <a href="index.html" class="btn">Return to Storefront Catalog</a>
+                    <p style="color: var(--danger-color, #dc2626); font-weight: 600; font-size: 1.2rem; margin-bottom: 20px;">${msg}</p>
+                    <a href="index.html" class="btn" style="text-decoration:none; padding:10px 20px; background:var(--primary-color, #2563eb); color:white; border-radius:6px;">Return to Storefront Catalog</a>
                 </div>
             `;
         }
