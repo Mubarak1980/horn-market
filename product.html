@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product | Horn Market</title>
+  <title>Product Details | Horn Market</title>
 
   <link rel="stylesheet" href="style.css">
 
@@ -15,100 +14,161 @@
       background: white;
       display: flex;
       flex-wrap: wrap;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
     }
 
     .product-image {
       flex: 1;
       min-width: 300px;
-      background: #eee;
+      background: #f1f5f9;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 20px;
     }
 
     .product-image img {
       width: 100%;
-      height: auto;
-      object-fit: cover;
+      max-height: 400px;
+      object-fit: contain; /* Keeps electronics images looking clean without cropping */
     }
 
     .product-details {
       flex: 1;
-      padding: 30px;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
     }
 
     .product-title {
-      font-size: 26px;
+      font-size: 2rem;
       margin-bottom: 10px;
+      color: var(--text-dark);
+      font-weight: 700;
     }
 
-    .price {
-      font-size: 22px;
-      color: #e63946;
-      margin-bottom: 15px;
+    .product-details .price {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      font-weight: 700;
+      margin-bottom: 20px;
     }
 
     .description {
-      font-size: 14px;
+      font-size: 1rem;
       line-height: 1.6;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      color: var(--text-light);
     }
 
     .quantity {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .quantity label {
+      font-weight: 600;
+      color: var(--text-dark);
     }
 
     .quantity input {
-      width: 60px;
-      padding: 5px;
+      width: 70px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .product-details .btn {
+      width: 100%;
+      max-width: 250px;
+      padding: 14px;
+      font-weight: 700;
+      text-align: center;
+      margin-top: auto; /* Pushes the button to the bottom row */
     }
 
     @media (max-width: 768px) {
       .product-container {
         flex-direction: column;
+        margin: 20px 15px;
+      }
+      .product-details .btn {
+        max-width: 100%;
       }
     }
   </style>
 </head>
 <body>
 
-  <header class="header">
-      <div class="logo" onclick="window.location.href='index.html'" style="cursor: pointer;">
-          <img src="logo.png" alt="Horn Market Logo" style="height: 30px; vertical-align: middle; margin-right: 5px;"> 
+  <header class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 16px 5%;">
+      <div class="logo" onclick="window.location.href='index.html'" style="display: flex; align-items: center; cursor: pointer; font-size: 1.8rem; font-weight: 700; color: var(--primary-color);">
+          <img src="logo.png" alt="Horn Market Logo" style="height: 35px; margin-right: 8px;"> 
           Horn Market
       </div>
-      <nav class="nav">
-          <a href="index.html">Home</a>
-          <a href="profile.html">Profile</a>
+      <nav class="nav" style="display: flex; gap: 20px; align-items: center;">
+          <a href="index.html" style="font-weight: 600;">Home</a>
+          <a href="cart.html" style="font-weight: 600;">🛒 Cart</a>
       </nav>
   </header>
 
-  <div class="product-container" style="margin-top: 100px;">
-
-    <div class="product-image">
-      <img src="logo.png" alt="Product">
+  <main class="container" style="margin-top: 40px; min-height: 70vh;">
+    <div id="productDetailWrapper">
+        <div style="text-align: center; padding: 60px 0; color: var(--text-light);">
+            Fetching item specifications...
+        </div>
     </div>
+  </main>
 
-    <div class="product-details">
-      <h1 class="product-title">Sample Product</h1>
-      <div class="price">$49.99</div>
+  <script src="main.js"></script>
 
-      <p class="description">
-        Product description goes here.
-      </p>
+  <script>
+    let activeInspectedProduct = null;
 
-      <div class="quantity">
-        <label>Quantity:</label>
-        <input type="number" value="1" min="1">
-      </div>
+    document.addEventListener("DOMContentLoaded", () => {
+        loadTargetedProductDetails();
+    });
 
-      <button class="btn">Add to Cart</button>
-    </div>
+    function loadTargetedProductDetails() {
+        const wrapper = document.getElementById("productDetailWrapper");
+        if (!wrapper) return;
 
-  </div>
+        // 1. Extract the product ID string from the address URL bar parameter query
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = Number(urlParams.get('id'));
 
-</body>
-</html>
+        if (!productId) {
+            showErrorMessage("Invalid Product Selection Address.");
+            return;
+        }
+
+        // 2. Fetch global storage catalogue arrays safely
+        let catalogItems = [];
+        try {
+            catalogItems = JSON.parse(localStorage.getItem("products")) || [];
+        } catch (e) {
+            console.error("Failed to parse catalogue cache database memory.", e);
+        }
+
+        // 3. Find the matching electronic asset item entry link
+        activeInspectedProduct = catalogItems.find(p => p.id === productId);
+
+        if (!activeInspectedProduct) {
+            showErrorMessage("Product profile specifications could not be found in active inventory registry.");
+            return;
+        }
+
+        // 4. Render details onto interface layout template
+        const formattedPrice = typeof formatPrice === "function" ? formatPrice(activeInspectedProduct.price) : `$${activeInspectedProduct.price}`;
+        
+        wrapper.innerHTML = `
+            <div class="product-container">
+                <div class="product-image">
+                    <img src="${activeInspectedProduct.image || 'logo.png'}" alt="${activeInspectedProduct.name}">
+                </div>
+                <div class="product-details">
+                    <h1 class="product-title">${activeInspectedProduct.name}</h1>
+                    <div class="price">${formattedPrice}</div>
