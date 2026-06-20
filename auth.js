@@ -105,7 +105,8 @@ function loginUser() {
     showAlert("Login successful", "success");
 
     setTimeout(() => {
-        window.location.href = "../index.html";
+        // Fixed Path: Removed '../'
+        window.location.href = "index.html";
     }, 1000);
 }
 
@@ -122,7 +123,8 @@ function logoutUser() {
     showAlert("Logged out successfully", "success");
 
     setTimeout(() => {
-        window.location.href = "../index.html";
+        // Fixed Path: Removed '../'
+        window.location.href = "index.html";
     }, 800);
 }
 
@@ -162,8 +164,8 @@ function requireAuth() {
         );
 
         setTimeout(() => {
-            window.location.href =
-                "../pages/login.html";
+            // Fixed Path: Removed '../pages/'
+            window.location.href = "login.html";
         }, 1000);
     }
 }
