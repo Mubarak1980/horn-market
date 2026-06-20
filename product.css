@@ -1,6 +1,5 @@
-
- /* ========================================
-   PRODUCT PAGE CONTAINER
+/* ========================================
+   PRODUCT PAGE CONTAINERS & SYSTEM
 ======================================== */
 
 .product-page {
@@ -10,7 +9,7 @@
 }
 
 /* ========================================
-   PRODUCT SECTION
+   PRODUCT SECTION (DESKTOP THREE-COLUMN LAYOUT)
 ======================================== */
 
 .product-section {
@@ -34,7 +33,7 @@
 .main-image {
     width: 100%;
     height: 450px;
-    object-fit: contain; /* FIXED: Keeps electronics logos and edges completely visible */
+    object-fit: contain; /* Keeps electronics logos and edges completely visible */
     background: #f1f5f9; /* Soft background fill for transparent product frames */
     border-radius: var(--radius);
 }
@@ -48,7 +47,7 @@
 .thumbnail-list img {
     width: 80px;
     height: 80px;
-    object-fit: contain; /* FIXED: No cropping on small display angles */
+    object-fit: contain; /* No cropping on small display angles */
     background: #f1f5f9;
     border-radius: 10px;
     cursor: pointer;
@@ -155,12 +154,15 @@
     background: #25d366; /* WhatsApp official branding color */
     color: white;
     font-weight: 700;
+    border: none;
     border-radius: var(--radius);
     margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
 .contact-btn:hover {
@@ -179,6 +181,8 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
 .message-btn:hover {
@@ -215,8 +219,7 @@
 
 .related-grid {
     display: grid;
-    grid-template-columns:
-        repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 25px;
 }
 
@@ -236,7 +239,8 @@
 
 .related-card img {
     height: 220px;
-    object-fit: contain; /* FIXED: Keeps electronics clear in relation widgets */
+    width: 100%;
+    object-fit: contain; /* Keeps electronics clear in relation widgets */
     background: #f1f5f9;
 }
 
@@ -285,11 +289,11 @@
 }
 
 /* ========================================
-   RESPONSIVE
+   RESPONSIVE DESIGN VIEWPORT LAYOUTS
 ======================================== */
 
+/* Table Viewport Scaling */
 @media (max-width: 1200px) {
-
     .product-section {
         grid-template-columns: 1fr 1fr;
     }
@@ -300,8 +304,8 @@
     }
 }
 
+/* Medium Mobile Scaling */
 @media (max-width: 768px) {
-
     .product-section {
         grid-template-columns: 1fr;
     }
@@ -319,11 +323,58 @@
     }
 
     .main-image {
-        height: 300px;
+        height: 320px;
     }
 
     .thumbnail-list {
         overflow-x: auto;
+        justify-content: center;
     }
 }
 
+/* Small Smartphone Optimization (Fixes Squishing) */
+@media (max-width: 480px) {
+    .product-page {
+        width: 92% !important;
+        margin: 15px auto !important;
+    }
+
+    .product-section {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+
+    .main-image {
+        height: 260px !important;
+        padding: 8px !important;
+    }
+
+    .thumbnail-list img {
+        width: 65px !important;
+        height: 65px !important;
+    }
+
+    .product-details {
+        padding: 15px !important;
+    }
+
+    .product-title {
+        font-size: 1.35rem !important;
+        line-height: 1.3 !important;
+    }
+
+    .product-price {
+        font-size: 1.35rem !important;
+        margin-bottom: 12px !important;
+    }
+
+    .seller-card {
+        padding: 15px !important;
+    }
+    
+    .contact-btn, .message-btn {
+        padding: 12px !important;
+        font-size: 0.95rem !important;
+    }
+}
