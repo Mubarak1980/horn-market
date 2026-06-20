@@ -9,39 +9,53 @@ let products = [];
 ======================================== */
 
 async function loadProducts() {
-
     try {
-
-        showLoading("productGrid");
-
-        // Fixed Path: Removed 'data/' folder prefix
-        const response = await fetch("products.json");
-
-        if (!response.ok) {
-            throw new Error("Failed to load products JSON");
+        if (typeof showLoading === "function") {
+            showLoading("productGrid");
         }
 
-        let jsonProducts = await response.json();
+        let jsonProducts = [];
         
-        // Smart Blend: Get user-created listings from localStorage if they exist
-        let localProducts = getFromStorage("products") || [];
-        
-        // Combine them so everything loads together instantly
-        products = [...jsonProducts, ...localProducts];
+        // 1. Fetch from JSON file with a fallback guard if the file doesn't exist yet
+        try {
+            const response = await fetch("products.json");
+            if (response.ok) {
+                jsonProducts = await response.json();
+            } else {
+                console.warn("products.json not found or empty, using local database memory.");
+            }
+        } catch (e) {
+            console.warn("Network fetch skipped or failed. Falling back to memory storage.");
+        }
 
+        // 2. Load custom listings created by users from localStorage
+        let localProducts = getFromStorage("products") || [];
+
+        // 3. Fallback Starter Kit: If BOTH are empty, inject sample electronics items so your page looks great!
+        if (jsonProducts.length === 0 && localProducts.length === 0) {
+            const starterProducts = [
+                { id: 101, name: "iPhone 15 Pro Max", price: 1199, category: "electronics", image: "logo.png", featured: true, createdAt: new Date().toISOString() },
+                { id: 102, name: "Wireless Bluetooth Headphones", price: 89, category: "electronics", image: "logo.png", featured: true, createdAt: new Date().toISOString() },
+                { id: 103, name: "Premium Laptop Core i7", price: 850, category: "electronics", image: "logo.png", featured: true, createdAt: new Date().toISOString() }
+            ];
+            saveToStorage("products", starterProducts);
+            localProducts = starterProducts;
+        }
+
+        // Combine all items cleanly
+        products = [...jsonProducts, ...localProducts];
         displayProducts(products);
 
     } catch (error) {
-
         console.error("Product load error:", error);
         
-        // Fallback: If network fails, try loading purely from local storage memory
+        // Final fallback: attempt emergency retrieval
         let localProducts = getFromStorage("products") || [];
         if (localProducts.length > 0) {
             products = localProducts;
             displayProducts(products);
         } else {
-            showError("productGrid", "Failed to load products");
+            showError("productGrid", "Failed to load products. Please check database file.");
         }
     }
 }
@@ -51,18 +65,15 @@ async function loadProducts() {
 ======================================== */
 
 function displayProducts(list) {
-
-    const grid =
-        document.getElementById("productGrid");
-
+    const grid = document.getElementById("productGrid");
     if (!grid) return;
 
     grid.innerHTML = "";
 
     if (!list || list.length === 0) {
         grid.innerHTML = `
-            <p class="text-muted">
-                No products found
+            <p class="text-muted" style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                No products found matching that filter.
             </p>
         `;
         return;
@@ -78,33 +89,24 @@ function displayProducts(list) {
 ======================================== */
 
 function createProductCard(product) {
-
+    // Safety check for price formatting helper function
+    const safePriceText = typeof formatPrice === "function" ? formatPrice(product.price) : `$${product.price}`;
+    
     return `
         <div class="product-card">
-
-            <img
-                src="${product.image}"
-                alt="${product.name}"
-            />
-
+            <img src="${product.image || 'logo.png'}" alt="${product.name || 'Market Item'}"/>
             <h3>${product.name}</h3>
-
             <p class="price">
-                ${formatPrice(product.price)}
+                ${safePriceText}
             </p>
-
             <div class="product-actions">
-
                 <button onclick="viewProduct(${product.id})">
                     View
                 </button>
-
                 <button onclick="addToCart(${product.id})">
                     Cart
                 </button>
-
             </div>
-
         </div>
     `;
 }
@@ -114,7 +116,6 @@ function createProductCard(product) {
 ======================================== */
 
 function viewProduct(id) {
-    // Fixed Path: Removed 'pages/' folder prefix
     window.location.href = `product.html?id=${id}`;
 }
 
@@ -123,10 +124,7 @@ function viewProduct(id) {
 ======================================== */
 
 function getProductById(id) {
-
-    return products.find(
-        p => p.id === Number(id)
-    );
+    return products.find(p => p.id === Number(id));
 }
 
 /* ========================================
@@ -134,10 +132,7 @@ function getProductById(id) {
 ======================================== */
 
 function getFeaturedProducts() {
-
-    const featured =
-        products.filter(p => p.featured);
-
+    const featured = products.filter(p => p.featured);
     displayProducts(featured);
 }
 
@@ -146,13 +141,13 @@ function getFeaturedProducts() {
 ======================================== */
 
 function filterCategory(category) {
-
-    const filtered =
-        products.filter(product =>
-            product.category.toLowerCase() ===
-            category.toLowerCase()
-        );
-
+    if (category.toLowerCase() === 'all') {
+        displayProducts(products);
+        return;
+    }
+    const filtered = products.filter(product =>
+        product.category && product.category.toLowerCase() === category.toLowerCase()
+    );
     displayProducts(filtered);
 }
 
@@ -161,54 +156,52 @@ function filterCategory(category) {
 ======================================== */
 
 function sortProducts(type) {
-
     let sorted = [...products];
 
     switch (type) {
-
         case "low":
             sorted.sort((a, b) => a.price - b.price);
             break;
-
         case "high":
             sorted.sort((a, b) => b.price - a.price);
             break;
-
         case "name":
-            sorted.sort((a, b) =>
-                a.name.localeCompare(b.name)
-            );
+            sorted.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
             break;
-
         case "newest":
-            sorted.sort((a, b) =>
-                new Date(b.createdAt) -
-                new Date(a.createdAt)
-            );
+            sorted.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
             break;
     }
-
     displayProducts(sorted);
 }
 
 /* ========================================
-   CART SYSTEM
+   CART SYSTEM (UPDATED TO PREVENT DUPLICATION CONFLICTS)
 ======================================== */
 
 function addToCart(productId) {
+    let cart = getFromStorage("cart") || [];
+    
+    // Find the full item details from our available catalog array
+    const selectedItem = products.find(p => p.id === Number(productId));
+    
+    if (!selectedItem) return;
 
-    let cart =
-        getFromStorage("cart") || [];
+    // Check if the item object is already inside the cart array list
+    const alreadyInCart = cart.some(item => item.id === Number(productId));
 
-    if (!cart.includes(productId)) {
-        cart.push(productId);
+    if (!alreadyInCart) {
+        // Push the whole product object so cart.html can display its image and name immediately!
+        cart.push(selectedItem);
+        saveToStorage("cart", cart);
+        showAlert("Added to cart successfully!");
+    } else {
+        showAlert("Item is already in your cart.");
     }
 
-    saveToStorage("cart", cart);
-
-    updateCartCount();
-
-    showAlert("Added to cart");
+    if (typeof updateCartCount === "function") {
+        updateCartCount();
+    }
 }
 
 /* ========================================
@@ -216,18 +209,16 @@ function addToCart(productId) {
 ======================================== */
 
 function addToFavorites(productId) {
-
-    let favorites =
-        getFromStorage("favorites") || [];
+    let favorites = getFromStorage("favorites") || [];
 
     if (!favorites.includes(productId)) {
         favorites.push(productId);
     }
 
     saveToStorage("favorites", favorites);
-
-    updateFavoritesCount();
-
+    if (typeof updateFavoritesCount === "function") {
+        updateFavoritesCount();
+    }
     showAlert("Added to favorites");
 }
 
@@ -236,16 +227,12 @@ function addToFavorites(productId) {
 ======================================== */
 
 function removeFavorite(productId) {
-
-    let favorites =
-        getFromStorage("favorites") || [];
-
-    favorites =
-        favorites.filter(id => id !== productId);
-
+    let favorites = getFromStorage("favorites") || [];
+    favorites = favorites.filter(id => id !== productId);
     saveToStorage("favorites", favorites);
-
-    updateFavoritesCount();
+    if (typeof updateFavoritesCount === "function") {
+        updateFavoritesCount();
+    }
 }
 
 /* ========================================
@@ -253,14 +240,11 @@ function removeFavorite(productId) {
 ======================================== */
 
 function showError(containerId, message) {
-
-    const container =
-        document.getElementById(containerId);
-
+    const container = document.getElementById(containerId);
     if (!container) return;
 
     container.innerHTML = `
-        <p style="color:red; text-align:center; padding:20px;">
+        <p style="color:var(--danger-color); text-align:center; padding:40px; grid-column: 1/-1; font-weight: 600;">
             ${message}
         </p>
     `;
