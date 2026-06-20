@@ -1,5 +1,5 @@
 
-/* ========================================
+ /* ========================================
    PRODUCT PAGE CONTAINER
 ======================================== */
 
@@ -34,7 +34,8 @@
 .main-image {
     width: 100%;
     height: 450px;
-    object-fit: cover;
+    object-fit: contain; /* FIXED: Keeps electronics logos and edges completely visible */
+    background: #f1f5f9; /* Soft background fill for transparent product frames */
     border-radius: var(--radius);
 }
 
@@ -47,7 +48,8 @@
 .thumbnail-list img {
     width: 80px;
     height: 80px;
-    object-fit: cover;
+    object-fit: contain; /* FIXED: No cropping on small display angles */
+    background: #f1f5f9;
     border-radius: 10px;
     cursor: pointer;
     border: 2px solid transparent;
@@ -73,6 +75,8 @@
     color: var(--text-light);
     font-size: .9rem;
     margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .product-title {
@@ -89,7 +93,7 @@
 .product-price {
     font-size: 2rem;
     font-weight: bold;
-    color: var(--success-color);
+    color: var(--primary-color); /* Matches your root design color guidelines */
     margin-bottom: 20px;
 }
 
@@ -115,7 +119,7 @@
 }
 
 /* ========================================
-   SELLER CARD
+   SELLER CARD & MODERN COMM HOOKS
 ======================================== */
 
 .seller-card {
@@ -125,10 +129,13 @@
     box-shadow: var(--shadow-sm);
     position: sticky;
     top: 100px;
+    border: 1px solid var(--border-color);
 }
 
 .seller-card h3 {
     margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: var(--text-dark);
 }
 
 .seller-name {
@@ -141,29 +148,41 @@
     margin-bottom: 20px;
 }
 
+/* Modernized Quick Action Frameworks */
 .contact-btn {
     width: 100%;
     padding: 14px;
-    background: var(--primary-color);
+    background: #25d366; /* WhatsApp official branding color */
     color: white;
+    font-weight: 700;
     border-radius: var(--radius);
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .contact-btn:hover {
-    background: var(--primary-hover);
+    background: #20ba5a;
 }
 
 .message-btn {
     width: 100%;
     padding: 14px;
-    background: white;
-    border: 1px solid var(--border-color);
+    background: var(--primary-color); /* Primary active styling for calls */
+    color: white;
+    font-weight: 700;
+    border: none;
     border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .message-btn:hover {
-    background: #f8fafc;
+    background: var(--primary-hover);
 }
 
 /* ========================================
@@ -207,6 +226,7 @@
     overflow: hidden;
     box-shadow: var(--shadow-sm);
     transition: var(--transition);
+    border: 1px solid var(--border-color);
 }
 
 .related-card:hover {
@@ -216,7 +236,8 @@
 
 .related-card img {
     height: 220px;
-    object-fit: cover;
+    object-fit: contain; /* FIXED: Keeps electronics clear in relation widgets */
+    background: #f1f5f9;
 }
 
 .related-card-content {
@@ -229,7 +250,7 @@
 }
 
 .related-card-price {
-    color: var(--success-color);
+    color: var(--primary-color);
     font-weight: 700;
 }
 
@@ -305,3 +326,4 @@
         overflow-x: auto;
     }
 }
+
