@@ -1,7 +1,6 @@
 /* ========================================
-   SEARCH & FILTER STATE
+   GLOBAL SEARCH & FILTER STATE
 ======================================== */
-
 let currentSearchTerm = "";
 let currentCategory = "all";
 let currentSortType = "default"; // Tracks active sort to sync with filtering
@@ -9,18 +8,11 @@ let currentSortType = "default"; // Tracks active sort to sync with filtering
 /* ========================================
    SEARCH PRODUCTS
 ======================================== */
-
 function searchProducts() {
-
-    const searchInput =
-        document.getElementById("searchInput");
-
+    const searchInput = document.getElementById("searchInput");
     if (!searchInput) return;
 
-    currentSearchTerm =
-        searchInput.value
-            .trim()
-            .toLowerCase();
+    currentSearchTerm = searchInput.value.trim().toLowerCase();
 
     applyFilters();
     renderSuggestions(); // Triggers the suggestion dropdown UI
@@ -29,20 +21,13 @@ function searchProducts() {
 /* ========================================
    LIVE SEARCH
 ======================================== */
-
 function initializeLiveSearch() {
-
-    const searchInput =
-        document.getElementById("searchInput");
-
+    const searchInput = document.getElementById("searchInput");
     if (!searchInput) return;
 
-    searchInput.addEventListener(
-        "input",
-        () => {
-            searchProducts();
-        }
-    );
+    searchInput.addEventListener("input", () => {
+        searchProducts();
+    });
 
     // Hide suggestions dropdown if user clicks away
     document.addEventListener("click", (e) => {
@@ -56,20 +41,15 @@ function initializeLiveSearch() {
 /* ========================================
    FILTER CATEGORY
 ======================================== */
-
 function setCategory(category) {
-
     currentCategory = category;
-
     applyFilters();
 }
 
 /* ========================================
    APPLY FILTERS & ACTIVE SORT COMBINED
 ======================================== */
-
 function applyFilters() {
-
     let filteredProducts = [...products];
 
     /* Search Filter */
@@ -102,9 +82,8 @@ function applyFilters() {
 }
 
 /* ========================================
-   MODERN SORT HOOKS (FIXED BUG)
+   MODERN SORT HOOKS
 ======================================== */
-
 function setSortType(type) {
     currentSortType = type;
     applyFilters();
@@ -119,16 +98,12 @@ function sortNewest() { setSortType("newest"); }
 /* ========================================
    RESET FILTERS
 ======================================== */
-
 function resetFilters() {
-
     currentSearchTerm = "";
     currentCategory = "all";
     currentSortType = "default";
 
-    const searchInput =
-        document.getElementById("searchInput");
-
+    const searchInput = document.getElementById("searchInput");
     if (searchInput) {
         searchInput.value = "";
     }
@@ -142,16 +117,11 @@ function resetFilters() {
 /* ========================================
    SEARCH SUGGESTIONS DATA GENERATOR
 ======================================== */
-
 function getSearchSuggestions() {
-
-    const searchInput =
-        document.getElementById("searchInput");
-
+    const searchInput = document.getElementById("searchInput");
     if (!searchInput) return [];
 
     const query = searchInput.value.trim().toLowerCase();
-
     if (query.length < 2) return [];
 
     return products
@@ -160,9 +130,8 @@ function getSearchSuggestions() {
 }
 
 /* ========================================
-   RENDER SUGGESTIONS DROPDOWN (NEW MODERN UI HUBS)
+   RENDER SUGGESTIONS DROPDOWN
 ======================================== */
-
 function renderSuggestions() {
     const searchInput = document.getElementById("searchInput");
     let suggestionBox = document.getElementById("searchSuggestionsBox");
@@ -214,9 +183,7 @@ function renderSuggestions() {
 /* ========================================
    HIGHLIGHT MATCH
 ======================================== */
-
 function highlightMatch(text, query) {
-
     if (!query) return text;
 
     const regex = new RegExp(`(${query})`, "gi");
@@ -226,7 +193,6 @@ function highlightMatch(text, query) {
 /* ========================================
    INITIALIZATION
 ======================================== */
-
 document.addEventListener("DOMContentLoaded", () => {
     initializeLiveSearch();
 });
