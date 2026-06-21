@@ -1,163 +1,119 @@
 /* ========================================
-   RESET & FOUNDATION
+   ROOT DESIGN SYSTEM
 ======================================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --radius: 14px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-:root {
-    /* Refined Color Palette */
-    --primary-color: #4f46e5;    /* Modern Indigo */
-    --primary-hover: #4338ca;
-    --secondary-color: #f1f5f9;  /* Softer grey for buttons */
-    --success-color: #16a34a;
-    --danger-color: #dc2626;
-    --text-dark: #0f172a;        /* Slightly softer dark */
-    --text-light: #64748b;
-    --border-color: #e2e8f0;
-    --white: #ffffff;
-    --bg-body: #f8fafc;
-    
-    /* Modern Shadows */
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-    --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.1);
-    
-    --radius: 12px;
-    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* ========================================
+   BASE STYLES
+======================================== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg-body);
-    color: var(--text-dark);
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
 }
 
-a { text-decoration: none; color: inherit; }
-img { width: 100%; display: block; }
-
 /* ========================================
    COMPONENTS
 ======================================== */
-button {
-    border: none;
-    outline: none;
-    cursor: pointer;
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
     transition: var(--transition);
-    font-size: 1rem;
 }
 
 .btn {
-    display: inline-block;
     padding: 12px 24px;
-    border-radius: var(--radius);
-    background: var(--primary-color);
+    background: var(--primary);
     color: white;
+    border-radius: var(--radius);
     font-weight: 600;
-}
-.btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
-
-.card {
-    background: var(--white);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    overflow: hidden;
+    cursor: pointer;
     transition: var(--transition);
-    border: 1px solid var(--border-color);
-}
-.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-
-input, textarea, select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    font-size: 1rem;
-    outline: none;
-    transition: var(--transition);
-}
-input:focus { border-color: var(--primary-color); ring: 2px solid var(--primary-color); }
-
-/* ========================================
-   HEADER & FOOTER
-======================================== */
-.header {
-    background: var(--white);
-    box-shadow: var(--shadow-sm);
-    padding: 16px 5%;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.footer {
-    margin-top: 4rem;
-    background: var(--text-dark);
-    color: white;
-    text-align: center;
-    padding: 3rem;
+.btn:hover { 
+    background: var(--primary-hover); 
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
 }
 
 /* ========================================
-   PRODUCT GRID SYSTEM
+   PRODUCT GRID SYSTEM (PRO VERSION)
 ======================================== */
 #productGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-    padding: 20px 0;
+    gap: 2rem;
+    padding: 2rem 0;
 }
 
 .product-card {
-    background: var(--white);
+    background: var(--card-bg);
     border-radius: var(--radius);
-    border: 1px solid var(--border-color);
-    transition: var(--transition);
+    border: 1px solid var(--border);
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    transition: var(--transition);
 }
-.product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); border-color: var(--primary-color); }
+
+.product-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+}
 
 .product-card img {
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
+    aspect-ratio: 1/1;
+    object-fit: cover; /* Changed to cover for consistent high-end look */
+    border-radius: calc(var(--radius) - 4px);
+    margin-bottom: 1rem;
     background: #f1f5f9;
-    border-radius: 8px;
-    margin-bottom: 20px;
 }
 
-.product-card h3 { font-size: 1.2rem; margin-bottom: 8px; font-weight: 600; }
-.product-card .price { font-size: 1.2rem; color: var(--primary-color); font-weight: 700; margin-bottom: 20px; }
+.product-card h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+.product-card .price { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
 
-.product-actions { display: flex; gap: 10px; margin-top: auto; }
+.product-actions { display: flex; gap: 8px; margin-top: auto; padding-top: 1rem; }
 .product-actions button {
     flex: 1;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 10px;
     font-weight: 600;
-    font-size: 0.9rem;
+    border-radius: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+}
+.product-actions button:last-child { 
+    background: var(--primary); 
+    color: white; 
+    border: none;
 }
 
-/* Button Variants */
-.product-actions button:nth-child(1) { background: var(--secondary-color); color: var(--text-dark); }
-.product-actions button:nth-child(1):hover { background: var(--border-color); }
-.product-actions button:nth-child(2) { background: var(--primary-color); color: var(--white); }
-.product-actions button:nth-child(2):hover { background: var(--primary-hover); }
-
 /* ========================================
-   UTILITIES
+   UTILITIES & RESPONSIVE
 ======================================== */
-.container { width: 90%; max-width: 1400px; margin: auto; }
-.grid { display: grid; gap: 20px; }
-.text-center { text-align: center; }
-.text-muted { color: var(--text-light); }
+.container { width: 90%; max-width: 1280px; margin: 0 auto; }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-    #productGrid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+@media (max-width: 640px) {
+    #productGrid { grid-template-columns: 1fr; gap: 1rem; }
 }
