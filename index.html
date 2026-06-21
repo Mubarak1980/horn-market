@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horn Market | Premium Marketplace</title>
-
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="home.css">
 </head>
@@ -12,9 +11,8 @@
 <body>
 
 <header class="header">
-
-    <div class="logo" style="display: flex; align-items: center; cursor: pointer;" onclick="window.location.reload()">
-        <img src="logo.png" alt="Horn Market Logo" style="height: 35px; margin-right: 8px;"> 
+    <div class="logo" onclick="window.location.reload()">
+        <img src="logo.png" alt="Horn Market Logo"> 
         <span>Horn Market</span>
     </div>
 
@@ -27,108 +25,68 @@
         <a href="login.html">Login</a>
         <a href="signup.html">Sign Up</a>
         <a href="dashboard.html">Dashboard</a>
-        <a href="cart.html" id="cartButton" style="position: relative; font-weight: 600;">
+        <a href="cart.html" id="cartButton">
             🛒 Cart (<span id="cartCount">0</span>)
         </a>
     </nav>
-
 </header>
 
 <section class="hero">
-
     <div class="hero-content">
         <h1>Buy & Sell Everything in One Place</h1>
         <p>Your trusted regional hub for premium electronics, fashion, and lifestyle items.</p>
-        <button onclick="scrollToProducts()">Explore Now</button>
+        <button class="btn" onclick="scrollToProducts()">Explore Now</button>
     </div>
-
 </section>
 
 <section class="categories">
-
     <h2>Categories</h2>
-
     <div class="category-grid">
-
-        <div class="category-card" onclick="setCategory('electronics')">
-            📱 Electronics
-        </div>
-
-        <div class="category-card" onclick="setCategory('clothing')">
-            👕 Clothing
-        </div>
-
-        <div class="category-card" onclick="setCategory('fashion')">
-            ⌚ Fashion
-        </div>
-
+        <div class="category-card" onclick="setCategory('electronics')">📱 Electronics</div>
+        <div class="category-card" onclick="setCategory('clothing')">👕 Clothing</div>
+        <div class="category-card" onclick="setCategory('fashion')">⌚ Fashion</div>
     </div>
-
 </section>
 
-<section class="products" id="productsSection">
-
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; max-width: 1200px; margin-left: auto; margin-right: auto;">
-        <h2 style="margin-bottom: 0; text-align: left;">Featured Products</h2>
-        
-        <select onchange="setSortType(this.value)" style="width: auto; padding: 8px 15px; border-radius: 8px; font-weight: 600;">
-            <option value="default">Sort by: Default</option>
-            <option value="low">Price: Low to High</option>
-            <option value="high">Price: High to Low</option>
-            <option value="name">Name: A-Z</option>
-            <option value="newest">Newest Items</option>
-        </select>
-    </div>
-
-    <div class="product-grid" id="productGrid">
-        <div class="text-center" style="grid-column: 1/-1; padding: 40px 0; color: var(--text-light);">
-            Loading marketplace catalogue items...
+<main class="container">
+    <section class="products" id="productsSection">
+        <div class="products-header">
+            <h2>Featured Products</h2>
+            <select onchange="setSortType(this.value)">
+                <option value="default">Sort by: Default</option>
+                <option value="low">Price: Low to High</option>
+                <option value="high">Price: High to Low</option>
+            </select>
         </div>
-    </div>
 
-</section>
+        <div id="productGrid">
+            </div>
+    </section>
+</main>
 
 <section class="why-us">
-
-    <div class="feature-box">
-        🔒 Safe & Trusted Sellers
-    </div>
-
-    <div class="feature-box">
-        💰 Best Prices
-    </div>
-
-    <div class="feature-box">
-        ⚡ Fast Communication
-    </div>
-
+    <div class="feature-box">🔒 Safe & Trusted Sellers</div>
+    <div class="feature-box">💰 Best Prices</div>
+    <div class="feature-box">⚡ Fast Communication</div>
 </section>
 
 <footer class="footer">
-
     <p>© 2026 Horn Market. All rights reserved.</p>
-
     <div class="footer-links">
         <a href="#">About</a>
         <a href="#">Contact</a>
         <a href="#">Terms</a>
     </div>
-
 </footer>
 
 <script src="auth.js"></script>
 <script src="main.js"></script>
 <script src="products.js"></script>
 <script src="search.js"></script>
-
 <script>
-function scrollToProducts() {
-    const section = document.getElementById("productsSection");
-    if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
+    function scrollToProducts() {
+        document.getElementById("productsSection").scrollIntoView({ behavior: 'smooth' });
     }
-}
 </script>
-
 </body>
 </html>
