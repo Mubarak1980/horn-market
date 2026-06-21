@@ -23,45 +23,52 @@ body {
     color: var(--text-main);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility; /* Improved font readability */
 }
 
 /* ========================================
-   COMPONENTS
+   HEADER & NAVBAR
 ======================================== */
-.card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    transition: var(--transition);
-}
-
-.btn {
-    padding: 12px 24px;
-    background: var(--primary);
-    color: white;
-    border-radius: var(--radius);
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    display: inline-flex;
+.header {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    border: none; /* Explicitly reset button defaults */
+    padding: 15px 5%;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.btn:active { transform: scale(0.98); } /* Tactile feedback */
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 800; cursor: pointer; }
+.logo img { height: 40px; }
+
+.search-box { display: flex; gap: 5px; }
+.search-box input { padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius); }
+
+.nav { display: flex; gap: 20px; }
+.nav a { text-decoration: none; color: var(--text-main); font-weight: 600; }
+
+/* ========================================
+   HERO SECTION
+======================================== */
+.hero {
+    padding: 80px 5%;
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary), #3730a3);
+    color: white;
+}
+.hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
 
 /* ========================================
    PRODUCT GRID SYSTEM
 ======================================== */
+.container { width: 90%; max-width: 1280px; margin: 0 auto; padding: 2rem 0; }
+
 #productGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
-    padding: 2rem 0;
-    width: 100%; /* Ensures grid respects parent container */
 }
 
 .product-card {
@@ -69,10 +76,7 @@ body {
     border-radius: var(--radius);
     border: 1px solid var(--border);
     padding: 1.25rem;
-    display: flex;
-    flex-direction: column;
     transition: var(--transition);
-    will-change: transform, box-shadow; /* Optimization for smoother hover */
 }
 
 .product-card:hover {
@@ -82,28 +86,32 @@ body {
 }
 
 .product-card img {
+    width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
-    border-radius: calc(var(--radius) - 4px);
+    border-radius: 8px;
     margin-bottom: 1rem;
     background: #f1f5f9;
-    display: block; /* Removes bottom spacing issue */
 }
-
-.product-actions button:active { transform: scale(0.95); } /* Button click feedback */
 
 /* ========================================
-   UTILITIES
+   BUTTONS & UTILITIES
 ======================================== */
-.container { 
-    width: 90%; 
-    max-width: 1280px; 
-    margin: 0 auto; 
+.btn {
+    padding: 10px 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
 }
+.btn:hover { background: var(--primary-hover); }
+
+input, select { font-size: 16px !important; } /* Prevents iOS auto-zoom */
 
 @media (max-width: 640px) {
-    #productGrid { 
-        grid-template-columns: 1fr; 
-        gap: 1.5rem; 
-    }
+    .header { flex-direction: column; gap: 15px; }
+    #productGrid { grid-template-columns: 1fr; }
 }
