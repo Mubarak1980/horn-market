@@ -1,7 +1,6 @@
 /* ========================================
-   HEADER
+   HEADER: Professional & Sticky
 ======================================== */
-
 .header {
     display: flex;
     justify-content: space-between;
@@ -11,113 +10,60 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: #ffffff; /* Ensures text doesn't bleed into background content on scroll */
+    background: var(--white);
     border-bottom: 1px solid var(--border-color);
 }
 
 .logo {
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 800;
     color: var(--primary-color);
-    white-space: nowrap;
-}
-
-.nav {
     display: flex;
-    gap: 20px;
     align-items: center;
+    gap: 8px;
 }
 
-.nav a {
-    font-weight: 600;
-    color: var(--text-dark);
-    transition: var(--transition);
-}
-
-.nav a:hover {
-    color: var(--primary-color);
-}
-
-/* Auth state toggle styling helpers */
-.nav .logout-link {
-    color: var(--danger-color);
-    cursor: pointer;
-}
+.nav { display: flex; gap: 24px; align-items: center; font-weight: 600; }
+.nav a:hover { color: var(--primary-color); }
 
 /* ========================================
-   SEARCH BAR & AUTOCOMPLETE ANCHOR
+   SEARCH BAR: Modern Input Group
 ======================================== */
-
 .search-box {
     flex: 1;
     display: flex;
-    max-width: 650px;
-    position: relative; /* CRITICAL: Holds the autocomplete suggestion rows in place */
+    max-width: 600px;
+    position: relative;
 }
 
 .search-box input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--border-color);
     border-radius: var(--radius) 0 0 var(--radius);
     border-right: none;
-    font-size: 1rem;
-    outline: none;
 }
 
 .search-box button {
     background: var(--primary-color);
     color: white;
     padding: 0 24px;
-    border: 1px solid var(--primary-color);
     border-radius: 0 var(--radius) var(--radius) 0;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.search-box button:hover {
-    background: var(--primary-hover);
-    border-color: var(--primary-hover);
 }
 
 /* ========================================
-   HERO SECTION
+   HERO: High-Impact Visuals
 ======================================== */
-
 .hero {
-    min-height: 480px;
+    min-height: 450px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-
-    background:
-        linear-gradient(
-            rgba(37, 99, 235, 0.88),
-            rgba(29, 78, 216, 0.92)
-        );
-
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
     color: white;
     padding: 60px 20px;
 }
 
-.hero-content {
-    max-width: 800px;
-}
-
-.hero h1 {
-    font-size: 3.5rem;
-    margin-bottom: 20px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-}
-
-.hero p {
-    font-size: 1.25rem;
-    margin-bottom: 30px;
-    opacity: .95;
-}
+.hero h1 { font-size: 3.5rem; margin-bottom: 20px; font-weight: 800; letter-spacing: -0.02em; }
+.hero p { font-size: 1.25rem; margin-bottom: 30px; opacity: 0.9; }
 
 .hero button {
     background: white;
@@ -125,186 +71,58 @@
     padding: 16px 40px;
     border-radius: var(--radius);
     font-weight: 700;
-    border: none;
-    cursor: pointer;
-    box-shadow: var(--shadow-sm);
     transition: var(--transition);
 }
-
-.hero button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
+.hero button:hover { transform: scale(1.05); box-shadow: var(--shadow-md); }
 
 /* ========================================
-   CATEGORIES
+   CATEGORIES: Sleek Grid
 ======================================== */
-
-.categories {
-    padding: 60px 5% 40px;
-}
-
-.categories h2 {
-    text-align: center;
-    margin-bottom: 40px;
-    font-size: 2rem;
-}
-
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-}
+.categories { padding: 60px 5%; }
+.category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
 
 .category-card {
     background: white;
-    padding: 35px 20px;
+    padding: 40px 20px;
     border-radius: var(--radius);
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
     border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-    cursor: pointer;
     transition: var(--transition);
 }
-
 .category-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-8px);
     border-color: var(--primary-color);
     color: var(--primary-color);
+    box-shadow: var(--shadow-md);
 }
 
 /* ========================================
-   PRODUCTS CONTAINER
+   WHY US: Subtle Feature Boxes
 ======================================== */
-
-.products {
-    padding: 40px 5% 60px;
-}
-
-.products h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2rem;
-}
-
-/* ========================================
-   WHY US
-======================================== */
-
 .why-us {
     padding: 60px 5%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
-    background: #f1f5f9;
+    background: var(--secondary-color);
 }
 
 .feature-box {
     background: white;
     text-align: center;
-    padding: 40px 25px;
+    padding: 30px;
     border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    font-size: 1.1rem;
-    font-weight: 600;
     border: 1px solid var(--border-color);
 }
 
 /* ========================================
-   FOOTER LINKS
+   RESPONSIVE: Mobile Polish
 ======================================== */
-
-.footer-links {
-    margin-top: 15px;
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-}
-
-.footer-links a {
-    color: #cbd5e1;
-    font-weight: 500;
-}
-
-.footer-links a:hover {
-    color: white;
-    text-decoration: underline;
-}
-
-/* ========================================
-   RESPONSIVE LAYOUT adjustments
-======================================== */
-
-@media (max-width: 992px) {
-    .hero h1 {
-        font-size: 2.7rem;
-    }
-
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .why-us {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
 @media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        align-items: center;
-        padding: 15px 20px;
-        gap: 12px;
-        position: relative; /* Prevents sticky overlapping glitches on small viewports */
-    }
-
-    .logo {
-        font-size: 1.6rem;
-        margin: 0;
-        text-align: center;
-    }
-
-    .search-box {
-        width: 100%;
-        max-width: 100%;
-        order: 2;
-    }
-
-    .nav {
-        width: 100%;
-        justify-content: center;
-        gap: 20px;
-        order: 3;
-        padding-top: 10px;
-        border-top: 1px solid #f1f5f9;
-    }
-
-    .hero {
-        min-height: 380px;
-        padding: 40px 15px;
-    }
-
-    .hero h1 {
-        font-size: 2rem;
-        line-height: 1.3;
-    }
-
-    .hero p {
-        font-size: 1.1rem;
-    }
-
-    .category-grid,
-    .why-us {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    .footer-links {
-        flex-direction: column;
-        gap: 12px;
-        align-items: center;
-    }
+    .header { flex-direction: column; gap: 15px; }
+    .hero h1 { font-size: 2.2rem; }
+    .category-grid, .why-us { grid-template-columns: 1fr; }
+    .nav { gap: 15px; }
 }
