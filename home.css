@@ -23,8 +23,12 @@
     gap: 8px;
 }
 
+.logo img { height: 40px; width: auto; } /* Ensures logo scales correctly */
+
 .nav { display: flex; gap: 24px; align-items: center; font-weight: 600; }
+.nav a { transition: var(--transition); }
 .nav a:hover { color: var(--primary-color); }
+.nav a:active { transform: scale(0.95); color: var(--primary-color); }
 
 /* ========================================
    SEARCH BAR: Modern Input Group
@@ -122,6 +126,7 @@
 ======================================== */
 @media (max-width: 768px) {
     .header { flex-direction: column; gap: 15px; }
+    .search-box { width: 100%; max-width: 100%; }
     .hero h1 { font-size: 2.2rem; }
     .category-grid, .why-us { grid-template-columns: 1fr; }
     .nav { gap: 15px; }
