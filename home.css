@@ -10,7 +10,8 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.95); /* Semi-transparent */
+    backdrop-filter: blur(8px);           /* Glassmorphism effect */
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -20,114 +21,96 @@
     color: var(--primary-color);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
-
-.logo img { height: 40px; width: auto; } /* Ensures logo scales correctly */
+.logo img { height: 45px; width: auto; }
 
 .nav { display: flex; gap: 24px; align-items: center; font-weight: 600; }
-.nav a { transition: var(--transition); }
+.nav a { color: var(--text-dark); transition: var(--transition); }
 .nav a:hover { color: var(--primary-color); }
-.nav a:active { transform: scale(0.95); color: var(--primary-color); }
 
 /* ========================================
-   SEARCH BAR: Modern Input Group
+   SEARCH BAR: Enhanced Focus State
 ======================================== */
 .search-box {
     flex: 1;
     display: flex;
     max-width: 600px;
-    position: relative;
 }
 
 .search-box input {
     border-radius: var(--radius) 0 0 var(--radius);
+    border: 2px solid var(--border-color);
     border-right: none;
+    transition: var(--transition);
 }
-
-.search-box button {
-    background: var(--primary-color);
-    color: white;
-    padding: 0 24px;
-    border-radius: 0 var(--radius) var(--radius) 0;
-}
+.search-box input:focus { border-color: var(--primary-color); }
 
 /* ========================================
-   HERO: High-Impact Visuals
+   HERO: High-Impact & Spacious
 ======================================== */
 .hero {
-    min-height: 450px;
+    min-height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
     color: white;
-    padding: 60px 20px;
+    padding: 80px 20px;
 }
 
-.hero h1 { font-size: 3.5rem; margin-bottom: 20px; font-weight: 800; letter-spacing: -0.02em; }
-.hero p { font-size: 1.25rem; margin-bottom: 30px; opacity: 0.9; }
-
-.hero button {
-    background: white;
-    color: var(--primary-color);
-    padding: 16px 40px;
-    border-radius: var(--radius);
-    font-weight: 700;
-    transition: var(--transition);
+.hero h1 { 
+    font-size: 3.8rem; 
+    margin-bottom: 20px; 
+    font-weight: 800; 
+    letter-spacing: -0.04em; 
 }
-.hero button:hover { transform: scale(1.05); box-shadow: var(--shadow-md); }
 
 /* ========================================
-   CATEGORIES: Sleek Grid
+   CATEGORIES & FEATURES: Dynamic Grid
 ======================================== */
-.categories { padding: 60px 5%; }
-.category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+.categories { padding: 80px 5%; }
+.category-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 30px; 
+}
 
 .category-card {
     background: white;
-    padding: 40px 20px;
+    padding: 40px;
     border-radius: var(--radius);
     text-align: center;
-    font-size: 1.1rem;
-    font-weight: 600;
     border: 1px solid var(--border-color);
     transition: var(--transition);
 }
-.category-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    box-shadow: var(--shadow-md);
-}
+.category-card:hover { transform: translateY(-10px); border-color: var(--primary-color); box-shadow: var(--shadow-md); }
 
 /* ========================================
-   WHY US: Subtle Feature Boxes
+   WHY US: Modern Spacing
 ======================================== */
 .why-us {
-    padding: 60px 5%;
+    padding: 80px 5%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-    background: var(--secondary-color);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    background: var(--bg-body);
 }
 
 .feature-box {
     background: white;
-    text-align: center;
-    padding: 30px;
+    padding: 40px;
     border-radius: var(--radius);
     border: 1px solid var(--border-color);
 }
 
 /* ========================================
-   RESPONSIVE: Mobile Polish
+   RESPONSIVE: Fluid Layouts
 ======================================== */
 @media (max-width: 768px) {
-    .header { flex-direction: column; gap: 15px; }
-    .search-box { width: 100%; max-width: 100%; }
-    .hero h1 { font-size: 2.2rem; }
-    .category-grid, .why-us { grid-template-columns: 1fr; }
-    .nav { gap: 15px; }
+    .header { flex-direction: column; gap: 20px; }
+    .hero { min-height: 400px; padding: 60px 15px; }
+    .hero h1 { font-size: 2.5rem; }
+    .nav { gap: 15px; width: 100%; justify-content: center; }
 }
