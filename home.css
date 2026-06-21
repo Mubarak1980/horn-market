@@ -1,5 +1,5 @@
 /* ========================================
-   HEADER: Professional & Sticky
+   HEADER: Glassmorphism & Sticky
 ======================================== */
 .header {
     display: flex;
@@ -10,41 +10,12 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.95); /* Semi-transparent */
-    backdrop-filter: blur(8px);           /* Glassmorphism effect */
-    border-bottom: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
 }
 
-.logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
 .logo img { height: 45px; width: auto; }
-
-.nav { display: flex; gap: 24px; align-items: center; font-weight: 600; }
-.nav a { color: var(--text-dark); transition: var(--transition); }
-.nav a:hover { color: var(--primary-color); }
-
-/* ========================================
-   SEARCH BAR: Enhanced Focus State
-======================================== */
-.search-box {
-    flex: 1;
-    display: flex;
-    max-width: 600px;
-}
-
-.search-box input {
-    border-radius: var(--radius) 0 0 var(--radius);
-    border: 2px solid var(--border-color);
-    border-right: none;
-    transition: var(--transition);
-}
-.search-box input:focus { border-color: var(--primary-color); }
 
 /* ========================================
    HERO: High-Impact & Spacious
@@ -55,20 +26,20 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
     color: white;
     padding: 80px 20px;
 }
 
 .hero h1 { 
-    font-size: 3.8rem; 
+    font-size: 3.5rem; 
     margin-bottom: 20px; 
     font-weight: 800; 
     letter-spacing: -0.04em; 
 }
 
 /* ========================================
-   CATEGORIES & FEATURES: Dynamic Grid
+   CATEGORIES & FEATURES: Fluid Grids
 ======================================== */
 .categories { padding: 80px 5%; }
 .category-grid { 
@@ -78,39 +49,37 @@
 }
 
 .category-card {
-    background: white;
+    background: var(--card-bg);
     padding: 40px;
     border-radius: var(--radius);
     text-align: center;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
     transition: var(--transition);
+    cursor: pointer;
 }
-.category-card:hover { transform: translateY(-10px); border-color: var(--primary-color); box-shadow: var(--shadow-md); }
+.category-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: var(--shadow-md); }
 
-/* ========================================
-   WHY US: Modern Spacing
-======================================== */
 .why-us {
     padding: 80px 5%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
-    background: var(--bg-body);
+    background: var(--bg);
 }
 
 .feature-box {
-    background: white;
+    background: var(--card-bg);
     padding: 40px;
     border-radius: var(--radius);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
 }
 
 /* ========================================
-   RESPONSIVE: Fluid Layouts
+   RESPONSIVE: Fluid Adjustments
 ======================================== */
 @media (max-width: 768px) {
     .header { flex-direction: column; gap: 20px; }
     .hero { min-height: 400px; padding: 60px 15px; }
-    .hero h1 { font-size: 2.5rem; }
+    .hero h1 { font-size: 2.2rem; }
     .nav { gap: 15px; width: 100%; justify-content: center; }
 }
