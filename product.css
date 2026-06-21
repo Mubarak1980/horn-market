@@ -1,11 +1,7 @@
 /* ========================================
-   PREMIUM PRODUCT PAGE CSS
-   ======================================== */
-
-:root {
-    --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    --shadow-premium: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-}
+   PRODUCT PAGE: INDEPENDENT MODULE
+   Dependencies: style.css
+======================================== */
 
 .product-page {
     width: 90%;
@@ -20,19 +16,19 @@
     align-items: start;
 }
 
-/* Gallery - Enhanced with subtle zoom on hover */
+/* Gallery */
 .product-gallery {
-    background: #ffffff;
+    background: var(--card-bg);
     border-radius: var(--radius);
     padding: 30px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
 }
 
 .main-image {
     width: 100%;
     height: 450px;
     object-fit: contain;
-    background: #f8fafc;
+    background: var(--bg);
     border-radius: 8px;
     transition: transform 0.5s ease;
 }
@@ -41,12 +37,12 @@
     width: 70px;
     height: 70px;
     object-fit: contain;
-    background: #f8fafc;
+    background: var(--bg);
     border-radius: 6px;
     cursor: pointer;
     border: 2px solid transparent;
     filter: grayscale(40%);
-    transition: var(--transition-fast);
+    transition: var(--transition);
 }
 
 .thumbnail-list img:hover, .thumbnail-list img.active {
@@ -54,11 +50,7 @@
     border-color: var(--primary);
 }
 
-/* Details - Refined Typography */
-.product-details {
-    padding: 0;
-}
-
+/* Details */
 .product-title {
     font-size: 2.2rem;
     line-height: 1.2;
@@ -74,20 +66,20 @@
 }
 
 .product-description {
-    color: var(--text-light);
+    color: var(--text-muted);
     font-size: 1.05rem;
     line-height: 1.7;
 }
 
-/* Seller Card - Elevated UI */
+/* Seller Card */
 .seller-card {
-    background: #ffffff;
+    background: var(--card-bg);
     border-radius: var(--radius);
     padding: 25px;
     box-shadow: var(--shadow-premium);
     position: sticky;
     top: 100px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
 }
 
 .contact-btn, .message-btn {
@@ -97,15 +89,15 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: var(--transition-fast);
+    transition: var(--transition);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
 }
 
-.contact-btn { background: #25d366; color: white; }
-.contact-btn:hover { background: #20ba5a; transform: translateY(-2px); }
+.contact-btn { background: #22c55e; color: white; }
+.contact-btn:hover { background: #16a34a; transform: translateY(-2px); }
 
 .message-btn { background: var(--primary); color: white; }
 .message-btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
@@ -122,12 +114,12 @@
     .product-title { font-size: 1.8rem; }
 }
 
-/* Animation for Loading */
+/* Animation */
 .loading-state {
     text-align: center;
     padding: 100px;
     font-weight: 600;
-    color: var(--text-light);
+    color: var(--text-muted);
     animation: pulse 1.5s infinite;
 }
 
