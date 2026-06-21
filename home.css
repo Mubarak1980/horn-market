@@ -1,22 +1,12 @@
 /* ========================================
-   PREMIUM DESIGN SYSTEM UPGRADES
+   HOME PAGE: INDEPENDENT MODULE
+   Dependencies: style.css
 ======================================== */
-:root {
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
-    --accent: #f472b6;
-    --bg: #f8fafc;
-    --card-bg: #ffffff;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --border: rgba(0,0,0,0.06);
-    --radius: 20px; /* Softer, modern edges */
-    --shadow-soft: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-    --shadow-premium: 0 20px 25px -5px rgba(0,0,0,0.08), 0 10px 10px -5px rgba(0,0,0,0.04);
-}
 
 /* ========================================
-   HEADER: Refined Glassmorphism
+   HEADER: Refined Glassmorphism 
+   (If this header appears on other pages, 
+   move it to style.css instead)
 ======================================== */
 .header {
     display: flex;
@@ -41,7 +31,6 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    /* Richer, more modern gradient */
     background: linear-gradient(145deg, var(--primary), #3730a3);
     color: white;
     padding: 80px 20px;
@@ -73,7 +62,7 @@
     text-align: center;
     border: 1px solid var(--border);
     box-shadow: var(--shadow-soft);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: var(--transition);
 }
 
 .category-card:hover { 
@@ -87,7 +76,7 @@
 ======================================== */
 .why-us {
     padding: 100px 5%;
-    background: #ffffff; /* Contrast switch */
+    background: #ffffff;
 }
 
 /* ========================================
