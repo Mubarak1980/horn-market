@@ -17,6 +17,18 @@ body {
 /* =========================
    PROFESSIONAL HEADER
 ========================= */
+.search-bar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-bar .search-btn {
+    width: auto; /* Smaller than the full-width product buttons */
+    padding: 10px 20px;
+}
+
+
 header {
     background: #ffffff;
     padding: 15px 5%;
