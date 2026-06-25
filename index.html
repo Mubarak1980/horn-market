@@ -1,88 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Shop</title>
-
-<!-- CONNECTED CSS FILE -->
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyShop | Best Deals Online</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-
     <header>
-    <h1>MyShop</h1>
-    
-    <div class="search-bar">
-    <input type="text" placeholder="Search products...">
-    <button class="search-btn">Search</button>
-</div>
-
-
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Products</a>
-        <a href="#">Cart</a>
-        <a href="#">Login</a>
-    </nav>
-</header>
-
-    
-<section class="hero">
-    <h2>Best Deals Online</h2>
-    <p>Shop amazing products at affordable prices</p>
-</section>
-
-<section class="products">
-
-    <!-- Card with Sale Badge -->
-    <div class="card">
-        <span class="badge">Sale</span>
-        <img src="https://picsum.photos/400/300" alt="Running Shoes">
-        <div class="card-content">
-            <h3>Running Shoes</h3>
-            <div class="price">$49</div>
-            <button>Add to Cart</button>
+        <div class="logo"><h1>MyShop</h1></div>
+        
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search products...">
+            <button id="search-btn" class="search-btn">Search</button>
         </div>
-    </div>
 
-    <!-- Card with Sale Badge -->
-    <div class="card">
-        <span class="badge">Sale</span>
-        <img src="https://picsum.photos/400/300" alt="Smart Watch">
-        <div class="card-content">
-            <h3>Smart Watch</h3>
-            <div class="price">$99</div>
-            <button>Add to Cart</button>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Products</a>
+            <a href="#">Cart</a>
+            <a href="#" class="login-btn">Login</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Best Deals Online</h2>
+        <p>Shop amazing products at affordable prices</p>
+    </section>
+
+    <main class="products">
+        <div class="card">
+            <span class="badge">Sale</span>
+            <img src="https://picsum.photos/400/300" alt="Running Shoes">
+            <div class="card-content">
+                <h3>Running Shoes</h3>
+                <div class="price">$49</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
         </div>
-    </div>
 
-    <div class="card">
-        <img src="https://picsum.photos/400/300" alt="Headphones">
-        <div class="card-content">
-            <h3>Headphones</h3>
-            <div class="price">$39</div>
-            <button>Add to Cart</button>
+        <div class="card">
+            <span class="badge">Sale</span>
+            <img src="https://picsum.photos/400/300" alt="Smart Watch">
+            <div class="card-content">
+                <h3>Smart Watch</h3>
+                <div class="price">$99</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
         </div>
-    </div>
 
-    <div class="card">
-        <img src="https://picsum.photos/400/300" alt="Laptop">
-        <div class="card-content">
-            <h3>Laptop</h3>
-            <div class="price">$599</div>
-            <button>Add to Cart</button>
+        <div class="card">
+            <img src="https://picsum.photos/400/300" alt="Headphones">
+            <div class="card-content">
+                <h3>Headphones</h3>
+                <div class="price">$39</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
         </div>
-    </div>
 
-</section>
+        <div class="card">
+            <img src="https://picsum.photos/400/300" alt="Laptop">
+            <div class="card-content">
+                <h3>Laptop</h3>
+                <div class="price">$599</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+    </main>
 
-<footer>
-    © 2026 MyShop. All rights reserved.
-</footer>
+    <footer>
+        <p>&copy; 2026 MyShop. All rights reserved.</p>
+    </footer>
 
+    <script>
+        document.getElementById('search-btn').addEventListener('click', function() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('h3').innerText.toLowerCase();
+                card.style.display = title.includes(query) ? "block" : "none";
+            });
+        });
+    </script>
 </body>
 </html>
