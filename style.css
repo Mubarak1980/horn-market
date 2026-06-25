@@ -23,7 +23,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid #f0f0f0;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -31,13 +31,38 @@ header {
 
 nav {
     display: flex;
-    gap: 20px;
+    gap: 25px;
+    align-items: center;
 }
 
 nav a {
     text-decoration: none;
-    color: #333;
-    font-weight: 500;
+    color: #555;
+    font-weight: 600;
+    font-size: 15px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+}
+
+/* Login Button as CTA */
+nav a:last-child {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border-bottom: none;
+}
+
+nav a:last-child:hover {
+    background-color: #0056b3;
+    color: white;
+    border-bottom: none;
 }
 
 /* =========================
@@ -137,4 +162,14 @@ footer {
     background: #fff;
     border-top: 1px solid #eee;
     color: #777;
+}
+
+/* =========================
+   MOBILE RESPONSIVENESS
+========================= */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
 }
