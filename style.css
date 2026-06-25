@@ -15,20 +15,8 @@ body {
 }
 
 /* =========================
-   PROFESSIONAL HEADER
+   HEADER & SEARCH SYSTEM
 ========================= */
-.search-bar {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.search-bar .search-btn {
-    width: auto; /* Smaller than the full-width product buttons */
-    padding: 10px 20px;
-}
-
-
 header {
     background: #ffffff;
     padding: 15px 5%;
@@ -41,9 +29,39 @@ header {
     z-index: 1000;
 }
 
+.search-bar {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    max-width: 400px;
+    margin: 0 20px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+}
+
+.search-btn {
+    padding: 8px 16px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.search-btn:hover {
+    background: #000;
+}
+
 nav {
     display: flex;
-    gap: 25px;
+    gap: 20px;
     align-items: center;
 }
 
@@ -52,29 +70,23 @@ nav a {
     color: #555;
     font-weight: 600;
     font-size: 15px;
-    padding-bottom: 5px;
-    border-bottom: 2px solid transparent;
-    transition: all 0.3s ease;
+    transition: color 0.3s;
 }
 
 nav a:hover {
     color: #007bff;
-    border-bottom: 2px solid #007bff;
 }
 
-/* Login Button as CTA */
-nav a:last-child {
+/* Login Button CTA */
+.login-btn {
     background-color: #007bff;
-    color: white;
+    color: white !important;
     padding: 8px 16px;
     border-radius: 6px;
-    border-bottom: none;
 }
 
-nav a:last-child:hover {
+.login-btn:hover {
     background-color: #0056b3;
-    color: white;
-    border-bottom: none;
 }
 
 /* =========================
@@ -98,7 +110,7 @@ nav a:last-child:hover {
 }
 
 .card {
-    position: relative; /* Essential for the absolute badge */
+    position: relative;
     background: white;
     border-radius: 12px;
     overflow: hidden;
@@ -128,9 +140,6 @@ nav a:last-child:hover {
     margin: 10px 0;
 }
 
-/* =========================
-   BADGE STYLING
-========================= */
 .badge {
     position: absolute;
     top: 15px;
@@ -143,11 +152,10 @@ nav a:last-child:hover {
     font-weight: bold;
     z-index: 10;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 /* =========================
-   BUTTON STYLING
+   BUTTONS & FOOTER
 ========================= */
 button {
     background-color: #007bff;
@@ -165,9 +173,6 @@ button:hover {
     background-color: #0056b3;
 }
 
-/* =========================
-   FOOTER
-========================= */
 footer {
     text-align: center;
     padding: 30px;
@@ -179,9 +184,13 @@ footer {
 /* =========================
    MOBILE RESPONSIVENESS
 ========================= */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     header {
         flex-direction: column;
         gap: 15px;
+    }
+    .search-bar {
+        width: 100%;
+        margin: 0;
     }
 }
