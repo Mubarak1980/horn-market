@@ -1,72 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Horn Market | Premium Marketplace</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Shop</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5f7fb;
+    color: #222;
+}
+
+/* NAVBAR */
+header {
+    background: #111;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 20px;
+}
+
+nav a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+nav a:hover {
+    color: #00c2ff;
+}
+
+/* HERO */
+.hero {
+    background: linear-gradient(to right, #00c2ff, #0077ff);
+    color: white;
+    padding: 60px 30px;
+    text-align: center;
+}
+
+.hero h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+/* PRODUCTS */
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 40px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.price {
+    color: #0077ff;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: #111;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0077ff;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #111;
+    color: white;
+    margin-top: 20px;
+}
+</style>
 </head>
+
 <body>
 
-    <header class="header">
-        <div class="logo" onclick="window.location.reload()">
-            <img src="logo.png" alt="Horn Market Logo"> 
-            <span>Horn Market</span>
+<header>
+    <h1>MyShop</h1>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Products</a>
+        <a href="#">Cart 🛒</a>
+        <a href="#">Login</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h2>Best Deals Online</h2>
+    <p>Shop amazing products at affordable prices</p>
+</section>
+
+<section class="products">
+
+    <div class="card">
+        <img src="https://source.unsplash.com/400x300/?shoes" alt="">
+        <div class="card-content">
+            <h3>Running Shoes</h3>
+            <div class="price">$49</div>
+            <button>Add to Cart</button>
         </div>
+    </div>
 
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Search electronics, clothing, fashion...">
-            <button class="btn" onclick="searchProducts()">Search</button>
+    <div class="card">
+        <img src="https://source.unsplash.com/400x300/?watch" alt="">
+        <div class="card-content">
+            <h3>Smart Watch</h3>
+            <div class="price">$99</div>
+            <button>Add to Cart</button>
         </div>
+    </div>
 
-        <nav class="nav">
-            <a href="login.html">Login</a>
-            <a href="cart.html">🛒 Cart (<span id="cartCount">0</span>)</a>
-        </nav>
-    </header>
-
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Buy & Sell Everything in One Place</h1>
-            <p>Your trusted regional hub for premium electronics, fashion, and lifestyle items.</p>
-            <button class="btn" onclick="scrollToProducts()">Explore Now</button>
+    <div class="card">
+        <img src="https://source.unsplash.com/400x300/?headphones" alt="">
+        <div class="card-content">
+            <h3>Headphones</h3>
+            <div class="price">$39</div>
+            <button>Add to Cart</button>
         </div>
-    </section>
+    </div>
 
-    <main class="container">
-        <section id="productsSection">
-            <div class="products-header" style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                <h2>Featured Products</h2>
-                <select onchange="setSortType(this.value)">
-                    <option value="default">Sort by: Default</option>
-                    <option value="low">Price: Low to High</option>
-                    <option value="high">Price: High to Low</option>
-                </select>
-            </div>
+    <div class="card">
+        <img src="https://source.unsplash.com/400x300/?laptop" alt="">
+        <div class="card-content">
+            <h3>Laptop</h3>
+            <div class="price">$599</div>
+            <button>Add to Cart</button>
+        </div>
+    </div>
 
-            <div id="productGrid"></div>
-        </section>
-    </main>
+</section>
 
-    <section class="why-us" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:20px; padding: 40px 5%;">
-        <div class="card">🔒 Safe & Trusted Sellers</div>
-        <div class="card">💰 Best Prices</div>
-        <div class="card">⚡ Fast Communication</div>
-    </section>
+<footer>
+    © 2026 MyShop. All rights reserved.
+</footer>
 
-    <footer class="footer" style="text-align:center; padding: 40px; color:var(--text-muted);">
-        <p>© 2026 Horn Market. All rights reserved.</p>
-    </footer>
-
-    <script src="auth.js"></script>
-    <script src="main.js"></script>
-    <script src="products.js"></script>
-    <script src="search.js"></script>
-    
-    <script>
-        function scrollToProducts() {
-            document.getElementById("productsSection").scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
 </body>
 </html>
