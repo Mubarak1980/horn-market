@@ -1,5 +1,5 @@
 // =========================
-// DATA (Source of truth)
+// DATA
 // =========================
 
 const products = [
@@ -10,7 +10,7 @@ const products = [
 ];
 
 // =========================
-// STATE
+// STATE (single source of truth)
 // =========================
 
 const state = {
@@ -28,29 +28,29 @@ function saveCart() {
 }
 
 // =========================
-// CART ACTIONS (PURE LOGIC)
+// CART LOGIC
 // =========================
 
 function addToCart(id) {
     const product = products.find(p => p.id === id);
     if (!product) return;
 
-    const item = state.cart.find(i => i.id === id);
+    const existing = state.cart.find(i => i.id === id);
 
-    if (item) {
-        item.qty += 1;
+    if (existing) {
+        existing.qty += 1;
     } else {
         state.cart.push({ ...product, qty: 1 });
     }
 
     saveCart();
-    renderUI();
+    render();
 }
 
 function removeItem(index) {
     state.cart.splice(index, 1);
     saveCart();
-    renderUI();
+    render();
 }
 
 function changeQty(index, delta) {
@@ -64,44 +64,32 @@ function changeQty(index, delta) {
     }
 
     saveCart();
-    renderUI();
+    render();
 }
 
 // =========================
-// NAVIGATION (SPA)
+// NAVIGATION
 // =========================
 
 function showPage(page) {
     state.page = page;
-    renderUI();
+    render();
 }
 
 // =========================
-// SEARCH (STATE BASED)
+// SEARCH STATE
 // =========================
 
 function setSearch(value) {
-    state.search = value.toLowerCase();
-    renderUI();
+    state.search = value.trim().toLowerCase();
+    render();
 }
 
 // =========================
-// CART UI
+// FILTER PRODUCTS
 // =========================
 
-function updateCartCount() {
-    const el = document.getElementById("cart-count");
-    if (!el) return;
-
-    const count = state.cart.reduce((sum, i) => sum + i.qty, 0);
-    el.textContent = count;
-}
-
-// =========================
-// FILTERED PRODUCTS (IMPORTANT UPGRADE)
-// =========================
-
-function getFilteredProducts() {
+function getProducts() {
     if (!state.search) return products;
 
     return products.filter(p =>
@@ -110,47 +98,56 @@ function getFilteredProducts() {
 }
 
 // =========================
-// RENDER PRODUCTS
+// SAFE RENDER HELPERS
 // =========================
 
-function renderProducts(containerId, list) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    container.innerHTML = "";
-
-    list.forEach(product => {
-        container.innerHTML += `
-            <article class="card" data-id="${product.id}">
-                <div class="image-wrapper">
-                    <img src="https://picsum.photos/400/300?random=${product.id}">
-                </div>
-
-                <div class="card-content">
-                    <h3>${product.name}</h3>
-                    <p class="price">$${product.price}</p>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-            </article>
-        `;
-    });
+function el(id) {
+    return document.getElementById(id);
 }
 
 // =========================
-// CART RENDER
+// PRODUCTS RENDER
+// =========================
+
+function renderProducts(containerId, list) {
+    const container = el(containerId);
+    if (!container) return;
+
+    container.innerHTML = list.map(product => `
+        <article class="card" data-id="${product.id}">
+            <div class="image-wrapper">
+                <img src="https://picsum.photos/400/300?random=${product.id}" alt="${product.name}">
+            </div>
+
+            <div class="card-content">
+                <h3>${product.name}</h3>
+                <p class="price">$${product.price}</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </article>
+    `).join("");
+}
+
+// =========================
+// CART RENDER (FIXED EMPTY STATE)
 // =========================
 
 function renderCart() {
-    const box = document.getElementById("cart-items");
-    const totalEl = document.getElementById("total-price");
+    const box = el("cart-items");
+    const totalEl = el("total-price");
+    const emptyEl = el("cart-empty");
+
+    if (!box || !totalEl) return;
 
     box.innerHTML = "";
 
     if (state.cart.length === 0) {
-        box.innerHTML = "<p class='empty-cart'>Your cart is empty</p>";
+        if (emptyEl) emptyEl.classList.remove("hidden");
         totalEl.textContent = "Total: $0";
         return;
     }
+
+    if (emptyEl) emptyEl.classList.add("hidden");
 
     let total = 0;
 
@@ -168,9 +165,9 @@ function renderCart() {
             </div>
 
             <div style="display:flex; gap:8px;">
-                <button onclick="changeQty(${index}, -1)">-</button>
-                <button onclick="changeQty(${index}, 1)">+</button>
-                <button class="danger" onclick="removeItem(${index})">Remove</button>
+                <button data-action="dec" data-index="${index}">-</button>
+                <button data-action="inc" data-index="${index}">+</button>
+                <button class="danger" data-action="remove" data-index="${index}">Remove</button>
             </div>
         `;
 
@@ -181,28 +178,37 @@ function renderCart() {
 }
 
 // =========================
-// VIEW RENDER ENGINE (CORE UPGRADE)
+// CART COUNT
 // =========================
 
-function renderUI() {
+function updateCartCount() {
+    const elCount = el("cart-count");
+    if (!elCount) return;
 
-    // pages
-    document.getElementById("home-page").style.display =
-        state.page === "home" ? "block" : "none";
+    elCount.textContent = state.cart.reduce((s, i) => s + i.qty, 0);
+}
 
-    document.getElementById("products-page").style.display =
-        state.page === "products" ? "block" : "none";
+// =========================
+// VIEW RENDER ENGINE
+// =========================
 
-    document.getElementById("cart-page").style.display =
-        state.page === "cart" ? "block" : "none";
+function render() {
 
-    // products
-    const filtered = getFilteredProducts();
+    const home = el("home-page");
+    const productsPage = el("products-page");
+    const cartPage = el("cart-page");
+
+    if (!home || !productsPage || !cartPage) return;
+
+    home.style.display = state.page === "home" ? "block" : "none";
+    productsPage.style.display = state.page === "products" ? "block" : "none";
+    cartPage.style.display = state.page === "cart" ? "block" : "none";
+
+    const filtered = getProducts();
 
     renderProducts("home-products", filtered.slice(0, 2));
     renderProducts("all-products", filtered);
 
-    // cart
     if (state.page === "cart") {
         renderCart();
     }
@@ -211,22 +217,47 @@ function renderUI() {
 }
 
 // =========================
-// EVENTS (CLEANED)
+// EVENTS (NO INLINE ONCLICK)
 // =========================
 
+// navigation
 document.addEventListener("click", (e) => {
-    if (e.target.classList.contains("add-to-cart")) {
-        const id = parseInt(e.target.closest(".card").dataset.id);
+
+    const nav = e.target.closest("[data-page]");
+    if (nav) {
+        showPage(nav.dataset.page);
+        return;
+    }
+
+    const btn = e.target.closest(".add-to-cart");
+    if (btn) {
+        const id = parseInt(btn.closest(".card").dataset.id);
         addToCart(id);
+        return;
+    }
+
+    const action = e.target.dataset.action;
+
+    if (action) {
+        const index = parseInt(e.target.dataset.index);
+
+        if (action === "inc") changeQty(index, 1);
+        if (action === "dec") changeQty(index, -1);
+        if (action === "remove") removeItem(index);
     }
 });
 
-document.getElementById("search-input").addEventListener("input", (e) => {
-    setSearch(e.target.value);
-});
+// search
+const searchInput = el("search-input");
+
+if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+        setSearch(e.target.value);
+    });
+}
 
 // =========================
 // INIT
 // =========================
 
-renderUI();
+render();
