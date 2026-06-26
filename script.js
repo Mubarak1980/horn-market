@@ -1,18 +1,16 @@
 // =========================
 // DATA
 // =========================
-
 const products = [
-    { id: 1, name: "Running Shoes", price: 49, category: "shoes" },
-    { id: 2, name: "Smart Watch", price: 99, category: "electronics" },
-    { id: 3, name: "Headphones", price: 39, category: "electronics" },
-    { id: 4, name: "Laptop", price: 599, category: "laptops" }
+    { id: 1, name: "Running Shoes", price: 49 },
+    { id: 2, name: "Smart Watch", price: 99 },
+    { id: 3, name: "Headphones", price: 39 },
+    { id: 4, name: "Laptop", price: 599 }
 ];
 
 // =========================
-// STATE (single source of truth)
+// STATE
 // =========================
-
 const state = {
     cart: JSON.parse(localStorage.getItem("cart")) || [],
     page: "home",
@@ -25,7 +23,6 @@ const state = {
 // =========================
 // HELPERS
 // =========================
-
 const el = (id) => document.getElementById(id);
 
 function saveCart() {
@@ -35,18 +32,14 @@ function saveCart() {
 // =========================
 // CART LOGIC
 // =========================
-
 function addToCart(id) {
     const product = products.find(p => p.id === id);
     if (!product) return;
 
     const existing = state.cart.find(i => i.id === id);
 
-    if (existing) {
-        existing.qty += 1;
-    } else {
-        state.cart.push({ ...product, qty: 1 });
-    }
+    if (existing) existing.qty += 1;
+    else state.cart.push({ ...product, qty: 1 });
 
     saveCart();
     render();
@@ -64,9 +57,7 @@ function changeQty(index, delta) {
 
     item.qty += delta;
 
-    if (item.qty <= 0) {
-        state.cart.splice(index, 1);
-    }
+    if (item.qty <= 0) state.cart.splice(index, 1);
 
     saveCart();
     render();
@@ -75,7 +66,6 @@ function changeQty(index, delta) {
 // =========================
 // NAVIGATION
 // =========================
-
 function showPage(page) {
     state.page = page;
     render();
@@ -84,15 +74,10 @@ function showPage(page) {
 // =========================
 // SEARCH
 // =========================
-
 function setSearch(value) {
     state.search = value.trim().toLowerCase();
     render();
 }
-
-// =========================
-// FILTER PRODUCTS
-// =========================
 
 function getFilteredProducts() {
     if (!state.search) return products;
@@ -105,31 +90,29 @@ function getFilteredProducts() {
 // =========================
 // CART COUNT
 // =========================
-
 function updateCartCount() {
     const counter = el("cart-count");
     if (!counter) return;
 
-    counter.textContent = state.cart.reduce((sum, i) => sum + i.qty, 0);
+    counter.textContent = state.cart.reduce((s, i) => s + i.qty, 0);
 }
 
 // =========================
-// PRODUCT RENDER
+// PRODUCTS RENDER
 // =========================
-
 function renderProducts(containerId, list) {
     const container = el(containerId);
     if (!container) return;
 
-    container.innerHTML = list.map(product => `
-        <article class="card" data-id="${product.id}">
+    container.innerHTML = list.map(p => `
+        <article class="card" data-id="${p.id}">
             <div class="image-wrapper">
-                <img src="https://picsum.photos/400/300?random=${product.id}" alt="${product.name}">
+                <img src="https://picsum.photos/400/300?random=${p.id}" />
             </div>
 
             <div class="card-content">
-                <h3>${product.name}</h3>
-                <p class="price">$${product.price}</p>
+                <h3>${p.name}</h3>
+                <p class="price">$${p.price}</p>
                 <button class="add-to-cart">Add to Cart</button>
             </div>
         </article>
@@ -137,25 +120,20 @@ function renderProducts(containerId, list) {
 }
 
 // =========================
-// CART RENDER
+// ⭐ SINGLE CART RENDER ENGINE (FIX)
 // =========================
-
-function renderCart() {
-    const box = el("cart-items");
-    const totalEl = el("total-price");
-    const emptyEl = el("cart-empty");
-
+function renderCartUI(box, totalEl, emptyEl) {
     if (!box || !totalEl) return;
 
     box.innerHTML = "";
 
     if (state.cart.length === 0) {
-        emptyEl?.classList.remove("hidden");
+        if (emptyEl) emptyEl.classList.remove("hidden");
         totalEl.textContent = "Total: $0";
         return;
     }
 
-    emptyEl?.classList.add("hidden");
+    if (emptyEl) emptyEl.classList.add("hidden");
 
     let total = 0;
 
@@ -186,40 +164,26 @@ function renderCart() {
 }
 
 // =========================
-// MODAL
+// CART PAGE
 // =========================
-
-function openModal(id) {
-    const product = products.find(p => p.id === id);
-    if (!product) return;
-
-    state.modalProduct = product;
-
-    const modal = el("product-modal");
-    const body = el("modal-body");
-    const overlay = el("overlay");
-
-    if (!modal || !body || !overlay) return;
-
-    body.innerHTML = `
-        <h2>${product.name}</h2>
-        <img src="https://picsum.photos/500/400?random=${product.id}">
-        <p class="price">$${product.price}</p>
-        <button onclick="addToCart(${product.id})">Add to Cart</button>
-    `;
-
-    modal.classList.remove("hidden");
-    overlay.classList.remove("hidden");
-}
-
-function closeModal() {
-    el("product-modal")?.classList.add("hidden");
-    el("overlay")?.classList.add("hidden");
+function renderCartPage() {
+    renderCartUI(
+        el("cart-items"),
+        el("total-price"),
+        el("cart-empty")
+    );
 }
 
 // =========================
 // CART DRAWER
 // =========================
+function renderDrawer() {
+    renderCartUI(
+        el("drawer-items"),
+        el("drawer-total"),
+        null
+    );
+}
 
 function openDrawer() {
     state.drawerOpen = true;
@@ -234,42 +198,9 @@ function closeDrawer() {
     el("overlay")?.classList.add("hidden");
 }
 
-function renderDrawer() {
-    const box = el("drawer-items");
-    const totalEl = el("drawer-total");
-
-    if (!box || !totalEl) return;
-
-    box.innerHTML = "";
-
-    if (state.cart.length === 0) {
-        box.innerHTML = "<p class='empty-cart'>Your cart is empty</p>";
-        totalEl.textContent = "Total: $0";
-        return;
-    }
-
-    let total = 0;
-
-    state.cart.forEach(item => {
-        total += item.price * item.qty;
-
-        box.innerHTML += `
-            <div class="cart-item">
-                <div>
-                    <strong>${item.name}</strong><br>
-                    $${item.price} × ${item.qty}
-                </div>
-            </div>
-        `;
-    });
-
-    totalEl.textContent = "Total: $" + total;
-}
-
 // =========================
 // THEME
 // =========================
-
 function applyTheme() {
     document.body.classList.toggle("dark", state.darkMode);
 }
@@ -281,9 +212,8 @@ function toggleTheme() {
 }
 
 // =========================
-// MAIN RENDER ENGINE (FIXED CORE)
+// MAIN RENDER ENGINE
 // =========================
-
 function render() {
 
     const home = el("home-page");
@@ -301,14 +231,17 @@ function render() {
     renderProducts("home-products", filtered.slice(0, 2));
     renderProducts("all-products", filtered);
 
-    renderCart();
+    renderCartPage();
     updateCartCount();
+
+    if (state.drawerOpen) {
+        renderDrawer();
+    }
 }
 
 // =========================
-// EVENTS (CLEAN DELEGATION)
+// EVENTS
 // =========================
-
 document.addEventListener("click", (e) => {
 
     const nav = e.target.closest("[data-page]");
@@ -331,6 +264,7 @@ document.addEventListener("click", (e) => {
         if (action === "inc") changeQty(index, 1);
         if (action === "dec") changeQty(index, -1);
         if (action === "remove") removeItem(index);
+
         return;
     }
 
@@ -341,13 +275,7 @@ document.addEventListener("click", (e) => {
     }
 
     if (e.target.id === "overlay") {
-        closeModal();
         closeDrawer();
-    }
-
-    const card = e.target.closest(".card");
-    if (card && !e.target.closest("button")) {
-        openModal(parseInt(card.dataset.id));
     }
 });
 
@@ -362,6 +290,5 @@ el("theme-toggle")?.addEventListener("click", toggleTheme);
 // =========================
 // INIT
 // =========================
-
 applyTheme();
 render();
