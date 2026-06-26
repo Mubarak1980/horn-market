@@ -3,12 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>MyShop | Modern E-Commerce</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
+<!-- =========================
+     TOP BAR (future: dark mode / offers)
+========================= -->
+<div class="top-bar">
+    <p>🔥 Free delivery on orders over $50</p>
+
+    <button id="theme-toggle" type="button">
+        🌙 Dark Mode
+    </button>
+</div>
+
 
 <!-- =========================
      HEADER
@@ -43,9 +56,11 @@
                     <a href="#" data-page="products" class="nav-link">Products</a>
                 </li>
 
+                <!-- CART (ready for drawer upgrade) -->
                 <li>
-                    <a href="#" data-page="cart" class="nav-link">
-                        Cart (<span id="cart-count">0</span>)
+                    <a href="#" data-page="cart" class="nav-link cart-link">
+                        Cart
+                        <span id="cart-count" class="cart-badge">0</span>
                     </a>
                 </li>
 
@@ -60,64 +75,118 @@
 
 
 <!-- =========================
-     HOME PAGE
+     APP CONTAINER (future SPA expansion)
 ========================= -->
-<section id="home-page" class="page">
+<main id="app">
 
-    <section class="hero">
-        <h2>Best Deals Online</h2>
-        <p>High-quality products at affordable prices</p>
+    <!-- =========================
+         HOME PAGE
+    ========================== -->
+    <section id="home-page" class="page">
+
+        <section class="hero">
+            <h2>Best Deals Online</h2>
+            <p>High-quality products at affordable prices</p>
+        </section>
+
+        <!-- FEATURED -->
+        <section class="section-title">
+            <h3>Featured Products</h3>
+        </section>
+
+        <main class="products" id="home-products"></main>
+
     </section>
 
-    <main class="products" id="home-products">
-        <!-- JS RENDERS PRODUCTS -->
-    </main>
 
-</section>
+    <!-- =========================
+         PRODUCTS PAGE
+    ========================== -->
+    <section id="products-page" class="page hidden">
 
+        <section class="hero">
+            <h2>All Products</h2>
+            <p>Browse full catalog</p>
+        </section>
 
-<!-- =========================
-     PRODUCTS PAGE
-========================= -->
-<section id="products-page" class="page hidden">
+        <main class="products" id="all-products"></main>
 
-    <section class="hero">
-        <h2>All Products</h2>
-        <p>Browse full catalog</p>
     </section>
 
-    <main class="products" id="all-products">
-        <!-- JS RENDERS PRODUCTS -->
-    </main>
 
-</section>
+    <!-- =========================
+         CART PAGE (for fallback view)
+    ========================== -->
+    <section id="cart-page" class="page hidden">
 
+        <div class="container">
 
-<!-- =========================
-     CART PAGE
-========================= -->
-<section id="cart-page" class="page hidden">
+            <div class="cart-header">
+                <h2>Your Cart</h2>
 
-    <div class="container">
+                <button id="clear-cart" class="danger-btn">
+                    Clear Cart
+                </button>
+            </div>
 
-        <h2>Your Cart</h2>
+            <!-- EMPTY STATE -->
+            <div id="cart-empty" class="empty-cart hidden">
+                Your cart is empty. Start shopping now.
+            </div>
 
-        <!-- EMPTY STATE -->
-        <div id="cart-empty" class="empty-cart hidden">
-            Your cart is empty. Start shopping now.
+            <!-- CART ITEMS -->
+            <div id="cart-items"></div>
+
+            <!-- SUMMARY -->
+            <div class="cart-summary">
+                <h3 id="total-price">Total: $0</h3>
+                <button class="checkout-btn">Checkout</button>
+            </div>
+
         </div>
 
-        <!-- CART ITEMS -->
-        <div id="cart-items"></div>
+    </section>
 
-        <!-- SUMMARY -->
-        <div class="cart-summary">
-            <h3 id="total-price">Total: $0</h3>
+</main>
+
+
+<!-- =========================
+     PRODUCT MODAL (NEW FEATURE READY)
+========================= -->
+<div id="product-modal" class="modal hidden">
+    <div class="modal-content">
+
+        <button id="close-modal" class="close-btn">✕</button>
+
+        <div id="modal-body">
+            <!-- JS injects product details here -->
         </div>
 
     </div>
+</div>
 
-</section>
+
+<!-- =========================
+     CART DRAWER (NEW FEATURE READY)
+========================= -->
+<aside id="cart-drawer" class="cart-drawer hidden">
+
+    <div class="drawer-header">
+        <h3>Your Cart</h3>
+        <button id="close-cart">✕</button>
+    </div>
+
+    <div id="drawer-items"></div>
+
+    <div class="drawer-footer">
+        <h4 id="drawer-total">Total: $0</h4>
+        <button class="checkout-btn">Checkout</button>
+    </div>
+
+</aside>
+
+<!-- overlay -->
+<div id="overlay" class="overlay hidden"></div>
 
 
 <!-- =========================
