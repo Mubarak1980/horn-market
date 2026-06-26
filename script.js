@@ -1,5 +1,5 @@
 // =========================
-// DATA
+// DATA (Source of truth)
 // =========================
 
 const products = [
@@ -16,7 +16,9 @@ const products = [
 const state = {
     cart: JSON.parse(localStorage.getItem("cart")) || [],
     page: "home",
-    search: ""
+    search: "",
+    modalProduct: null,
+    darkMode: localStorage.getItem("theme") === "dark"
 };
 
 // =========================
@@ -26,6 +28,12 @@ const state = {
 function saveCart() {
     localStorage.setItem("cart", JSON.stringify(state.cart));
 }
+
+// =========================
+// HELPERS
+// =========================
+
+const el = (id) => document.getElementById(id);
 
 // =========================
 // CART LOGIC
@@ -77,7 +85,7 @@ function showPage(page) {
 }
 
 // =========================
-// SEARCH STATE
+// SEARCH
 // =========================
 
 function setSearch(value) {
@@ -89,7 +97,7 @@ function setSearch(value) {
 // FILTER PRODUCTS
 // =========================
 
-function getProducts() {
+function getFilteredProducts() {
     if (!state.search) return products;
 
     return products.filter(p =>
@@ -98,11 +106,14 @@ function getProducts() {
 }
 
 // =========================
-// SAFE RENDER HELPERS
+// CART COUNT
 // =========================
 
-function el(id) {
-    return document.getElementById(id);
+function updateCartCount() {
+    const elCount = el("cart-count");
+    if (!elCount) return;
+
+    elCount.textContent = state.cart.reduce((sum, i) => sum + i.qty, 0);
 }
 
 // =========================
@@ -129,7 +140,7 @@ function renderProducts(containerId, list) {
 }
 
 // =========================
-// CART RENDER (FIXED EMPTY STATE)
+// CART RENDER
 // =========================
 
 function renderCart() {
@@ -178,33 +189,108 @@ function renderCart() {
 }
 
 // =========================
-// CART COUNT
+// MODAL
 // =========================
 
-function updateCartCount() {
-    const elCount = el("cart-count");
-    if (!elCount) return;
+function openModal(id) {
+    const product = products.find(p => p.id === id);
+    if (!product) return;
 
-    elCount.textContent = state.cart.reduce((s, i) => s + i.qty, 0);
+    state.modalProduct = product;
+
+    const modal = el("product-modal");
+    const body = el("modal-body");
+    const overlay = el("overlay");
+
+    if (!modal || !body || !overlay) return;
+
+    body.innerHTML = `
+        <h2>${product.name}</h2>
+        <img src="https://picsum.photos/500/400?random=${product.id}">
+        <p class="price">$${product.price}</p>
+        <button onclick="addToCart(${product.id})">Add to Cart</button>
+    `;
+
+    modal.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+}
+
+function closeModal() {
+    el("product-modal")?.classList.add("hidden");
+    el("overlay")?.classList.add("hidden");
 }
 
 // =========================
-// VIEW RENDER ENGINE
+// CART DRAWER
+// =========================
+
+function openCartDrawer() {
+    el("cart-drawer")?.classList.remove("hidden");
+    el("overlay")?.classList.remove("hidden");
+    renderDrawer();
+}
+
+function closeCartDrawer() {
+    el("cart-drawer")?.classList.add("hidden");
+    el("overlay")?.classList.add("hidden");
+}
+
+function renderDrawer() {
+    const box = el("drawer-items");
+    const totalEl = el("drawer-total");
+
+    if (!box || !totalEl) return;
+
+    box.innerHTML = "";
+
+    let total = 0;
+
+    state.cart.forEach(item => {
+        total += item.price * item.qty;
+
+        box.innerHTML += `
+            <div class="cart-item">
+                <div>
+                    ${item.name}<br>
+                    $${item.price} × ${item.qty}
+                </div>
+            </div>
+        `;
+    });
+
+    totalEl.textContent = "Total: $" + total;
+}
+
+// =========================
+// DARK MODE
+// =========================
+
+function applyTheme() {
+    if (state.darkMode) {
+        document.body.classList.add("dark");
+    } else {
+        document.body.classList.remove("dark");
+    }
+}
+
+function toggleTheme() {
+    state.darkMode = !state.darkMode;
+    localStorage.setItem("theme", state.darkMode ? "dark" : "light");
+    applyTheme();
+}
+
+// =========================
+// MAIN RENDER ENGINE
 // =========================
 
 function render() {
 
-    const home = el("home-page");
-    const productsPage = el("products-page");
-    const cartPage = el("cart-page");
+    // pages
+    el("home-page").style.display = state.page === "home" ? "block" : "none";
+    el("products-page").style.display = state.page === "products" ? "block" : "none";
+    el("cart-page").style.display = state.page === "cart" ? "block" : "none";
 
-    if (!home || !productsPage || !cartPage) return;
-
-    home.style.display = state.page === "home" ? "block" : "none";
-    productsPage.style.display = state.page === "products" ? "block" : "none";
-    cartPage.style.display = state.page === "cart" ? "block" : "none";
-
-    const filtered = getProducts();
+    const filtered = getFilteredProducts();
 
     renderProducts("home-products", filtered.slice(0, 2));
     renderProducts("all-products", filtered);
@@ -217,47 +303,71 @@ function render() {
 }
 
 // =========================
-// EVENTS (NO INLINE ONCLICK)
+// EVENTS (centralized)
 // =========================
 
-// navigation
 document.addEventListener("click", (e) => {
 
+    // NAVIGATION
     const nav = e.target.closest("[data-page]");
     if (nav) {
         showPage(nav.dataset.page);
         return;
     }
 
-    const btn = e.target.closest(".add-to-cart");
-    if (btn) {
-        const id = parseInt(btn.closest(".card").dataset.id);
+    // ADD TO CART
+    const addBtn = e.target.closest(".add-to-cart");
+    if (addBtn) {
+        const id = parseInt(addBtn.closest(".card").dataset.id);
         addToCart(id);
         return;
     }
 
+    // CART ACTIONS
     const action = e.target.dataset.action;
-
     if (action) {
         const index = parseInt(e.target.dataset.index);
 
         if (action === "inc") changeQty(index, 1);
         if (action === "dec") changeQty(index, -1);
         if (action === "remove") removeItem(index);
+
+        return;
+    }
+
+    // MODAL CLOSE
+    if (e.target.id === "close-modal" || e.target.id === "overlay") {
+        closeModal();
+        closeCartDrawer();
+    }
+
+    // OPEN PRODUCT MODAL
+    const card = e.target.closest(".card");
+    if (card && !e.target.classList.contains("add-to-cart")) {
+        openModal(parseInt(card.dataset.id));
+    }
+
+    // CART DRAWER OPEN
+    if (e.target.closest(".cart-link")) {
+        e.preventDefault();
+        openCartDrawer();
     }
 });
 
-// search
-const searchInput = el("search-input");
+// SEARCH
+el("search-input")?.addEventListener("input", (e) => {
+    setSearch(e.target.value);
+});
 
-if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-        setSearch(e.target.value);
-    });
-}
+// THEME
+el("theme-toggle")?.addEventListener("click", toggleTheme);
+
+// CART DRAWER CLOSE BUTTON
+el("close-cart")?.addEventListener("click", closeCartDrawer);
 
 // =========================
 // INIT
 // =========================
 
+applyTheme();
 render();
