@@ -14,7 +14,7 @@
 <!-- =========================
      HEADER
 ========================= -->
-<header role="banner">
+<header>
     <div class="container header-content">
 
         <!-- LOGO -->
@@ -28,35 +28,26 @@
                 type="search"
                 id="search-input"
                 placeholder="Search products..."
-                aria-label="Search products"
                 autocomplete="off"
             >
-
-            <button type="button" id="search-btn">
-                Search
-            </button>
+            <button type="button" id="search-btn">Search</button>
         </form>
 
-        <!-- NAV -->
-        <nav role="navigation" aria-label="Main navigation">
+        <!-- NAVIGATION -->
+        <nav>
             <ul>
                 <li>
-                    <a href="#" data-page="home" class="nav-link active">Home</a>
+                    <a href="#" class="nav-link active" data-page="home">Home</a>
                 </li>
 
                 <li>
-                    <a href="#" data-page="products" class="nav-link">Products</a>
+                    <a href="#" class="nav-link" data-page="products">Products</a>
                 </li>
 
                 <li>
-                    <a href="#" data-page="cart" class="nav-link">
-                        Cart
-                        <span id="cart-count">0</span>
+                    <a href="#" class="nav-link" data-page="cart">
+                        Cart (<span id="cart-count">0</span>)
                     </a>
-                </li>
-
-                <li>
-                    <a href="#" class="login-btn">Login</a>
                 </li>
             </ul>
         </nav>
@@ -66,7 +57,7 @@
 
 
 <!-- =========================
-     HOME VIEW
+     HOME PAGE
 ========================= -->
 <section id="home-page" class="page">
 
@@ -76,31 +67,31 @@
     </section>
 
     <main class="products" id="home-products">
-        <!-- JS RENDERS PRODUCTS -->
+        <!-- JS renders featured products here -->
     </main>
 
 </section>
 
 
 <!-- =========================
-     PRODUCTS VIEW
+     PRODUCTS PAGE
 ========================= -->
 <section id="products-page" class="page hidden">
 
     <section class="hero">
         <h2>All Products</h2>
-        <p>Explore our full catalog</p>
+        <p>Browse our full catalog</p>
     </section>
 
     <main class="products" id="all-products">
-        <!-- JS RENDERS PRODUCTS -->
+        <!-- JS renders full product list here -->
     </main>
 
 </section>
 
 
 <!-- =========================
-     CART VIEW
+     CART PAGE
 ========================= -->
 <section id="cart-page" class="page hidden">
 
@@ -116,9 +107,8 @@
         <!-- CART ITEMS -->
         <div id="cart-items"></div>
 
-        <div class="cart-summary">
-            <h3 id="total-price">Total: $0</h3>
-        </div>
+        <!-- TOTAL -->
+        <h3 id="total-price">Total: $0</h3>
 
     </div>
 
@@ -128,12 +118,12 @@
 <!-- =========================
      FOOTER
 ========================= -->
-<footer role="contentinfo">
+<footer>
     <p>&copy; 2026 MyShop. All rights reserved.</p>
 </footer>
 
 
-<!-- JS -->
+<!-- SCRIPT -->
 <script src="script.js"></script>
 
 </body>
