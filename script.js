@@ -1,5 +1,5 @@
 // =========================
-// DATA (Source of truth)
+// DATA
 // =========================
 
 const products = [
@@ -18,22 +18,19 @@ const state = {
     page: "home",
     search: "",
     modalProduct: null,
+    drawerOpen: false,
     darkMode: localStorage.getItem("theme") === "dark"
 };
-
-// =========================
-// STORAGE
-// =========================
-
-function saveCart() {
-    localStorage.setItem("cart", JSON.stringify(state.cart));
-}
 
 // =========================
 // HELPERS
 // =========================
 
 const el = (id) => document.getElementById(id);
+
+function saveCart() {
+    localStorage.setItem("cart", JSON.stringify(state.cart));
+}
 
 // =========================
 // CART LOGIC
@@ -110,14 +107,14 @@ function getFilteredProducts() {
 // =========================
 
 function updateCartCount() {
-    const elCount = el("cart-count");
-    if (!elCount) return;
+    const counter = el("cart-count");
+    if (!counter) return;
 
-    elCount.textContent = state.cart.reduce((sum, i) => sum + i.qty, 0);
+    counter.textContent = state.cart.reduce((sum, i) => sum + i.qty, 0);
 }
 
 // =========================
-// PRODUCTS RENDER
+// PRODUCT RENDER
 // =========================
 
 function renderProducts(containerId, list) {
@@ -153,12 +150,12 @@ function renderCart() {
     box.innerHTML = "";
 
     if (state.cart.length === 0) {
-        if (emptyEl) emptyEl.classList.remove("hidden");
+        emptyEl?.classList.remove("hidden");
         totalEl.textContent = "Total: $0";
         return;
     }
 
-    if (emptyEl) emptyEl.classList.add("hidden");
+    emptyEl?.classList.add("hidden");
 
     let total = 0;
 
@@ -224,13 +221,15 @@ function closeModal() {
 // CART DRAWER
 // =========================
 
-function openCartDrawer() {
+function openDrawer() {
+    state.drawerOpen = true;
     el("cart-drawer")?.classList.remove("hidden");
     el("overlay")?.classList.remove("hidden");
     renderDrawer();
 }
 
-function closeCartDrawer() {
+function closeDrawer() {
+    state.drawerOpen = false;
     el("cart-drawer")?.classList.add("hidden");
     el("overlay")?.classList.add("hidden");
 }
@@ -243,6 +242,12 @@ function renderDrawer() {
 
     box.innerHTML = "";
 
+    if (state.cart.length === 0) {
+        box.innerHTML = "<p class='empty-cart'>Your cart is empty</p>";
+        totalEl.textContent = "Total: $0";
+        return;
+    }
+
     let total = 0;
 
     state.cart.forEach(item => {
@@ -251,7 +256,7 @@ function renderDrawer() {
         box.innerHTML += `
             <div class="cart-item">
                 <div>
-                    ${item.name}<br>
+                    <strong>${item.name}</strong><br>
                     $${item.price} × ${item.qty}
                 </div>
             </div>
@@ -262,15 +267,11 @@ function renderDrawer() {
 }
 
 // =========================
-// DARK MODE
+// THEME
 // =========================
 
 function applyTheme() {
-    if (state.darkMode) {
-        document.body.classList.add("dark");
-    } else {
-        document.body.classList.remove("dark");
-    }
+    document.body.classList.toggle("dark", state.darkMode);
 }
 
 function toggleTheme() {
@@ -280,50 +281,49 @@ function toggleTheme() {
 }
 
 // =========================
-// MAIN RENDER ENGINE
+// MAIN RENDER ENGINE (FIXED CORE)
 // =========================
 
 function render() {
 
-    // pages
-    el("home-page").style.display = state.page === "home" ? "block" : "none";
-    el("products-page").style.display = state.page === "products" ? "block" : "none";
-    el("cart-page").style.display = state.page === "cart" ? "block" : "none";
+    const home = el("home-page");
+    const productsPage = el("products-page");
+    const cartPage = el("cart-page");
+
+    if (!home || !productsPage || !cartPage) return;
+
+    home.style.display = state.page === "home" ? "block" : "none";
+    productsPage.style.display = state.page === "products" ? "block" : "none";
+    cartPage.style.display = state.page === "cart" ? "block" : "none";
 
     const filtered = getFilteredProducts();
 
     renderProducts("home-products", filtered.slice(0, 2));
     renderProducts("all-products", filtered);
 
-    if (state.page === "cart") {
-        renderCart();
-    }
-
+    renderCart();
     updateCartCount();
 }
 
 // =========================
-// EVENTS (centralized)
+// EVENTS (CLEAN DELEGATION)
 // =========================
 
 document.addEventListener("click", (e) => {
 
-    // NAVIGATION
     const nav = e.target.closest("[data-page]");
     if (nav) {
         showPage(nav.dataset.page);
         return;
     }
 
-    // ADD TO CART
-    const addBtn = e.target.closest(".add-to-cart");
-    if (addBtn) {
-        const id = parseInt(addBtn.closest(".card").dataset.id);
+    const add = e.target.closest(".add-to-cart");
+    if (add) {
+        const id = parseInt(add.closest(".card").dataset.id);
         addToCart(id);
         return;
     }
 
-    // CART ACTIONS
     const action = e.target.dataset.action;
     if (action) {
         const index = parseInt(e.target.dataset.index);
@@ -331,26 +331,23 @@ document.addEventListener("click", (e) => {
         if (action === "inc") changeQty(index, 1);
         if (action === "dec") changeQty(index, -1);
         if (action === "remove") removeItem(index);
-
         return;
     }
 
-    // MODAL CLOSE
-    if (e.target.id === "close-modal" || e.target.id === "overlay") {
-        closeModal();
-        closeCartDrawer();
-    }
-
-    // OPEN PRODUCT MODAL
-    const card = e.target.closest(".card");
-    if (card && !e.target.classList.contains("add-to-cart")) {
-        openModal(parseInt(card.dataset.id));
-    }
-
-    // CART DRAWER OPEN
     if (e.target.closest(".cart-link")) {
         e.preventDefault();
-        openCartDrawer();
+        openDrawer();
+        return;
+    }
+
+    if (e.target.id === "overlay") {
+        closeModal();
+        closeDrawer();
+    }
+
+    const card = e.target.closest(".card");
+    if (card && !e.target.closest("button")) {
+        openModal(parseInt(card.dataset.id));
     }
 });
 
@@ -361,9 +358,6 @@ el("search-input")?.addEventListener("input", (e) => {
 
 // THEME
 el("theme-toggle")?.addEventListener("click", toggleTheme);
-
-// CART DRAWER CLOSE BUTTON
-el("close-cart")?.addEventListener("click", closeCartDrawer);
 
 // =========================
 // INIT
