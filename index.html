@@ -28,7 +28,7 @@
                     placeholder="Search products..."
                     aria-label="Search products"
                 >
-                <button type="button" id="search-btn" class="search-btn">
+                <button type="button" id="search-btn">
                     Search
                 </button>
             </form>
@@ -43,7 +43,7 @@
                             Cart (<span id="cart-count">0</span>)
                         </a>
                     </li>
-                    <li><a href="#" class="login-btn">Login</a></li>
+                    <li><a href="#">Login</a></li>
                 </ul>
             </nav>
 
@@ -51,118 +51,42 @@
     </header>
 
     <!-- =========================
-         HOME VIEW
+         APP VIEWS (EMPTY SHELLS)
     ========================== -->
-    <section id="home-page">
 
-        <!-- HERO -->
+    <!-- HOME -->
+    <section id="home-page">
         <section class="hero">
             <h2>Best Deals Online</h2>
             <p>Shop amazing products at affordable prices</p>
         </section>
 
-        <!-- FEATURED PRODUCTS (HOME ONLY) -->
-        <main class="products" id="home-products">
-
-            <article class="card" data-id="1">
-                <div class="image-wrapper">
-                    <span class="badge">Sale</span>
-                    <img src="https://picsum.photos/400/300" alt="Running Shoes">
-                </div>
-                <div class="card-content">
-                    <h3>Running Shoes</h3>
-                    <p class="price">$49</p>
-                    <button type="button" class="add-to-cart">Add to Cart</button>
-                </div>
-            </article>
-
-            <article class="card" data-id="2">
-                <div class="image-wrapper">
-                    <span class="badge">Sale</span>
-                    <img src="https://picsum.photos/400/300" alt="Smart Watch">
-                </div>
-                <div class="card-content">
-                    <h3>Smart Watch</h3>
-                    <p class="price">$99</p>
-                    <button type="button" class="add-to-cart">Add to Cart</button>
-                </div>
-            </article>
-
-        </main>
+        <!-- JS RENDERS FEATURED PRODUCTS HERE -->
+        <main class="products" id="home-products"></main>
     </section>
 
-    <!-- =========================
-         PRODUCTS VIEW (FULL CATALOG)
-    ========================== -->
-    <section id="products-page" style="display:none;">
-
+    <!-- PRODUCTS -->
+    <section id="products-page" class="hidden">
         <section class="hero">
             <h2>All Products</h2>
             <p>Browse our complete collection</p>
         </section>
 
-        <main class="products" id="all-products">
-
-            <article class="card" data-id="1">
-                <div class="image-wrapper">
-                    <span class="badge">Sale</span>
-                    <img src="https://picsum.photos/400/300" alt="Running Shoes">
-                </div>
-                <div class="card-content">
-                    <h3>Running Shoes</h3>
-                    <p class="price">$49</p>
-                    <button type="button" class="add-to-cart">Add to Cart</button>
-                </div>
-            </article>
-
-            <article class="card" data-id="2">
-                <div class="image-wrapper">
-                    <span class="badge">Sale</span>
-                    <img src="https://picsum.photos/400/300" alt="Smart Watch">
-                </div>
-                <div class="card-content">
-                    <h3>Smart Watch</h3>
-                    <p class="price">$99</p>
-                    <button type="button" class="add-to-cart">Add to Cart</button>
-                </div>
-            </article>
-
-            <article class="card" data-id="3">
-                <div class="image-wrapper">
-                    <img src="https://picsum.photos/400/300" alt="Headphones">
-                </div>
-                <div class="card-content">
-                    <h3>Headphones</h3>
-                    <p class="price">$39</p>
-                    <button type="button" class="add-to-cart">Add to Cart</button>
-                </div>
-            </article>
-
-            <article class="card" data-id="4">
-                <div class="image-wrapper">
-                    <img src="https://picsum.photos/400/300" alt="Laptop">
-                </div>
-                <div class="card-content">
-                    <h3>Laptop</h3>
-                    <p class="price">$599</p>
-                    <button type="button" class="add-to-cart">Add to Cart</button>
-                </div>
-            </article>
-
-        </main>
+        <!-- JS RENDERS ALL PRODUCTS HERE -->
+        <main class="products" id="all-products"></main>
     </section>
 
-    <!-- =========================
-         CART VIEW
-    ========================== -->
-    <section id="cart-page" style="display:none; padding:20px;">
+    <!-- CART -->
+    <section id="cart-page" class="hidden">
+        <div class="container">
 
-        <h2>Your Cart</h2>
+            <h2>Your Cart</h2>
 
-        <div id="cart-items"></div>
+            <div id="cart-items"></div>
 
-        <h3 id="total-price">Total: $0</h3>
+            <h3 id="total-price">Total: $0</h3>
 
+        </div>
     </section>
 
     <!-- =========================
