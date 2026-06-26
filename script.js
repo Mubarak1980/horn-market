@@ -15,6 +15,7 @@ const state = {
     cart: JSON.parse(localStorage.getItem("cart")) || [],
     page: "home",
     search: "",
+    modalProduct: null,
     drawerOpen: false,
     darkMode: localStorage.getItem("theme") === "dark"
 };
@@ -29,7 +30,7 @@ function saveCart() {
 }
 
 // =========================
-// CART CORE LOGIC
+// CART LOGIC
 // =========================
 function addToCart(id) {
     const product = products.find(p => p.id === id);
@@ -37,20 +38,15 @@ function addToCart(id) {
 
     const existing = state.cart.find(i => i.id === id);
 
-    if (existing) {
-        existing.qty += 1;
-    } else {
-        state.cart.push({ ...product, qty: 1 });
-    }
+    if (existing) existing.qty += 1;
+    else state.cart.push({ ...product, qty: 1 });
 
     saveCart();
     render();
 }
 
 function removeItem(index) {
-    if (index < 0 || index >= state.cart.length) return;
     state.cart.splice(index, 1);
-
     saveCart();
     render();
 }
@@ -61,17 +57,28 @@ function changeQty(index, delta) {
 
     item.qty += delta;
 
-    if (item.qty <= 0) {
-        state.cart.splice(index, 1);
-    }
+    if (item.qty <= 0) state.cart.splice(index, 1);
 
     saveCart();
     render();
 }
 
 // =========================
-// FILTER PRODUCTS
+// NAVIGATION
 // =========================
+function showPage(page) {
+    state.page = page;
+    render();
+}
+
+// =========================
+// SEARCH
+// =========================
+function setSearch(value) {
+    state.search = value.trim().toLowerCase();
+    render();
+}
+
 function getFilteredProducts() {
     if (!state.search) return products;
 
@@ -87,25 +94,20 @@ function updateCartCount() {
     const counter = el("cart-count");
     if (!counter) return;
 
-    counter.textContent = state.cart.reduce((sum, i) => sum + i.qty, 0);
+    counter.textContent = state.cart.reduce((s, i) => s + i.qty, 0);
 }
 
 // =========================
-// PRODUCT RENDER
+// PRODUCTS RENDER
 // =========================
 function renderProducts(containerId, list) {
     const container = el(containerId);
     if (!container) return;
 
-    if (!list.length) {
-        container.innerHTML = `<p class="empty-cart">No products found</p>`;
-        return;
-    }
-
     container.innerHTML = list.map(p => `
         <article class="card" data-id="${p.id}">
             <div class="image-wrapper">
-                <img src="https://picsum.photos/400/300?random=${p.id}" alt="${p.name}">
+                <img src="https://picsum.photos/400/300?random=${p.id}" />
             </div>
 
             <div class="card-content">
@@ -118,13 +120,9 @@ function renderProducts(containerId, list) {
 }
 
 // =========================
-// CART RENDER (REUSABLE CORE)
+// ⭐ SINGLE CART RENDER ENGINE (FIX)
 // =========================
-function renderCart(containerId, totalId, emptyId) {
-    const box = el(containerId);
-    const totalEl = el(totalId);
-    const emptyEl = el(emptyId);
-
+function renderCartUI(box, totalEl, emptyEl) {
     if (!box || !totalEl) return;
 
     box.innerHTML = "";
@@ -143,10 +141,10 @@ function renderCart(containerId, totalId, emptyId) {
         const itemTotal = item.price * item.qty;
         total += itemTotal;
 
-        const row = document.createElement("div");
-        row.className = "cart-item";
+        const div = document.createElement("div");
+        div.className = "cart-item";
 
-        row.innerHTML = `
+        div.innerHTML = `
             <div>
                 <strong>${item.name}</strong><br>
                 $${item.price} × ${item.qty} = <b>$${itemTotal}</b>
@@ -155,54 +153,43 @@ function renderCart(containerId, totalId, emptyId) {
             <div style="display:flex; gap:8px;">
                 <button data-action="dec" data-index="${index}">-</button>
                 <button data-action="inc" data-index="${index}">+</button>
-                <button data-action="remove" data-index="${index}" class="danger">Remove</button>
+                <button class="danger" data-action="remove" data-index="${index}">Remove</button>
             </div>
         `;
 
-        box.appendChild(row);
+        box.appendChild(div);
     });
 
     totalEl.textContent = "Total: $" + total;
 }
 
 // =========================
-// VIEW RENDER ENGINE (FIXED)
+// CART PAGE
 // =========================
-function render() {
-    const home = el("home-page");
-    const productsPage = el("products-page");
-    const cartPage = el("cart-page");
-
-    if (!home || !productsPage || !cartPage) return;
-
-    // pages
-    home.style.display = state.page === "home" ? "block" : "none";
-    productsPage.style.display = state.page === "products" ? "block" : "none";
-    cartPage.style.display = state.page === "cart" ? "block" : "none";
-
-    const filtered = getFilteredProducts();
-
-    renderProducts("home-products", filtered.slice(0, 2));
-    renderProducts("all-products", filtered);
-
-    // ALWAYS render cart (prevents “cart shows nothing” bug)
-    renderCart("cart-items", "total-price", "cart-empty");
-
-    if (state.drawerOpen) {
-        renderCart("drawer-items", "drawer-total", null);
-    }
-
-    updateCartCount();
+function renderCartPage() {
+    renderCartUI(
+        el("cart-items"),
+        el("total-price"),
+        el("cart-empty")
+    );
 }
 
 // =========================
-// DRAWER CONTROL
+// CART DRAWER
 // =========================
+function renderDrawer() {
+    renderCartUI(
+        el("drawer-items"),
+        el("drawer-total"),
+        null
+    );
+}
+
 function openDrawer() {
     state.drawerOpen = true;
     el("cart-drawer")?.classList.remove("hidden");
     el("overlay")?.classList.remove("hidden");
-    render();
+    renderDrawer();
 }
 
 function closeDrawer() {
@@ -225,20 +212,44 @@ function toggleTheme() {
 }
 
 // =========================
+// MAIN RENDER ENGINE
+// =========================
+function render() {
+
+    const home = el("home-page");
+    const productsPage = el("products-page");
+    const cartPage = el("cart-page");
+
+    if (!home || !productsPage || !cartPage) return;
+
+    home.style.display = state.page === "home" ? "block" : "none";
+    productsPage.style.display = state.page === "products" ? "block" : "none";
+    cartPage.style.display = state.page === "cart" ? "block" : "none";
+
+    const filtered = getFilteredProducts();
+
+    renderProducts("home-products", filtered.slice(0, 2));
+    renderProducts("all-products", filtered);
+
+    renderCartPage();
+    updateCartCount();
+
+    if (state.drawerOpen) {
+        renderDrawer();
+    }
+}
+
+// =========================
 // EVENTS
 // =========================
 document.addEventListener("click", (e) => {
 
-    // navigation
     const nav = e.target.closest("[data-page]");
     if (nav) {
-        state.page = nav.dataset.page;
-        closeDrawer();
-        render();
+        showPage(nav.dataset.page);
         return;
     }
 
-    // add to cart
     const add = e.target.closest(".add-to-cart");
     if (add) {
         const id = parseInt(add.closest(".card").dataset.id);
@@ -246,7 +257,6 @@ document.addEventListener("click", (e) => {
         return;
     }
 
-    // cart actions
     const action = e.target.dataset.action;
     if (action) {
         const index = parseInt(e.target.dataset.index);
@@ -258,26 +268,23 @@ document.addEventListener("click", (e) => {
         return;
     }
 
-    // open drawer
     if (e.target.closest(".cart-link")) {
         e.preventDefault();
         openDrawer();
         return;
     }
 
-    // overlay close
     if (e.target.id === "overlay") {
         closeDrawer();
     }
 });
 
-// search
+// SEARCH
 el("search-input")?.addEventListener("input", (e) => {
-    state.search = e.target.value.toLowerCase();
-    render();
+    setSearch(e.target.value);
 });
 
-// theme
+// THEME
 el("theme-toggle")?.addEventListener("click", toggleTheme);
 
 // =========================
