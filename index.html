@@ -3,101 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyShop | Best Deals Online</title>
+
+    <title>MyShop | Modern E-Commerce</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- =========================
-         HEADER
-    ========================== -->
-    <header>
-        <div class="container header-content">
+<!-- =========================
+     HEADER
+========================= -->
+<header role="banner">
+    <div class="container header-content">
 
-            <div class="logo">
-                <h1>MyShop</h1>
-            </div>
-
-            <!-- SEARCH -->
-            <form class="search-bar">
-                <input 
-                    type="search" 
-                    id="search-input" 
-                    placeholder="Search products..."
-                    aria-label="Search products"
-                >
-                <button type="button" id="search-btn">
-                    Search
-                </button>
-            </form>
-
-            <!-- NAVIGATION -->
-            <nav>
-                <ul>
-                    <li><a href="#" onclick="showPage('home')">Home</a></li>
-                    <li><a href="#" onclick="showPage('products')">Products</a></li>
-                    <li>
-                        <a href="#" onclick="showPage('cart')">
-                            Cart (<span id="cart-count">0</span>)
-                        </a>
-                    </li>
-                    <li><a href="#">Login</a></li>
-                </ul>
-            </nav>
-
+        <!-- LOGO -->
+        <div class="logo">
+            <h1>MyShop</h1>
         </div>
-    </header>
 
-    <!-- =========================
-         APP VIEWS (EMPTY SHELLS)
-    ========================== -->
+        <!-- SEARCH -->
+        <form class="search-bar" role="search">
+            <input 
+                type="search"
+                id="search-input"
+                placeholder="Search products..."
+                aria-label="Search products"
+                autocomplete="off"
+            >
 
-    <!-- HOME -->
-    <section id="home-page">
-        <section class="hero">
-            <h2>Best Deals Online</h2>
-            <p>Shop amazing products at affordable prices</p>
-        </section>
+            <button type="button" id="search-btn">
+                Search
+            </button>
+        </form>
 
-        <!-- JS RENDERS FEATURED PRODUCTS HERE -->
-        <main class="products" id="home-products"></main>
+        <!-- NAV -->
+        <nav role="navigation" aria-label="Main navigation">
+            <ul>
+                <li>
+                    <a href="#" data-page="home" class="nav-link active">Home</a>
+                </li>
+
+                <li>
+                    <a href="#" data-page="products" class="nav-link">Products</a>
+                </li>
+
+                <li>
+                    <a href="#" data-page="cart" class="nav-link">
+                        Cart
+                        <span id="cart-count">0</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="login-btn">Login</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
+</header>
+
+
+<!-- =========================
+     HOME VIEW
+========================= -->
+<section id="home-page" class="page">
+
+    <section class="hero">
+        <h2>Best Deals Online</h2>
+        <p>Shop premium products at unbeatable prices</p>
     </section>
 
-    <!-- PRODUCTS -->
-    <section id="products-page" class="hidden">
-        <section class="hero">
-            <h2>All Products</h2>
-            <p>Browse our complete collection</p>
-        </section>
+    <main class="products" id="home-products">
+        <!-- JS RENDERS PRODUCTS -->
+    </main>
 
-        <!-- JS RENDERS ALL PRODUCTS HERE -->
-        <main class="products" id="all-products"></main>
+</section>
+
+
+<!-- =========================
+     PRODUCTS VIEW
+========================= -->
+<section id="products-page" class="page hidden">
+
+    <section class="hero">
+        <h2>All Products</h2>
+        <p>Explore our full catalog</p>
     </section>
 
-    <!-- CART -->
-    <section id="cart-page" class="hidden">
-        <div class="container">
+    <main class="products" id="all-products">
+        <!-- JS RENDERS PRODUCTS -->
+    </main>
 
-            <h2>Your Cart</h2>
+</section>
 
-            <div id="cart-items"></div>
 
+<!-- =========================
+     CART VIEW
+========================= -->
+<section id="cart-page" class="page hidden">
+
+    <div class="container">
+
+        <h2>Your Cart</h2>
+
+        <!-- EMPTY STATE -->
+        <div id="cart-empty" class="empty-cart hidden">
+            Your cart is empty. Start shopping!
+        </div>
+
+        <!-- CART ITEMS -->
+        <div id="cart-items"></div>
+
+        <div class="cart-summary">
             <h3 id="total-price">Total: $0</h3>
-
         </div>
-    </section>
 
-    <!-- =========================
-         FOOTER
-    ========================== -->
-    <footer>
-        <p>&copy; 2026 MyShop. All rights reserved.</p>
-    </footer>
+    </div>
 
-    <!-- JS -->
-    <script src="script.js"></script>
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+<footer role="contentinfo">
+    <p>&copy; 2026 MyShop. All rights reserved.</p>
+</footer>
+
+
+<!-- JS -->
+<script src="script.js"></script>
 
 </body>
 </html>
