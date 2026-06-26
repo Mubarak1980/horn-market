@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>MyShop | Modern E-Commerce</title>
 
     <link rel="stylesheet" href="style.css">
@@ -23,7 +22,7 @@
         </div>
 
         <!-- SEARCH -->
-        <form class="search-bar" role="search">
+        <form class="search-bar" onsubmit="return false;">
             <input 
                 type="search"
                 id="search-input"
@@ -33,21 +32,25 @@
             <button type="button" id="search-btn">Search</button>
         </form>
 
-        <!-- NAVIGATION -->
+        <!-- NAV -->
         <nav>
             <ul>
                 <li>
-                    <a href="#" class="nav-link active" data-page="home">Home</a>
+                    <a href="#" data-page="home" class="nav-link active">Home</a>
                 </li>
 
                 <li>
-                    <a href="#" class="nav-link" data-page="products">Products</a>
+                    <a href="#" data-page="products" class="nav-link">Products</a>
                 </li>
 
                 <li>
-                    <a href="#" class="nav-link" data-page="cart">
+                    <a href="#" data-page="cart" class="nav-link">
                         Cart (<span id="cart-count">0</span>)
                     </a>
+                </li>
+
+                <li>
+                    <a href="#" class="login-btn">Login</a>
                 </li>
             </ul>
         </nav>
@@ -63,11 +66,11 @@
 
     <section class="hero">
         <h2>Best Deals Online</h2>
-        <p>Shop premium products at unbeatable prices</p>
+        <p>High-quality products at affordable prices</p>
     </section>
 
     <main class="products" id="home-products">
-        <!-- JS renders featured products here -->
+        <!-- JS RENDERS PRODUCTS -->
     </main>
 
 </section>
@@ -80,11 +83,11 @@
 
     <section class="hero">
         <h2>All Products</h2>
-        <p>Browse our full catalog</p>
+        <p>Browse full catalog</p>
     </section>
 
     <main class="products" id="all-products">
-        <!-- JS renders full product list here -->
+        <!-- JS RENDERS PRODUCTS -->
     </main>
 
 </section>
@@ -101,14 +104,16 @@
 
         <!-- EMPTY STATE -->
         <div id="cart-empty" class="empty-cart hidden">
-            Your cart is empty. Start shopping!
+            Your cart is empty. Start shopping now.
         </div>
 
         <!-- CART ITEMS -->
         <div id="cart-items"></div>
 
-        <!-- TOTAL -->
-        <h3 id="total-price">Total: $0</h3>
+        <!-- SUMMARY -->
+        <div class="cart-summary">
+            <h3 id="total-price">Total: $0</h3>
+        </div>
 
     </div>
 
@@ -123,7 +128,7 @@
 </footer>
 
 
-<!-- SCRIPT -->
+<!-- JS -->
 <script src="script.js"></script>
 
 </body>
