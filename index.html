@@ -34,9 +34,13 @@
             <!-- NAVIGATION -->
             <nav>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">Cart</a></li>
+                    <li><a href="#" onclick="showPage('home')">Home</a></li>
+                    <li><a href="#" onclick="showPage('home')">Products</a></li>
+                    <li>
+                        <a href="#" onclick="showPage('cart')">
+                            Cart (<span id="cart-count">0</span>)
+                        </a>
+                    </li>
                     <li><a href="#" class="login-btn">Login</a></li>
                 </ul>
             </nav>
@@ -44,78 +48,97 @@
         </div>
     </header>
 
-    <!-- HERO -->
-    <section class="hero">
-        <h2>Best Deals Online</h2>
-        <p>Shop amazing products at affordable prices</p>
+    <!-- =========================
+         HOME PAGE (PRODUCTS)
+    ========================== -->
+    <section id="home-page">
+
+        <!-- HERO -->
+        <section class="hero">
+            <h2>Best Deals Online</h2>
+            <p>Shop amazing products at affordable prices</p>
+        </section>
+
+        <!-- PRODUCTS -->
+        <main class="products">
+
+            <article class="card" data-id="1" data-category="shoes">
+                
+                <div class="image-wrapper">
+                    <span class="badge">Sale</span>
+                    <img src="https://picsum.photos/400/300" alt="Running Shoes">
+                </div>
+
+                <div class="card-content">
+                    <h3>Running Shoes</h3>
+                    <p class="price">$49</p>
+                    <button type="button" class="add-to-cart">
+                        Add to Cart
+                    </button>
+                </div>
+            </article>
+
+            <article class="card" data-id="2" data-category="electronics">
+
+                <div class="image-wrapper">
+                    <span class="badge">Sale</span>
+                    <img src="https://picsum.photos/400/300" alt="Smart Watch">
+                </div>
+
+                <div class="card-content">
+                    <h3>Smart Watch</h3>
+                    <p class="price">$99</p>
+                    <button type="button" class="add-to-cart">
+                        Add to Cart
+                    </button>
+                </div>
+            </article>
+
+            <article class="card" data-id="3" data-category="electronics">
+
+                <div class="image-wrapper">
+                    <img src="https://picsum.photos/400/300" alt="Headphones">
+                </div>
+
+                <div class="card-content">
+                    <h3>Headphones</h3>
+                    <p class="price">$39</p>
+                    <button type="button" class="add-to-cart">
+                        Add to Cart
+                    </button>
+                </div>
+            </article>
+
+            <article class="card" data-id="4" data-category="laptops">
+
+                <div class="image-wrapper">
+                    <img src="https://picsum.photos/400/300" alt="Laptop">
+                </div>
+
+                <div class="card-content">
+                    <h3>Laptop</h3>
+                    <p class="price">$599</p>
+                    <button type="button" class="add-to-cart">
+                        Add to Cart
+                    </button>
+                </div>
+            </article>
+
+        </main>
     </section>
 
-    <!-- PRODUCTS -->
-    <main class="products">
+    <!-- =========================
+         CART PAGE (HIDDEN INITIALLY)
+    ========================== -->
+    <section id="cart-page" style="display:none; padding:20px;">
 
-        <article class="card" data-id="1" data-category="shoes">
-            
-            <div class="image-wrapper">
-                <span class="badge">Sale</span>
-                <img src="https://picsum.photos/400/300" alt="Running Shoes">
-            </div>
+        <h2>Your Cart</h2>
 
-            <div class="card-content">
-                <h3>Running Shoes</h3>
-                <p class="price">$49</p>
-                <button type="button" class="add-to-cart">
-                    Add to Cart
-                </button>
-            </div>
-        </article>
+        <div id="cart-items"></div>
 
-        <article class="card" data-id="2" data-category="electronics">
+        <h3 id="total-price">Total: $0</h3>
 
-            <div class="image-wrapper">
-                <span class="badge">Sale</span>
-                <img src="https://picsum.photos/400/300" alt="Smart Watch">
-            </div>
-
-            <div class="card-content">
-                <h3>Smart Watch</h3>
-                <p class="price">$99</p>
-                <button type="button" class="add-to-cart">
-                    Add to Cart
-                </button>
-            </div>
-        </article>
-
-        <article class="card" data-id="3" data-category="electronics">
-
-            <div class="image-wrapper">
-                <img src="https://picsum.photos/400/300" alt="Headphones">
-            </div>
-
-            <div class="card-content">
-                <h3>Headphones</h3>
-                <p class="price">$39</p>
-                <button type="button" class="add-to-cart">
-                    Add to Cart
-                </button>
-            </div>
-        </article>
-
-        <article class="card" data-id="4" data-category="laptops">
-
-            <div class="image-wrapper">
-                <img src="https://picsum.photos/400/300" alt="Laptop">
-            </div>
-
-            <div class="card-content">
-                <h3>Laptop</h3>
-                <p class="price">$599</p>
-                <button type="button" class="add-to-cart">
-                    Add to Cart
-                </button>
-            </div>
-        </article>
-
-    </main>
+    </section>
 
     <!-- FOOTER -->
     <footer>
