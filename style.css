@@ -1,24 +1,41 @@
 /* =========================
-   DESIGN SYSTEM
+   DESIGN SYSTEM (TOKENS)
 ========================= */
 :root {
+    /* Colors */
     --primary: #007bff;
     --primary-dark: #0056b3;
-    --text: #333;
-    --muted: #777;
-    --bg: #f8f9fa;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --bg: #f4f6f8;
     --card: #ffffff;
-    --border: #eee;
-    --danger: #ff4757;
+    --border: #e5e7eb;
+    --danger: #ef4444;
+    --success: #22c55e;
 
-    /* NEW: spacing system */
-    --radius: 12px;
-    --shadow-sm: 0 2px 10px rgba(0,0,0,0.05);
-    --shadow-md: 0 12px 30px rgba(0,0,0,0.12);
+    /* Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-md: 0 12px 28px rgba(0,0,0,0.12);
+
+    /* Spacing */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 40px;
+
+    /* Motion */
+    --transition-fast: 0.15s ease;
+    --transition: 0.25s ease;
 }
 
 /* =========================
-   GLOBAL RESET
+   RESET
 ========================= */
 * {
     margin: 0;
@@ -27,25 +44,21 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
 }
 
 /* =========================
-   UTILITIES
+   GLOBAL HELPERS
 ========================= */
 .hidden {
     display: none !important;
 }
 
-/* =========================
-   CONTAINER
-========================= */
 .container {
-    width: 90%;
-    max-width: 1200px;
+    width: min(1200px, 92%);
     margin: 0 auto;
 }
 
@@ -53,19 +66,29 @@ body {
    HEADER
 ========================= */
 header {
-    background: var(--card);
-    padding: 15px 0;
-    border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 1000;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-md) 0;
+    backdrop-filter: blur(10px);
 }
 
 .header-content {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    justify-content: space-between;
+    gap: var(--space-md);
+}
+
+/* =========================
+   LOGO
+========================= */
+.logo h1 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
 /* =========================
@@ -73,22 +96,24 @@ header {
 ========================= */
 .search-bar {
     display: flex;
-    gap: 8px;
     flex: 1;
-    max-width: 400px;
+    max-width: 420px;
+    gap: var(--space-sm);
 }
 
 .search-bar input {
     width: 100%;
     padding: 10px 14px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
     outline: none;
-    transition: 0.3s;
+    transition: var(--transition);
+    background: #fff;
 }
 
 .search-bar input:focus {
     border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
 }
 
 /* =========================
@@ -96,18 +121,18 @@ header {
 ========================= */
 nav ul {
     display: flex;
-    gap: 18px;
+    gap: var(--space-md);
     list-style: none;
     align-items: center;
 }
 
 nav a {
     text-decoration: none;
-    color: #555;
+    color: var(--muted);
     font-weight: 600;
-    font-size: 15px;
+    font-size: 0.95rem;
     position: relative;
-    transition: 0.25s;
+    transition: var(--transition);
 }
 
 nav a:hover {
@@ -123,11 +148,11 @@ nav a::after {
     content: "";
     position: absolute;
     left: 0;
-    bottom: -4px;
+    bottom: -5px;
     width: 0%;
     height: 2px;
     background: var(--primary);
-    transition: 0.25s;
+    transition: var(--transition);
 }
 
 nav a:hover::after,
@@ -136,13 +161,23 @@ nav a.active::after {
 }
 
 /* =========================
-   HERO
+   HERO SECTION
 ========================= */
 .hero {
     background: linear-gradient(135deg, #00c2ff, #0077ff);
     color: white;
     text-align: center;
-    padding: 60px 20px;
+    padding: var(--space-xl) var(--space-md);
+}
+
+.hero h2 {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.hero p {
+    opacity: 0.9;
+    margin-top: var(--space-sm);
 }
 
 /* =========================
@@ -150,9 +185,9 @@ nav a.active::after {
 ========================= */
 .products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 25px;
-    padding: 50px 5%;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-md);
+    padding: var(--space-xl) var(--space-md);
 }
 
 /* =========================
@@ -160,11 +195,11 @@ nav a.active::after {
 ========================= */
 .card {
     background: var(--card);
-    border-radius: var(--radius);
+    border-radius: var(--radius-md);
     overflow: hidden;
     border: 1px solid var(--border);
     box-shadow: var(--shadow-sm);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: transform var(--transition), box-shadow var(--transition);
     display: flex;
     flex-direction: column;
 }
@@ -174,7 +209,6 @@ nav a.active::after {
     box-shadow: var(--shadow-md);
 }
 
-/* image */
 .image-wrapper {
     position: relative;
 }
@@ -189,42 +223,46 @@ nav a.active::after {
 /* badge */
 .badge {
     position: absolute;
-    top: 12px;
-    left: 12px;
+    top: 10px;
+    left: 10px;
     background: var(--danger);
     color: white;
-    font-size: 12px;
-    padding: 5px 10px;
-    border-radius: 20px;
-    text-transform: uppercase;
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 700;
 }
 
 /* content */
 .card-content {
-    padding: 18px;
+    padding: var(--space-md);
+}
+
+.card-content h3 {
+    font-size: 1rem;
+    margin-bottom: var(--space-xs);
 }
 
 .price {
     color: var(--primary);
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin: 8px 0;
+    font-weight: 800;
+    margin-bottom: var(--space-sm);
 }
 
 /* =========================
-   BUTTON SYSTEM (IMPROVED)
+   BUTTON SYSTEM (PRO)
 ========================= */
 button,
 .add-to-cart {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
     background: var(--primary);
     color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    width: 100%;
-    transition: 0.25s;
 }
 
 button:hover,
@@ -237,46 +275,52 @@ button:active {
     transform: scale(0.98);
 }
 
-/* danger */
+/* danger button */
 button.danger {
     background: var(--danger);
 }
 
 button.danger:hover {
-    background: #d63031;
+    background: #dc2626;
 }
 
 /* =========================
    CART PAGE
 ========================= */
 #cart-page {
-    padding: 30px 5%;
+    padding: var(--space-xl) var(--space-md);
 }
 
 #cart-items {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
 }
 
 /* cart item */
 .cart-item {
     background: var(--card);
     border: 1px solid var(--border);
-    padding: 15px;
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
+    padding: var(--space-md);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: var(--transition);
+}
+
+.cart-item:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-sm);
 }
 
 /* empty state */
 .empty-cart {
     text-align: center;
-    padding: 40px;
+    padding: var(--space-xl);
     color: var(--muted);
-    font-size: 18px;
+    font-size: 1.1rem;
 }
 
 /* =========================
@@ -284,7 +328,7 @@ button.danger:hover {
 ========================= */
 footer {
     text-align: center;
-    padding: 30px;
+    padding: var(--space-lg);
     background: var(--card);
     border-top: 1px solid var(--border);
     color: var(--muted);
@@ -298,7 +342,6 @@ footer {
     .header-content {
         flex-direction: column;
         align-items: stretch;
-        gap: 15px;
     }
 
     nav ul {
@@ -306,7 +349,7 @@ footer {
         flex-wrap: wrap;
     }
 
-    .search-bar {
-        max-width: 100%;
+    .hero h2 {
+        font-size: 1.5rem;
     }
 }
