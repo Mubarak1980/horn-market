@@ -1,5 +1,5 @@
 /* =========================
-   DESIGN SYSTEM (ROOT VARIABLES)
+   DESIGN SYSTEM
 ========================= */
 :root {
     --primary: #007bff;
@@ -13,7 +13,7 @@
 }
 
 /* =========================
-   GLOBAL RESET & BASE STYLES
+   GLOBAL RESET
 ========================= */
 * {
     margin: 0;
@@ -23,12 +23,14 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg);
+    background: var(--bg);
     color: var(--text);
     line-height: 1.6;
 }
 
-/* Container system */
+/* =========================
+   CONTAINER
+========================= */
 .container {
     width: 90%;
     max-width: 1200px;
@@ -41,7 +43,7 @@ body {
 header {
     background: var(--card);
     padding: 15px 0;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 1px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -55,7 +57,7 @@ header {
 }
 
 /* =========================
-   SEARCH BAR
+   SEARCH
 ========================= */
 .search-bar {
     display: flex;
@@ -66,10 +68,11 @@ header {
 
 .search-bar input {
     width: 100%;
-    padding: 10px 15px;
+    padding: 10px 14px;
     border: 1px solid #ddd;
     border-radius: 20px;
     outline: none;
+    transition: border 0.3s;
 }
 
 .search-bar input:focus {
@@ -81,9 +84,9 @@ header {
 ========================= */
 nav ul {
     display: flex;
-    gap: 20px;
-    align-items: center;
+    gap: 18px;
     list-style: none;
+    align-items: center;
 }
 
 nav a {
@@ -91,6 +94,7 @@ nav a {
     color: #555;
     font-weight: 600;
     font-size: 15px;
+    position: relative;
     transition: color 0.3s;
 }
 
@@ -98,20 +102,24 @@ nav a:hover {
     color: var(--primary);
 }
 
-/* Login CTA */
-.login-btn {
-    background-color: var(--primary);
-    color: white !important;
-    padding: 8px 16px;
-    border-radius: 6px;
+/* underline effect */
+nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 2px;
+    background: var(--primary);
+    transition: 0.3s;
 }
 
-.login-btn:hover {
-    background-color: var(--primary-dark);
+nav a:hover::after {
+    width: 100%;
 }
 
 /* =========================
-   HERO SECTION
+   HERO
 ========================= */
 .hero {
     background: linear-gradient(135deg, #00c2ff, #0077ff);
@@ -126,7 +134,7 @@ nav a:hover {
 .products {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 30px;
+    gap: 25px;
     padding: 50px 5%;
 }
 
@@ -134,21 +142,22 @@ nav a:hover {
    PRODUCT CARD
 ========================= */
 .card {
-    display: flex;
-    flex-direction: column;
     background: var(--card);
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--border);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.12);
 }
 
-/* Image wrapper */
+/* image */
 .image-wrapper {
     position: relative;
 }
@@ -160,49 +169,91 @@ nav a:hover {
     display: block;
 }
 
-/* Badge */
+/* badge */
 .badge {
     position: absolute;
-    top: 15px;
-    left: 15px;
+    top: 12px;
+    left: 12px;
     background: var(--danger);
     color: white;
-    padding: 5px 12px;
-    border-radius: 20px;
     font-size: 12px;
-    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 20px;
     text-transform: uppercase;
 }
 
-/* Card content */
+/* content */
 .card-content {
-    padding: 20px;
+    padding: 18px;
 }
 
 .price {
+    color: var(--primary);
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--primary);
-    margin: 10px 0;
+    margin: 8px 0;
 }
 
 /* =========================
-   BUTTON SYSTEM
+   BUTTON SYSTEM (GLOBAL FIX)
 ========================= */
-.btn {
-    background-color: var(--primary);
+button,
+.add-to-cart {
+    background: var(--primary);
     color: white;
     border: none;
     padding: 12px;
     border-radius: 6px;
-    font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    font-weight: 600;
     width: 100%;
+    transition: 0.3s;
 }
 
-.btn:hover {
-    background-color: var(--primary-dark);
+button:hover,
+.add-to-cart:hover {
+    background: var(--primary-dark);
+}
+
+/* danger button (cart remove) */
+button.danger {
+    background: var(--danger);
+}
+
+button.danger:hover {
+    background: #d63031;
+}
+
+/* =========================
+   CART PAGE
+========================= */
+#cart-page {
+    padding: 30px 5%;
+}
+
+#cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.cart-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* empty cart */
+.empty-cart {
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+    font-size: 18px;
 }
 
 /* =========================
@@ -212,12 +263,12 @@ footer {
     text-align: center;
     padding: 30px;
     background: var(--card);
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--border);
     color: var(--muted);
 }
 
 /* =========================
-   RESPONSIVE DESIGN
+   RESPONSIVE
 ========================= */
 @media (max-width: 768px) {
 
@@ -227,14 +278,12 @@ footer {
         gap: 15px;
     }
 
-    .search-bar {
-        width: 100%;
-        max-width: 100%;
-    }
-
     nav ul {
         justify-content: space-between;
-        width: 100%;
         flex-wrap: wrap;
+    }
+
+    .search-bar {
+        max-width: 100%;
     }
 }
