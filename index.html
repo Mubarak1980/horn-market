@@ -11,9 +11,7 @@
 
 <body>
 
-<!-- =========================
-     TOP BAR (future: dark mode / offers)
-========================= -->
+<!-- TOP BAR -->
 <div class="top-bar">
     <p>🔥 Free delivery on orders over $50</p>
 
@@ -22,19 +20,14 @@
     </button>
 </div>
 
-
-<!-- =========================
-     HEADER
-========================= -->
+<!-- HEADER -->
 <header>
     <div class="container header-content">
 
-        <!-- LOGO -->
         <div class="logo">
             <h1>MyShop</h1>
         </div>
 
-        <!-- SEARCH -->
         <form class="search-bar" onsubmit="return false;">
             <input 
                 type="search"
@@ -42,46 +35,31 @@
                 placeholder="Search products..."
                 autocomplete="off"
             >
-            <button type="button" id="search-btn">Search</button>
         </form>
 
-        <!-- NAV -->
         <nav>
             <ul>
-                <li>
-                    <a href="#" data-page="home" class="nav-link active">Home</a>
-                </li>
+                <li><a href="#" data-page="home">Home</a></li>
+                <li><a href="#" data-page="products">Products</a></li>
 
                 <li>
-                    <a href="#" data-page="products" class="nav-link">Products</a>
-                </li>
-
-                <!-- CART (ready for drawer upgrade) -->
-                <li>
-                    <a href="#" data-page="cart" class="nav-link cart-link">
+                    <a href="#" data-page="cart" class="cart-link">
                         Cart
-                        <span id="cart-count" class="cart-badge">0</span>
+                        <span id="cart-count">0</span>
                     </a>
                 </li>
 
-                <li>
-                    <a href="#" class="login-btn">Login</a>
-                </li>
+                <li><a href="#" class="login-btn">Login</a></li>
             </ul>
         </nav>
 
     </div>
 </header>
 
+<!-- MAIN APP -->
+<main>
 
-<!-- =========================
-     APP CONTAINER (future SPA expansion)
-========================= -->
-<main id="app">
-
-    <!-- =========================
-         HOME PAGE
-    ========================== -->
+    <!-- HOME -->
     <section id="home-page" class="page">
 
         <section class="hero">
@@ -89,7 +67,6 @@
             <p>High-quality products at affordable prices</p>
         </section>
 
-        <!-- FEATURED -->
         <section class="section-title">
             <h3>Featured Products</h3>
         </section>
@@ -98,10 +75,7 @@
 
     </section>
 
-
-    <!-- =========================
-         PRODUCTS PAGE
-    ========================== -->
+    <!-- PRODUCTS -->
     <section id="products-page" class="page hidden">
 
         <section class="hero">
@@ -109,35 +83,33 @@
             <p>Browse full catalog</p>
         </section>
 
+        <!-- NEW: CATEGORY FILTER BAR -->
+        <div class="category-bar" style="padding: 15px; text-align:center;">
+            <button class="category-btn" data-category="all">All</button>
+            <button class="category-btn" data-category="Electronics">Electronics</button>
+            <button class="category-btn" data-category="Fashion">Fashion</button>
+        </div>
+
         <main class="products" id="all-products"></main>
 
     </section>
 
-
-    <!-- =========================
-         CART PAGE (for fallback view)
-    ========================== -->
+    <!-- CART -->
     <section id="cart-page" class="page hidden">
 
         <div class="container">
 
             <div class="cart-header">
                 <h2>Your Cart</h2>
-
-                <button id="clear-cart" class="danger-btn">
-                    Clear Cart
-                </button>
+                <button id="clear-cart" class="danger-btn">Clear Cart</button>
             </div>
 
-            <!-- EMPTY STATE -->
             <div id="cart-empty" class="empty-cart hidden">
                 Your cart is empty. Start shopping now.
             </div>
 
-            <!-- CART ITEMS -->
             <div id="cart-items"></div>
 
-            <!-- SUMMARY -->
             <div class="cart-summary">
                 <h3 id="total-price">Total: $0</h3>
                 <button class="checkout-btn">Checkout</button>
@@ -149,26 +121,20 @@
 
 </main>
 
-
-<!-- =========================
-     PRODUCT MODAL (NEW FEATURE READY)
-========================= -->
+<!-- PRODUCT MODAL -->
 <div id="product-modal" class="modal hidden">
+
     <div class="modal-content">
 
         <button id="close-modal" class="close-btn">✕</button>
 
-        <div id="modal-body">
-            <!-- JS injects product details here -->
-        </div>
+        <div id="modal-body"></div>
 
     </div>
+
 </div>
 
-
-<!-- =========================
-     CART DRAWER (NEW FEATURE READY)
-========================= -->
+<!-- CART DRAWER -->
 <aside id="cart-drawer" class="cart-drawer hidden">
 
     <div class="drawer-header">
@@ -185,19 +151,14 @@
 
 </aside>
 
-<!-- overlay -->
+<!-- OVERLAY -->
 <div id="overlay" class="overlay hidden"></div>
 
-
-<!-- =========================
-     FOOTER
-========================= -->
+<!-- FOOTER -->
 <footer>
     <p>&copy; 2026 MyShop. All rights reserved.</p>
 </footer>
 
-
-<!-- JS -->
 <script src="script.js"></script>
 
 </body>
