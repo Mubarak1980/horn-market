@@ -1,5 +1,5 @@
 // =========================
-// DATA (UPGRADED PRODUCT MODEL)
+// DATA
 // =========================
 const products = [
     {
@@ -49,6 +49,7 @@ const products = [
 // =========================
 const state = {
     cart: JSON.parse(localStorage.getItem("cart")) || [],
+    orders: JSON.parse(localStorage.getItem("orders")) || [],
     page: "home",
     search: "",
     drawerOpen: false,
@@ -65,8 +66,12 @@ function saveCart() {
     localStorage.setItem("cart", JSON.stringify(state.cart));
 }
 
+function saveOrders() {
+    localStorage.setItem("orders", JSON.stringify(state.orders));
+}
+
 // =========================
-// CART CORE LOGIC
+// CART LOGIC
 // =========================
 function addToCart(id) {
     const product = products.find(p => p.id === id);
@@ -85,8 +90,6 @@ function addToCart(id) {
 }
 
 function removeItem(index) {
-    if (index < 0 || index >= state.cart.length) return;
-
     state.cart.splice(index, 1);
     saveCart();
     render();
@@ -107,7 +110,7 @@ function changeQty(index, delta) {
 }
 
 // =========================
-// SEARCH FILTER
+// SEARCH
 // =========================
 function getFilteredProducts() {
     if (!state.search) return products;
@@ -128,7 +131,7 @@ function updateCartCount() {
 }
 
 // =========================
-// PRODUCT RENDER
+// PRODUCTS RENDER
 // =========================
 function renderProducts(containerId, list) {
     const container = el(containerId);
@@ -147,18 +150,16 @@ function renderProducts(containerId, list) {
 
             <div class="card-content">
                 <small>${p.category}</small>
-
                 <h3>${p.name}</h3>
-
                 <p class="price">$${p.price}</p>
 
-                <p style="font-size:12px; color:#64748b;">
+                <p style="font-size:12px;color:#64748b;">
                     ⭐ ${p.rating} | Stock: ${p.stock}
                 </p>
 
                 <button class="add-to-cart">Add to Cart</button>
 
-                <button class="view-details" style="margin-top:8px; background:#0f172a;">
+                <button class="view-details" style="margin-top:8px;background:#0f172a;">
                     View Details
                 </button>
             </div>
@@ -201,7 +202,7 @@ function renderCart(containerId, totalId, emptyId) {
                 $${item.price} × ${item.qty} = <b>$${itemTotal}</b>
             </div>
 
-            <div style="display:flex; gap:8px;">
+            <div style="display:flex;gap:8px;">
                 <button data-action="dec" data-index="${index}">-</button>
                 <button data-action="inc" data-index="${index}">+</button>
                 <button data-action="remove" data-index="${index}" class="danger">Remove</button>
@@ -215,7 +216,7 @@ function renderCart(containerId, totalId, emptyId) {
 }
 
 // =========================
-// PRODUCT MODAL
+// MODAL
 // =========================
 function openProductModal(product) {
     state.selectedProduct = product;
@@ -223,20 +224,14 @@ function openProductModal(product) {
     const modal = el("product-modal");
     const body = el("modal-body");
 
-    if (!modal || !body) return;
-
     body.innerHTML = `
-        <img src="${product.image}" style="width:100%; border-radius:10px; margin-bottom:12px;" />
+        <img src="${product.image}" style="width:100%;border-radius:10px;margin-bottom:12px;" />
 
         <h2>${product.name}</h2>
+        <p>${product.description}</p>
 
-        <p style="color:#64748b;">Category: ${product.category}</p>
-
-        <p style="margin:10px 0;">${product.description}</p>
-
-        <p><strong>Price: $${product.price}</strong></p>
-        <p>⭐ Rating: ${product.rating}</p>
-        <p>Stock: ${product.stock}</p>
+        <p><strong>$${product.price}</strong></p>
+        <p>⭐ ${product.rating}</p>
 
         <button id="modal-add-cart">Add to Cart</button>
     `;
@@ -246,6 +241,38 @@ function openProductModal(product) {
 
 function closeModal() {
     el("product-modal")?.classList.add("hidden");
+}
+
+// =========================
+// CHECKOUT
+// =========================
+function goToCheckout() {
+    state.page = "checkout";
+    render();
+}
+
+function placeOrder() {
+    if (state.cart.length === 0) return;
+
+    const total = state.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+
+    const order = {
+        id: Date.now(),
+        items: [...state.cart],
+        total,
+        date: new Date().toISOString()
+    };
+
+    state.orders.push(order);
+    saveOrders();
+
+    state.cart = [];
+    saveCart();
+
+    alert("Order placed successfully!");
+
+    state.page = "home";
+    render();
 }
 
 // =========================
@@ -260,20 +287,48 @@ function render() {
 
     home.style.display = state.page === "home" ? "block" : "none";
     productsPage.style.display = state.page === "products" ? "block" : "none";
-    cartPage.style.display = state.page === "cart" ? "block" : "none";
+    cartPage.style.display = state.page === "cart" || state.page === "checkout" ? "block" : "none";
 
     const filtered = getFilteredProducts();
 
     renderProducts("home-products", filtered.slice(0, 2));
     renderProducts("all-products", filtered);
 
-    renderCart("cart-items", "total-price", "cart-empty");
+    if (state.page === "checkout") {
+        renderCheckout();
+    } else {
+        renderCart("cart-items", "total-price", "cart-empty");
+    }
 
     if (state.drawerOpen) {
         renderCart("drawer-items", "drawer-total", null);
     }
 
     updateCartCount();
+}
+
+// =========================
+// CHECKOUT UI
+// =========================
+function renderCheckout() {
+    const container = el("cart-page");
+
+    let total = state.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+
+    container.innerHTML = `
+        <div class="container">
+
+            <h2>Checkout</h2>
+
+            ${state.cart.map(i => `
+                <p>${i.name} × ${i.qty} = $${i.price * i.qty}</p>
+            `).join("")}
+
+            <h3>Total: $${total}</h3>
+
+            <button id="place-order">Place Order</button>
+        </div>
+    `;
 }
 
 // =========================
@@ -310,7 +365,6 @@ function toggleTheme() {
 // =========================
 document.addEventListener("click", (e) => {
 
-    // navigation
     const nav = e.target.closest("[data-page]");
     if (nav) {
         state.page = nav.dataset.page;
@@ -319,7 +373,6 @@ document.addEventListener("click", (e) => {
         return;
     }
 
-    // add to cart
     const add = e.target.closest(".add-to-cart");
     if (add) {
         const id = parseInt(add.closest(".card").dataset.id);
@@ -327,35 +380,22 @@ document.addEventListener("click", (e) => {
         return;
     }
 
-    // view details
     const view = e.target.closest(".view-details");
     if (view) {
         const id = parseInt(view.closest(".card").dataset.id);
         const product = products.find(p => p.id === id);
-        if (product) openProductModal(product);
+        openProductModal(product);
         return;
     }
 
-    // modal add to cart
     if (e.target.id === "modal-add-cart") {
-        const product = state.selectedProduct;
-        if (product) addToCart(product.id);
+        addToCart(state.selectedProduct.id);
         closeModal();
         return;
     }
 
-    // modal close
-    if (e.target.id === "close-modal") {
-        closeModal();
-        return;
-    }
+    if (e.target.id === "product-modal") closeModal();
 
-    if (e.target.id === "product-modal") {
-        closeModal();
-        return;
-    }
-
-    // cart actions
     const action = e.target.dataset.action;
     if (action) {
         const index = parseInt(e.target.dataset.index);
@@ -367,27 +407,24 @@ document.addEventListener("click", (e) => {
         return;
     }
 
-    // drawer open
+    if (e.target.classList.contains("checkout-btn")) {
+        goToCheckout();
+        return;
+    }
+
+    if (e.target.id === "place-order") {
+        placeOrder();
+        return;
+    }
+
     if (e.target.closest(".cart-link")) {
         e.preventDefault();
         openDrawer();
         return;
     }
 
-    // overlay close
-    if (e.target.id === "overlay") {
-        closeDrawer();
-    }
+    if (e.target.id === "overlay") closeDrawer();
 });
-
-// search
-el("search-input")?.addEventListener("input", (e) => {
-    state.search = e.target.value.toLowerCase();
-    render();
-});
-
-// theme
-el("theme-toggle")?.addEventListener("click", toggleTheme);
 
 // =========================
 // INIT
