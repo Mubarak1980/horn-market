@@ -3,195 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>MyShop | Modern E-Commerce</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- =========================
-     TOP BAR
-========================= -->
 <div class="top-bar">
     <p>🔥 Free delivery on orders over $50</p>
-
-    <button id="theme-toggle" type="button">
-        🌙 Dark Mode
-    </button>
+    <button id="theme-toggle" type="button">🌙 Dark Mode</button>
 </div>
 
-<!-- =========================
-     HEADER
-========================= -->
 <header>
     <div class="container header-content">
-
-        <div class="logo">
-            <h1>MyShop</h1>
-        </div>
-
-        <!-- SEARCH -->
+        <div class="logo"><h1>MyShop</h1></div>
         <form class="search-bar" onsubmit="return false;">
-            <input 
-                type="search"
-                id="search-input"
-                placeholder="Search products..."
-                autocomplete="off"
-                aria-label="Search products"
-            >
-
-            <button type="button" id="search-btn">
-                Search
-            </button>
+            <input type="search" id="search-input" placeholder="Search products...">
+            <button type="button" id="search-btn">Search</button>
         </form>
-
-        <!-- NAVIGATION -->
         <nav>
             <ul>
-                <li><a href="#" data-page="home" class="nav-link">Home</a></li>
-                <li><a href="#" data-page="products" class="nav-link">Products</a></li>
-
-                <li>
-                    <a href="#" data-page="cart" class="cart-link nav-link">
-                        Cart
-                        <span id="cart-count">0</span>
-                    </a>
-                </li>
-
-                <li><a href="#" class="login-btn nav-link">Login</a></li>
+                <li><a href="#" data-page="home">Home</a></li>
+                <li><a href="#" data-page="products">Products</a></li>
+                <li><a href="#" data-page="add-product-page">Sell Product</a></li>
+                <li><a href="#" data-page="cart" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
             </ul>
         </nav>
-
     </div>
 </header>
 
-<!-- =========================
-     MAIN APP
-========================= -->
 <main id="app">
-
-    <!-- =========================
-         HOME PAGE
-    ========================== -->
     <section id="home-page" class="page">
-
-        <section class="hero">
-            <h2>Best Deals Online</h2>
-            <p>High-quality products at affordable prices</p>
-        </section>
-
-        <section class="section-title">
-            <h3>Featured Products</h3>
-        </section>
-
+        <section class="hero"><h2>Best Deals Online</h2></section>
         <section class="products" id="home-products"></section>
-
     </section>
 
-    <!-- =========================
-         PRODUCTS PAGE
-    ========================== -->
     <section id="products-page" class="page hidden">
-
-        <section class="hero">
-            <h2>All Products</h2>
-            <p>Browse full catalog</p>
-        </section>
-
-        <!-- CATEGORY FILTER -->
-        <div class="category-bar">
-            <button class="category-btn" data-category="all">All</button>
-            <button class="category-btn" data-category="Electronics">Electronics</button>
-            <button class="category-btn" data-category="Fashion">Fashion</button>
-        </div>
-
+        <section class="hero"><h2>All Products</h2></section>
         <section class="products" id="all-products"></section>
-
     </section>
 
-    <!-- =========================
-         CART PAGE
-    ========================== -->
-    <section id="cart-page" class="page hidden">
-
-        <div class="container">
-
-            <div class="cart-header">
-                <h2>Your Cart</h2>
-
-                <button id="clear-cart" class="danger">
-                    Clear Cart
-                </button>
-            </div>
-
-            <!-- EMPTY STATE -->
-            <div id="cart-empty" class="empty-cart hidden">
-                Your cart is empty. Start shopping now.
-            </div>
-
-            <!-- CART ITEMS -->
-            <div id="cart-items"></div>
-
-            <!-- SUMMARY -->
-            <div class="cart-summary">
-                <h3 id="total-price">Total: $0</h3>
-                <button class="checkout-btn">Checkout</button>
-            </div>
-
+    <section id="add-product-page" class="page hidden">
+        <div class="container" style="padding: 40px 0;">
+            <h2>Sell a New Product</h2>
+            <form id="product-form" style="display:flex; flex-direction:column; gap: 15px; max-width: 400px;">
+                <input type="text" id="new-p-name" placeholder="Product Name" required>
+                <input type="number" id="new-p-price" placeholder="Price ($)" required>
+                <input type="text" id="new-p-category" placeholder="Category" required>
+                <button type="submit" class="checkout-btn">Add to Catalog</button>
+            </form>
         </div>
-
     </section>
 
+    <section id="cart-page" class="page hidden">
+        <div class="container">
+            <h2>Your Cart</h2>
+            <div id="cart-empty" class="hidden">Your cart is empty.</div>
+            <div id="cart-items"></div>
+            <h3 id="total-price">Total: $0</h3>
+        </div>
+    </section>
 </main>
 
-<!-- =========================
-     PRODUCT MODAL
-========================= -->
-<div id="product-modal" class="modal hidden">
-
-    <div class="modal-content">
-
-        <button id="close-modal" class="close-btn">✕</button>
-
-        <div id="modal-body"></div>
-
-    </div>
-
-</div>
-
-<!-- =========================
-     CART DRAWER
-========================= -->
 <aside id="cart-drawer" class="cart-drawer hidden">
-
-    <div class="drawer-header">
-        <h3>Your Cart</h3>
-
-        <button id="close-cart" class="close-btn">✕</button>
-    </div>
-
+    <button id="close-cart">✕</button>
     <div id="drawer-items"></div>
-
-    <div class="drawer-footer">
-        <h4 id="drawer-total">Total: $0</h4>
-        <button class="checkout-btn">Checkout</button>
-    </div>
-
+    <h4 id="drawer-total">Total: $0</h4>
 </aside>
-
-<!-- OVERLAY -->
 <div id="overlay" class="overlay hidden"></div>
 
-<!-- =========================
-     FOOTER
-========================= -->
-<footer>
-    <p>&copy; 2026 MyShop. All rights reserved.</p>
-</footer>
-
 <script src="script.js"></script>
-
 </body>
 </html>
