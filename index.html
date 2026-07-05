@@ -8,24 +8,15 @@
 </head>
 <body>
 
-<div class="top-bar">
-    <p>🔥 Free delivery on orders over $50</p>
-    <button id="theme-toggle" type="button">🌙 Dark Mode</button>
-</div>
-
 <header>
     <div class="container header-content">
         <div class="logo"><h1>MyShop</h1></div>
-        <form class="search-bar" onsubmit="return false;">
-            <input type="search" id="search-input" placeholder="Search products...">
-            <button type="button" id="search-btn">Search</button>
-        </form>
         <nav>
             <ul>
                 <li><a href="#" data-page="home">Home</a></li>
                 <li><a href="#" data-page="products">Products</a></li>
-                <li><a href="#" data-page="add-product-page">Sell Product</a></li>
-                <li><a href="#" data-page="cart" class="cart-link">Cart (<span id="cart-count">0</span>)</a></li>
+                <li><a href="#" data-page="add-product">Sell Product</a></li>
+                <li><a href="#" data-page="cart">Cart (<span id="cart-count">0</span>)</a></li>
             </ul>
         </nav>
     </div>
@@ -33,43 +24,31 @@
 
 <main id="app">
     <section id="home-page" class="page">
-        <section class="hero"><h2>Best Deals Online</h2></section>
+        <h2>Best Deals Online</h2>
         <section class="products" id="home-products"></section>
     </section>
 
     <section id="products-page" class="page hidden">
-        <section class="hero"><h2>All Products</h2></section>
+        <h2>All Products</h2>
         <section class="products" id="all-products"></section>
     </section>
 
     <section id="add-product-page" class="page hidden">
-        <div class="container" style="padding: 40px 0;">
-            <h2>Sell a New Product</h2>
-            <form id="product-form" style="display:flex; flex-direction:column; gap: 15px; max-width: 400px;">
-                <input type="text" id="new-p-name" placeholder="Product Name" required>
-                <input type="number" id="new-p-price" placeholder="Price ($)" required>
-                <input type="text" id="new-p-category" placeholder="Category" required>
-                <button type="submit" class="checkout-btn">Add to Catalog</button>
-            </form>
-        </div>
+        <h2>Sell a New Product</h2>
+        <form id="product-form">
+            <input type="text" id="new-p-name" placeholder="Product Name" required>
+            <input type="number" id="new-p-price" placeholder="Price ($)" required>
+            <input type="text" id="new-p-category" placeholder="Category" required>
+            <button type="submit">Add to Catalog</button>
+        </form>
     </section>
 
     <section id="cart-page" class="page hidden">
-        <div class="container">
-            <h2>Your Cart</h2>
-            <div id="cart-empty" class="hidden">Your cart is empty.</div>
-            <div id="cart-items"></div>
-            <h3 id="total-price">Total: $0</h3>
-        </div>
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <h3 id="total-price">Total: $0</h3>
     </section>
 </main>
-
-<aside id="cart-drawer" class="cart-drawer hidden">
-    <button id="close-cart">✕</button>
-    <div id="drawer-items"></div>
-    <h4 id="drawer-total">Total: $0</h4>
-</aside>
-<div id="overlay" class="overlay hidden"></div>
 
 <script src="script.js"></script>
 </body>
