@@ -1,11 +1,47 @@
 // =========================
-// DATA
+// DATA (UPGRADED PRODUCT MODEL)
 // =========================
 const products = [
-    { id: 1, name: "Running Shoes", price: 49 },
-    { id: 2, name: "Smart Watch", price: 99 },
-    { id: 3, name: "Headphones", price: 39 },
-    { id: 4, name: "Laptop", price: 599 }
+    {
+        id: 1,
+        name: "Running Shoes",
+        price: 49,
+        category: "Fashion",
+        description: "Lightweight running shoes designed for comfort and daily training.",
+        image: "https://picsum.photos/600/400?random=1",
+        rating: 4.6,
+        stock: 12
+    },
+    {
+        id: 2,
+        name: "Smart Watch",
+        price: 99,
+        category: "Electronics",
+        description: "Track health, notifications, and activity with a modern smart watch.",
+        image: "https://picsum.photos/600/400?random=2",
+        rating: 4.4,
+        stock: 8
+    },
+    {
+        id: 3,
+        name: "Headphones",
+        price: 39,
+        category: "Electronics",
+        description: "High-quality sound with deep bass and noise isolation.",
+        image: "https://picsum.photos/600/400?random=3",
+        rating: 4.2,
+        stock: 20
+    },
+    {
+        id: 4,
+        name: "Laptop",
+        price: 599,
+        category: "Electronics",
+        description: "Powerful laptop for work, study, and development.",
+        image: "https://picsum.photos/600/400?random=4",
+        rating: 4.8,
+        stock: 5
+    }
 ];
 
 // =========================
@@ -16,7 +52,8 @@ const state = {
     page: "home",
     search: "",
     drawerOpen: false,
-    darkMode: localStorage.getItem("theme") === "dark"
+    darkMode: localStorage.getItem("theme") === "dark",
+    selectedProduct: null
 };
 
 // =========================
@@ -49,8 +86,8 @@ function addToCart(id) {
 
 function removeItem(index) {
     if (index < 0 || index >= state.cart.length) return;
-    state.cart.splice(index, 1);
 
+    state.cart.splice(index, 1);
     saveCart();
     render();
 }
@@ -70,7 +107,7 @@ function changeQty(index, delta) {
 }
 
 // =========================
-// FILTER PRODUCTS
+// SEARCH FILTER
 // =========================
 function getFilteredProducts() {
     if (!state.search) return products;
@@ -105,20 +142,32 @@ function renderProducts(containerId, list) {
     container.innerHTML = list.map(p => `
         <article class="card" data-id="${p.id}">
             <div class="image-wrapper">
-                <img src="https://picsum.photos/400/300?random=${p.id}" alt="${p.name}">
+                <img src="${p.image}" alt="${p.name}">
             </div>
 
             <div class="card-content">
+                <small>${p.category}</small>
+
                 <h3>${p.name}</h3>
+
                 <p class="price">$${p.price}</p>
+
+                <p style="font-size:12px; color:#64748b;">
+                    ⭐ ${p.rating} | Stock: ${p.stock}
+                </p>
+
                 <button class="add-to-cart">Add to Cart</button>
+
+                <button class="view-details" style="margin-top:8px; background:#0f172a;">
+                    View Details
+                </button>
             </div>
         </article>
     `).join("");
 }
 
 // =========================
-// CART RENDER (REUSABLE CORE)
+// CART RENDER
 // =========================
 function renderCart(containerId, totalId, emptyId) {
     const box = el(containerId);
@@ -166,7 +215,41 @@ function renderCart(containerId, totalId, emptyId) {
 }
 
 // =========================
-// VIEW RENDER ENGINE (FIXED)
+// PRODUCT MODAL
+// =========================
+function openProductModal(product) {
+    state.selectedProduct = product;
+
+    const modal = el("product-modal");
+    const body = el("modal-body");
+
+    if (!modal || !body) return;
+
+    body.innerHTML = `
+        <img src="${product.image}" style="width:100%; border-radius:10px; margin-bottom:12px;" />
+
+        <h2>${product.name}</h2>
+
+        <p style="color:#64748b;">Category: ${product.category}</p>
+
+        <p style="margin:10px 0;">${product.description}</p>
+
+        <p><strong>Price: $${product.price}</strong></p>
+        <p>⭐ Rating: ${product.rating}</p>
+        <p>Stock: ${product.stock}</p>
+
+        <button id="modal-add-cart">Add to Cart</button>
+    `;
+
+    modal.classList.remove("hidden");
+}
+
+function closeModal() {
+    el("product-modal")?.classList.add("hidden");
+}
+
+// =========================
+// RENDER ENGINE
 // =========================
 function render() {
     const home = el("home-page");
@@ -175,7 +258,6 @@ function render() {
 
     if (!home || !productsPage || !cartPage) return;
 
-    // pages
     home.style.display = state.page === "home" ? "block" : "none";
     productsPage.style.display = state.page === "products" ? "block" : "none";
     cartPage.style.display = state.page === "cart" ? "block" : "none";
@@ -185,7 +267,6 @@ function render() {
     renderProducts("home-products", filtered.slice(0, 2));
     renderProducts("all-products", filtered);
 
-    // ALWAYS render cart (prevents “cart shows nothing” bug)
     renderCart("cart-items", "total-price", "cart-empty");
 
     if (state.drawerOpen) {
@@ -196,7 +277,7 @@ function render() {
 }
 
 // =========================
-// DRAWER CONTROL
+// DRAWER
 // =========================
 function openDrawer() {
     state.drawerOpen = true;
@@ -246,6 +327,34 @@ document.addEventListener("click", (e) => {
         return;
     }
 
+    // view details
+    const view = e.target.closest(".view-details");
+    if (view) {
+        const id = parseInt(view.closest(".card").dataset.id);
+        const product = products.find(p => p.id === id);
+        if (product) openProductModal(product);
+        return;
+    }
+
+    // modal add to cart
+    if (e.target.id === "modal-add-cart") {
+        const product = state.selectedProduct;
+        if (product) addToCart(product.id);
+        closeModal();
+        return;
+    }
+
+    // modal close
+    if (e.target.id === "close-modal") {
+        closeModal();
+        return;
+    }
+
+    if (e.target.id === "product-modal") {
+        closeModal();
+        return;
+    }
+
     // cart actions
     const action = e.target.dataset.action;
     if (action) {
@@ -258,7 +367,7 @@ document.addEventListener("click", (e) => {
         return;
     }
 
-    // open drawer
+    // drawer open
     if (e.target.closest(".cart-link")) {
         e.preventDefault();
         openDrawer();
