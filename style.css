@@ -40,6 +40,17 @@
 }
 
 /* =========================
+   DARK MODE
+========================= */
+body.dark {
+    --bg: #0f172a;
+    --card: #111827;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --border: #1f2937;
+}
+
+/* =========================
    RESET
 ========================= */
 * {
@@ -68,18 +79,20 @@ body {
 }
 
 /* =========================
-   HEADER (MORE PREMIUM)
+   HEADER
 ========================= */
 header {
     position: sticky;
     top: 0;
     z-index: 1000;
-
     background: rgba(255,255,255,0.85);
     backdrop-filter: blur(12px);
-
     border-bottom: 1px solid var(--border);
     padding: var(--s3) 0;
+}
+
+body.dark header {
+    background: rgba(17, 24, 39, 0.85);
 }
 
 .header-content {
@@ -97,7 +110,7 @@ header {
 }
 
 /* =========================
-   SEARCH (MORE MODERN)
+   SEARCH
 ========================= */
 .search-bar {
     display: flex;
@@ -113,7 +126,8 @@ header {
     border: 1px solid var(--border);
     outline: none;
     transition: var(--t);
-    background: white;
+    background: var(--card);
+    color: var(--text);
 }
 
 .search-bar input:focus {
@@ -148,7 +162,6 @@ nav a.active {
     color: var(--primary);
 }
 
-/* underline animation */
 nav a::after {
     content: "";
     position: absolute;
@@ -166,7 +179,7 @@ nav a.active::after {
 }
 
 /* =========================
-   CART BADGE (NEW UPGRADE)
+   CART BADGE
 ========================= */
 #cart-count {
     background: var(--primary);
@@ -178,7 +191,18 @@ nav a.active::after {
 }
 
 /* =========================
-   HERO (MORE PREMIUM LOOK)
+   TOP BAR
+========================= */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+}
+
+/* =========================
+   HERO
 ========================= */
 .hero {
     background: linear-gradient(135deg, #2563eb, #06b6d4);
@@ -198,7 +222,7 @@ nav a.active::after {
 }
 
 /* =========================
-   PRODUCT GRID
+   PRODUCTS GRID
 ========================= */
 .products {
     display: grid;
@@ -208,16 +232,14 @@ nav a.active::after {
 }
 
 /* =========================
-   PRODUCT CARD (BIG UPGRADE)
+   PRODUCT CARD
 ========================= */
 .card {
     background: var(--card);
     border-radius: var(--r-md);
     overflow: hidden;
-
     border: 1px solid var(--border);
     box-shadow: var(--shadow-sm);
-
     transition: transform var(--t), box-shadow var(--t);
     display: flex;
     flex-direction: column;
@@ -229,7 +251,6 @@ nav a.active::after {
 }
 
 .image-wrapper {
-    position: relative;
     overflow: hidden;
 }
 
@@ -244,38 +265,27 @@ nav a.active::after {
     transform: scale(1.05);
 }
 
-/* badge */
-.badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: var(--danger);
-    color: white;
-    font-size: 0.7rem;
-    padding: 5px 10px;
-    border-radius: 999px;
-    font-weight: 700;
-}
-
-/* content */
 .card-content {
     padding: var(--s4);
 }
 
 .card-content h3 {
     font-size: 1rem;
-    margin-bottom: var(--s1);
     font-weight: 700;
+}
+
+.card small {
+    color: var(--muted);
 }
 
 .price {
     color: var(--primary);
     font-weight: 900;
-    margin-bottom: var(--s2);
+    margin: var(--s1) 0;
 }
 
 /* =========================
-   BUTTONS (MORE PREMIUM)
+   BUTTONS
 ========================= */
 button,
 .add-to-cart {
@@ -286,7 +296,6 @@ button,
     font-weight: 800;
     cursor: pointer;
     transition: var(--t);
-
     background: var(--primary);
     color: white;
 }
@@ -294,34 +303,42 @@ button,
 button:hover,
 .add-to-cart:hover {
     background: var(--primary-dark);
-    transform: translateY(-1px);
 }
 
 button:active {
     transform: scale(0.98);
 }
 
-/* secondary button style */
 button.secondary {
     background: #e2e8f0;
     color: var(--text);
 }
 
-button.secondary:hover {
-    background: #cbd5e1;
-}
-
-/* danger */
 button.danger {
     background: var(--danger);
 }
 
-button.danger:hover {
-    background: #dc2626;
+/* =========================
+   CATEGORY BAR
+========================= */
+.category-bar {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.category-btn {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    cursor: pointer;
+    font-weight: 600;
 }
 
 /* =========================
-   CART PAGE (UPGRADED)
+   CART PAGE
 ========================= */
 #cart-page {
     padding: var(--s6) var(--s3);
@@ -331,34 +348,78 @@ button.danger:hover {
     display: flex;
     flex-direction: column;
     gap: var(--s3);
-    margin-top: var(--s4);
 }
 
-/* cart item */
 .cart-item {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: var(--r-sm);
     padding: var(--s4);
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    transition: var(--t);
 }
 
-.cart-item:hover {
-    transform: translateX(6px);
-    box-shadow: var(--shadow-sm);
+/* =========================
+   MODAL
+========================= */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
 }
 
-/* empty cart */
-.empty-cart {
-    text-align: center;
-    padding: var(--s6);
-    color: var(--muted);
-    font-size: 1.1rem;
+.modal-content {
+    background: var(--card);
+    width: min(500px, 92%);
+    border-radius: var(--r-lg);
+    padding: var(--s4);
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--danger);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+/* =========================
+   DRAWER
+========================= */
+.cart-drawer {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 320px;
+    height: 100%;
+    background: var(--card);
+    box-shadow: var(--shadow-lg);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    padding: var(--s4);
+}
+
+.drawer-footer {
+    margin-top: auto;
+}
+
+/* =========================
+   OVERLAY
+========================= */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1500;
 }
 
 /* =========================
@@ -367,7 +428,6 @@ button.danger:hover {
 footer {
     text-align: center;
     padding: var(--s5);
-    background: var(--card);
     border-top: 1px solid var(--border);
     color: var(--muted);
 }
@@ -376,22 +436,20 @@ footer {
    RESPONSIVE
 ========================= */
 @media (max-width: 768px) {
-
     .header-content {
         flex-direction: column;
-        align-items: stretch;
     }
 
     nav ul {
-        justify-content: space-between;
+        justify-content: center;
         flex-wrap: wrap;
+    }
+
+    .cart-drawer {
+        width: 100%;
     }
 
     .hero h2 {
         font-size: 1.6rem;
-    }
-
-    .search-bar {
-        max-width: 100%;
     }
 }
