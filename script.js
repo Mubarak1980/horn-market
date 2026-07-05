@@ -52,6 +52,7 @@ const state = {
     orders: JSON.parse(localStorage.getItem("orders")) || [],
     page: "home",
     search: "",
+    category: "all",
     drawerOpen: false,
     darkMode: localStorage.getItem("theme") === "dark",
     selectedProduct: null
@@ -70,29 +71,35 @@ function saveOrders() {
     localStorage.setItem("orders", JSON.stringify(state.orders));
 }
 
+function findProduct(id) {
+    return products.find(p => p.id === id);
+}
+
 // =========================
-// CART LOGIC
+// CART LOGIC (ROBUST)
 // =========================
 function addToCart(id) {
-    const product = products.find(p => p.id === id);
+    const product = findProduct(id);
     if (!product) return;
 
-    const existing = state.cart.find(i => i.id === id);
+    const item = state.cart.find(i => i.id === id);
 
-    if (existing) {
-        existing.qty += 1;
+    if (item) {
+        item.qty++;
     } else {
         state.cart.push({ ...product, qty: 1 });
     }
 
     saveCart();
-    render();
+    update();
 }
 
 function removeItem(index) {
+    if (index < 0 || index >= state.cart.length) return;
+
     state.cart.splice(index, 1);
     saveCart();
-    render();
+    update();
 }
 
 function changeQty(index, delta) {
@@ -106,32 +113,44 @@ function changeQty(index, delta) {
     }
 
     saveCart();
-    render();
+    update();
+}
+
+function clearCart() {
+    state.cart = [];
+    saveCart();
+    update();
 }
 
 // =========================
-// SEARCH
+// FILTERING (SEARCH + CATEGORY)
 // =========================
 function getFilteredProducts() {
-    if (!state.search) return products;
+    return products.filter(p => {
+        const matchSearch =
+            !state.search ||
+            p.name.toLowerCase().includes(state.search);
 
-    return products.filter(p =>
-        p.name.toLowerCase().includes(state.search)
-    );
+        const matchCategory =
+            state.category === "all" ||
+            p.category === state.category;
+
+        return matchSearch && matchCategory;
+    });
 }
 
 // =========================
 // CART COUNT
 // =========================
 function updateCartCount() {
-    const counter = el("cart-count");
-    if (!counter) return;
+    const elCount = el("cart-count");
+    if (!elCount) return;
 
-    counter.textContent = state.cart.reduce((sum, i) => sum + i.qty, 0);
+    elCount.textContent = state.cart.reduce((s, i) => s + i.qty, 0);
 }
 
 // =========================
-// PRODUCTS RENDER
+// PRODUCT RENDER
 // =========================
 function renderProducts(containerId, list) {
     const container = el(containerId);
@@ -158,7 +177,6 @@ function renderProducts(containerId, list) {
                 </p>
 
                 <button class="add-to-cart">Add to Cart</button>
-
                 <button class="view-details" style="margin-top:8px;background:#0f172a;">
                     View Details
                 </button>
@@ -168,7 +186,7 @@ function renderProducts(containerId, list) {
 }
 
 // =========================
-// CART RENDER
+// CART RENDER (FIXED RELIABILITY)
 // =========================
 function renderCart(containerId, totalId, emptyId) {
     const box = el(containerId);
@@ -224,12 +242,12 @@ function openProductModal(product) {
     const modal = el("product-modal");
     const body = el("modal-body");
 
+    if (!modal || !body || !product) return;
+
     body.innerHTML = `
         <img src="${product.image}" style="width:100%;border-radius:10px;margin-bottom:12px;" />
-
         <h2>${product.name}</h2>
         <p>${product.description}</p>
-
         <p><strong>$${product.price}</strong></p>
         <p>⭐ ${product.rating}</p>
 
@@ -244,21 +262,21 @@ function closeModal() {
 }
 
 // =========================
-// CHECKOUT
+// CHECKOUT / ORDER SYSTEM (FIXED)
 // =========================
 function goToCheckout() {
     state.page = "checkout";
-    render();
+    update();
 }
 
 function placeOrder() {
-    if (state.cart.length === 0) return;
+    if (!state.cart.length) return;
 
-    const total = state.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    const total = state.cart.reduce((s, i) => s + i.price * i.qty, 0);
 
     const order = {
         id: Date.now(),
-        items: [...state.cart],
+        items: structuredClone(state.cart),
         total,
         date: new Date().toISOString()
     };
@@ -272,13 +290,42 @@ function placeOrder() {
     alert("Order placed successfully!");
 
     state.page = "home";
-    render();
+    update();
 }
 
 // =========================
-// RENDER ENGINE
+// DRAWER
 // =========================
-function render() {
+function openDrawer() {
+    state.drawerOpen = true;
+    el("cart-drawer")?.classList.remove("hidden");
+    el("overlay")?.classList.remove("hidden");
+    update();
+}
+
+function closeDrawer() {
+    state.drawerOpen = false;
+    el("cart-drawer")?.classList.add("hidden");
+    el("overlay")?.classList.add("hidden");
+}
+
+// =========================
+// THEME
+// =========================
+function applyTheme() {
+    document.body.classList.toggle("dark", state.darkMode);
+}
+
+function toggleTheme() {
+    state.darkMode = !state.darkMode;
+    localStorage.setItem("theme", state.darkMode ? "dark" : "light");
+    applyTheme();
+}
+
+// =========================
+// MAIN RENDER ENGINE (CLEAN FIX)
+// =========================
+function update() {
     const home = el("home-page");
     const productsPage = el("products-page");
     const cartPage = el("cart-page");
@@ -313,11 +360,10 @@ function render() {
 function renderCheckout() {
     const container = el("cart-page");
 
-    let total = state.cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    const total = state.cart.reduce((s, i) => s + i.price * i.qty, 0);
 
     container.innerHTML = `
         <div class="container">
-
             <h2>Checkout</h2>
 
             ${state.cart.map(i => `
@@ -332,36 +378,7 @@ function renderCheckout() {
 }
 
 // =========================
-// DRAWER
-// =========================
-function openDrawer() {
-    state.drawerOpen = true;
-    el("cart-drawer")?.classList.remove("hidden");
-    el("overlay")?.classList.remove("hidden");
-    render();
-}
-
-function closeDrawer() {
-    state.drawerOpen = false;
-    el("cart-drawer")?.classList.add("hidden");
-    el("overlay")?.classList.add("hidden");
-}
-
-// =========================
-// THEME
-// =========================
-function applyTheme() {
-    document.body.classList.toggle("dark", state.darkMode);
-}
-
-function toggleTheme() {
-    state.darkMode = !state.darkMode;
-    localStorage.setItem("theme", state.darkMode ? "dark" : "light");
-    applyTheme();
-}
-
-// =========================
-// EVENTS
+// EVENTS (FIXED + CLEAN)
 // =========================
 document.addEventListener("click", (e) => {
 
@@ -369,22 +386,21 @@ document.addEventListener("click", (e) => {
     if (nav) {
         state.page = nav.dataset.page;
         closeDrawer();
-        render();
+        update();
         return;
     }
 
     const add = e.target.closest(".add-to-cart");
     if (add) {
-        const id = parseInt(add.closest(".card").dataset.id);
+        const id = Number(add.closest(".card").dataset.id);
         addToCart(id);
         return;
     }
 
     const view = e.target.closest(".view-details");
     if (view) {
-        const id = parseInt(view.closest(".card").dataset.id);
-        const product = products.find(p => p.id === id);
-        openProductModal(product);
+        const id = Number(view.closest(".card").dataset.id);
+        openProductModal(findProduct(id));
         return;
     }
 
@@ -398,12 +414,11 @@ document.addEventListener("click", (e) => {
 
     const action = e.target.dataset.action;
     if (action) {
-        const index = parseInt(e.target.dataset.index);
+        const index = Number(e.target.dataset.index);
 
         if (action === "inc") changeQty(index, 1);
         if (action === "dec") changeQty(index, -1);
         if (action === "remove") removeItem(index);
-
         return;
     }
 
@@ -430,4 +445,4 @@ document.addEventListener("click", (e) => {
 // INIT
 // =========================
 applyTheme();
-render();
+update();
