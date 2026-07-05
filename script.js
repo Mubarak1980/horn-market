@@ -1,34 +1,27 @@
 // =========================
 // 1. DATA & INITIALIZATION
 // =========================
-const defaultProducts = [
-    { id: 1, name: "Running Shoes", price: 49, category: "Fashion", image: "https://picsum.photos/600/400?random=1" },
-    { id: 2, name: "Smart Watch", price: 99, category: "Electronics", image: "https://picsum.photos/600/400?random=2" },
-    { id: 3, name: "Headphones", price: 39, category: "Electronics", image: "https://picsum.photos/600/400?random=3" },
-    { id: 4, name: "Laptop", price: 599, category: "Electronics", image: "https://picsum.photos/600/400?random=4" }
-];
-
 const state = {
-    products: JSON.parse(localStorage.getItem("userProducts")) || defaultProducts,
+    // Start with empty array to ensure only user-registered products exist
+    products: JSON.parse(localStorage.getItem("userProducts")) || [],
     cart: JSON.parse(localStorage.getItem("cart")) || [],
     page: "home",
-    search: "",
-    category: "all",
-    drawerOpen: false,
-    darkMode: localStorage.getItem("theme") === "dark"
+    category: "all"
 };
 
 // =========================
-// 2. CORE HELPERS
+// 2. CORE HELPERS & PERSISTENCE
 // =========================
 const el = (id) => document.getElementById(id);
-const saveState = () => {
+
+function saveState() {
     localStorage.setItem("userProducts", JSON.stringify(state.products));
     localStorage.setItem("cart", JSON.stringify(state.cart));
-};
+    update(); // Re-render whenever state changes
+}
 
 // =========================
-// 3. LOGIC FUNCTIONS
+// 3. LOGIC (ACTIONS)
 // =========================
 function addToCart(id) {
     const product = state.products.find(p => p.id === id);
@@ -36,84 +29,85 @@ function addToCart(id) {
     const item = state.cart.find(i => i.id === id);
     item ? item.qty++ : state.cart.push({ ...product, qty: 1 });
     saveState();
-    update();
 }
 
-function changeQty(index, delta) {
-    const item = state.cart[index];
-    if (!item) return;
-    item.qty += delta;
-    if (item.qty <= 0) state.cart.splice(index, 1);
+function updateQty(index, delta) {
+    state.cart[index].qty += delta;
+    if (state.cart[index].qty <= 0) state.cart.splice(index, 1);
     saveState();
-    update();
+}
+
+function removeCartItem(index) {
+    state.cart.splice(index, 1);
+    saveState();
 }
 
 // =========================
-// 4. RENDER ENGINE
+// 4. RENDER ENGINE (UI)
 // =========================
 function update() {
-    // Toggle Pages
-    const pages = { home: "home-page", products: "products-page", cart: "cart-page", "add-product-page": "add-product-page" };
-    Object.keys(pages).forEach(key => {
-        const pageEl = el(pages[key]);
-        if (pageEl) pageEl.classList.toggle("hidden", state.page !== key);
+    // Page Routing
+    const pages = ["home-page", "products-page", "cart-page", "add-product-page"];
+    pages.forEach(id => {
+        const pageEl = el(id);
+        if (pageEl) pageEl.classList.toggle("hidden", id !== `${state.page}-page`);
     });
 
     // Render Product Lists
-    const filtered = state.products.filter(p => 
-        (state.category === "all" || p.category === state.category)
-    );
-
-    renderList("home-products", filtered.slice(0, 2));
+    const filtered = state.products.filter(p => state.category === "all" || p.category === state.category);
+    renderList("home-products", filtered.slice(0, 4)); // Show 4 latest on home
     renderList("all-products", filtered);
-    renderCart();
+
+    // Update Cart Display
+    const cartBox = el("cart-items");
+    if (cartBox) {
+        cartBox.innerHTML = state.cart.length ? state.cart.map((item, i) => `
+            <div class="cart-item">
+                <span>${item.name} - $${item.price}</span>
+                <button onclick="updateQty(${i}, -1)">-</button>
+                <span>${item.qty}</span>
+                <button onclick="updateQty(${i}, 1)">+</button>
+                <button onclick="removeCartItem(${i})">Remove</button>
+            </div>
+        `).join("") : "<p>Your cart is empty.</p>";
+    }
     
-    const elCount = el("cart-count");
-    if (elCount) elCount.textContent = state.cart.reduce((s, i) => s + i.qty, 0);
+    const countEl = el("cart-count");
+    if (countEl) countEl.textContent = state.cart.reduce((sum, i) => sum + i.qty, 0);
 }
 
 function renderList(id, list) {
     const container = el(id);
     if (!container) return;
+
+    // Handle Empty Catalog State
+    if (list.length === 0) {
+        container.innerHTML = `<p style="text-align:center; padding: 2rem;">No products registered yet. <a href="#" data-page="add-product-page" onclick="state.page='add-product-page'; update();">Register the first product!</a></p>`;
+        return;
+    }
+
     container.innerHTML = list.map(p => `
-        <article class="card" data-id="${p.id}">
+        <article class="card">
             <img src="${p.image}" alt="${p.name}">
             <div class="card-content">
                 <h3>${p.name}</h3>
                 <p class="price">$${p.price}</p>
-                <button class="add-to-cart">Add to Cart</button>
+                <button class="add-to-cart" onclick="addToCart(${p.id})">Add to Cart</button>
             </div>
         </article>
     `).join("");
 }
 
-function renderCart() {
-    const box = el("cart-items");
-    if (!box) return;
-    box.innerHTML = state.cart.map((item, i) => `
-        <div class="cart-item">
-            <span>${item.name} ($${item.price})</span>
-            <button data-action="dec" data-index="${i}">-</button>
-            <span>${item.qty}</span>
-            <button data-action="inc" data-index="${i}">+</button>
-            <button data-action="remove" data-index="${i}">X</button>
-        </div>
-    `).join("");
-}
-
 // =========================
-// 5. EVENT LISTENERS
+// 5. EVENT DELEGATION
 // =========================
 document.addEventListener("click", (e) => {
-    // Nav
     const nav = e.target.closest("[data-page]");
-    if (nav) { e.preventDefault(); state.page = nav.dataset.page; update(); }
-    
-    // Cart Actions
-    if (e.target.closest(".add-to-cart")) addToCart(Number(e.target.closest(".card").dataset.id));
-    if (e.target.dataset.action === "inc") changeQty(Number(e.target.dataset.index), 1);
-    if (e.target.dataset.action === "dec") changeQty(Number(e.target.dataset.index), -1);
-    if (e.target.dataset.action === "remove") { state.cart.splice(Number(e.target.dataset.index), 1); saveState(); update(); }
+    if (nav) {
+        e.preventDefault();
+        state.page = nav.dataset.page;
+        update();
+    }
 });
 
 document.addEventListener("submit", (e) => {
@@ -122,17 +116,17 @@ document.addEventListener("submit", (e) => {
         const newProduct = {
             id: Date.now(),
             name: el("new-p-name").value,
-            price: Number(el("new-p-price").value),
+            price: parseFloat(el("new-p-price").value),
             category: el("new-p-category").value,
             image: "https://picsum.photos/600/400?random=" + Date.now()
         };
         state.products.push(newProduct);
-        saveState();
-        alert("Product Added!");
+        saveState(); // This calls update() automatically
+        alert("Product registered successfully!");
+        e.target.reset();
         state.page = "home";
-        update();
     }
 });
 
-// Init
+// Initialization
 update();
