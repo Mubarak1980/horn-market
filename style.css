@@ -1,8 +1,7 @@
 /* =========================
-   DESIGN SYSTEM (PRO LEVEL)
+   DESIGN SYSTEM
 ========================= */
 :root {
-    /* Colors */
     --primary: #2563eb;
     --primary-dark: #1d4ed8;
     --accent: #06b6d4;
@@ -15,19 +14,15 @@
     --border: #e2e8f0;
 
     --danger: #ef4444;
-    --success: #22c55e;
 
-    /* Radius */
     --r-sm: 10px;
     --r-md: 14px;
     --r-lg: 18px;
 
-    /* Shadows */
     --shadow-sm: 0 2px 10px rgba(0,0,0,0.06);
     --shadow-md: 0 10px 25px rgba(0,0,0,0.12);
     --shadow-lg: 0 18px 45px rgba(0,0,0,0.18);
 
-    /* Spacing */
     --s1: 6px;
     --s2: 10px;
     --s3: 14px;
@@ -35,7 +30,6 @@
     --s5: 24px;
     --s6: 40px;
 
-    /* Motion */
     --t: 0.25s ease;
 }
 
@@ -60,22 +54,39 @@ body.dark {
 }
 
 body {
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
     background: var(--bg);
     color: var(--text);
     line-height: 1.5;
 }
 
-/* =========================
-   GLOBAL HELPERS
-========================= */
-.hidden {
-    display: none !important;
+/* lock scroll when modal/drawer open */
+body.modal-open,
+body.drawer-open {
+    overflow: hidden;
 }
+
+/* =========================
+   UTILITIES
+========================= */
+.hidden { display: none !important; }
 
 .container {
     width: min(1200px, 92%);
     margin: 0 auto;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
 }
 
 /* =========================
@@ -102,15 +113,16 @@ body.dark header {
     gap: var(--s4);
 }
 
-/* LOGO */
+/* =========================
+   LOGO
+========================= */
 .logo h1 {
     font-size: 1.5rem;
     font-weight: 900;
-    letter-spacing: -0.6px;
 }
 
 /* =========================
-   SEARCH
+   SEARCH (FIXED + BUTTON)
 ========================= */
 .search-bar {
     display: flex;
@@ -120,19 +132,31 @@ body.dark header {
 }
 
 .search-bar input {
-    width: 100%;
+    flex: 1;
     padding: 12px 16px;
     border-radius: 999px;
     border: 1px solid var(--border);
-    outline: none;
-    transition: var(--t);
     background: var(--card);
     color: var(--text);
+    outline: none;
+    transition: var(--t);
 }
 
 .search-bar input:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
+}
+
+.search-bar button {
+    padding: 12px 16px;
+    border-radius: 999px;
+    background: var(--primary);
+    color: white;
+    font-weight: 800;
+}
+
+.search-bar button:hover {
+    background: var(--primary-dark);
 }
 
 /* =========================
@@ -149,8 +173,6 @@ nav a {
     text-decoration: none;
     color: var(--muted);
     font-weight: 600;
-    font-size: 0.95rem;
-    position: relative;
     transition: var(--t);
 }
 
@@ -158,67 +180,28 @@ nav a:hover {
     color: var(--primary);
 }
 
-nav a.active {
-    color: var(--primary);
-}
-
-nav a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    width: 0%;
-    height: 2px;
-    background: var(--primary);
-    transition: var(--t);
-}
-
-nav a:hover::after,
-nav a.active::after {
-    width: 100%;
-}
-
-/* =========================
-   CART BADGE
-========================= */
+/* cart badge */
 #cart-count {
     background: var(--primary);
     color: white;
     font-size: 0.75rem;
-    padding: 2px 7px;
+    padding: 2px 8px;
     border-radius: 999px;
-    margin-left: 6px;
-}
-
-/* =========================
-   TOP BAR
-========================= */
-.top-bar {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 16px;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
 }
 
 /* =========================
    HERO
 ========================= */
 .hero {
-    background: linear-gradient(135deg, #2563eb, #06b6d4);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
     color: white;
     text-align: center;
     padding: var(--s6) var(--s3);
 }
 
 .hero h2 {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 900;
-}
-
-.hero p {
-    opacity: 0.9;
-    margin-top: var(--s2);
 }
 
 /* =========================
@@ -236,96 +219,69 @@ nav a.active::after {
 ========================= */
 .card {
     background: var(--card);
-    border-radius: var(--r-md);
-    overflow: hidden;
     border: 1px solid var(--border);
+    border-radius: var(--r-md);
     box-shadow: var(--shadow-sm);
-    transition: transform var(--t), box-shadow var(--t);
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
+    transition: var(--t);
 }
 
 .card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
     box-shadow: var(--shadow-lg);
-}
-
-.image-wrapper {
-    overflow: hidden;
 }
 
 .card img {
     width: 100%;
     height: 210px;
     object-fit: cover;
-    transition: transform 0.4s ease;
-}
-
-.card:hover img {
-    transform: scale(1.05);
 }
 
 .card-content {
     padding: var(--s4);
 }
 
-.card-content h3 {
-    font-size: 1rem;
-    font-weight: 700;
-}
-
-.card small {
-    color: var(--muted);
-}
-
 .price {
     color: var(--primary);
-    font-weight: 900;
-    margin: var(--s1) 0;
+    font-weight: 800;
+    margin: 6px 0;
 }
 
 /* =========================
-   BUTTONS
+   BUTTON SYSTEM (FIXED)
 ========================= */
-button,
-.add-to-cart {
+button {
+    cursor: pointer;
+    border: none;
+    transition: var(--t);
+    font-weight: 800;
+}
+
+.add-to-cart,
+.search-bar button,
+.checkout-btn {
     width: 100%;
     padding: 12px;
-    border: none;
     border-radius: var(--r-sm);
-    font-weight: 800;
-    cursor: pointer;
-    transition: var(--t);
     background: var(--primary);
     color: white;
 }
 
-button:hover,
-.add-to-cart:hover {
+.add-to-cart:hover,
+.search-bar button:hover,
+.checkout-btn:hover {
     background: var(--primary-dark);
 }
 
-button:active {
-    transform: scale(0.98);
-}
-
-button.secondary {
-    background: #e2e8f0;
-    color: var(--text);
-}
-
-button.danger {
-    background: var(--danger);
-}
-
 /* =========================
-   CATEGORY BAR
+   CATEGORY BAR (IMPROVED)
 ========================= */
 .category-bar {
     display: flex;
     gap: 10px;
     justify-content: center;
     flex-wrap: wrap;
+    padding: 12px;
 }
 
 .category-btn {
@@ -333,40 +289,35 @@ button.danger {
     border-radius: 999px;
     border: 1px solid var(--border);
     background: var(--card);
-    cursor: pointer;
     font-weight: 600;
+    transition: var(--t);
+}
+
+.category-btn:hover,
+.category-btn.active {
+    background: var(--primary);
+    color: white;
 }
 
 /* =========================
-   CART PAGE
+   CART ITEMS
 ========================= */
-#cart-page {
-    padding: var(--s6) var(--s3);
-}
-
-#cart-items {
-    display: flex;
-    flex-direction: column;
-    gap: var(--s3);
-}
-
 .cart-item {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--r-sm);
-    padding: var(--s4);
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    padding: var(--s4);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    background: var(--card);
 }
 
 /* =========================
-   MODAL
+   MODAL (IMPROVED UX)
 ========================= */
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.65);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -375,20 +326,11 @@ button.danger {
 
 .modal-content {
     background: var(--card);
-    width: min(500px, 92%);
-    border-radius: var(--r-lg);
     padding: var(--s4);
-    position: relative;
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: var(--danger);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+    border-radius: var(--r-lg);
+    width: min(500px, 92%);
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 /* =========================
@@ -398,18 +340,14 @@ button.danger {
     position: fixed;
     right: 0;
     top: 0;
-    width: 320px;
+    width: 340px;
     height: 100%;
     background: var(--card);
     box-shadow: var(--shadow-lg);
-    z-index: 2000;
     display: flex;
     flex-direction: column;
     padding: var(--s4);
-}
-
-.drawer-footer {
-    margin-top: auto;
+    z-index: 2000;
 }
 
 /* =========================
@@ -428,7 +366,6 @@ button.danger {
 footer {
     text-align: center;
     padding: var(--s5);
-    border-top: 1px solid var(--border);
     color: var(--muted);
 }
 
@@ -440,9 +377,8 @@ footer {
         flex-direction: column;
     }
 
-    nav ul {
-        justify-content: center;
-        flex-wrap: wrap;
+    .search-bar {
+        max-width: 100%;
     }
 
     .cart-drawer {
@@ -450,6 +386,6 @@ footer {
     }
 
     .hero h2 {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
 }
