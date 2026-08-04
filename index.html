@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>HornMarket | Ethiopia Marketplace</title>
@@ -16,15 +17,27 @@
 <body>
 
 
-<!-- APP HEADER -->
+<!-- =========================
+     APP HEADER
+========================= -->
+
 <header class="app-header">
 
+<div class="container header-content">
+
+
 <div class="logo">
-    🛒 HornMarket
+
+<h1>
+🛒 HornMarket
+</h1>
+
 </div>
 
 
+
 <div class="search-box">
+
 
 <input 
 type="search"
@@ -33,85 +46,73 @@ placeholder="Search products..."
 >
 
 
-<button>
+<button id="search-btn">
+
 🔍
+
 </button>
 
+
 </div>
+
 
 
 <button class="cart-btn" id="open-cart">
 
 🛒
-<span id="cart-count">0</span>
+
+<span id="cart-count">
+0
+</span>
 
 </button>
 
+
+</div>
 
 </header>
 
 
 
-<!-- NAVIGATION -->
-
-<nav class="bottom-nav">
-
-<button data-page="home">
-🏠
-Home
-</button>
 
 
-<button data-page="products">
-📦
-Products
-</button>
-
-
-<button data-page="sell">
-➕
-Sell
-</button>
-
-
-<button data-page="account">
-👤
-Account
-</button>
-
-
-</nav>
-
-
-
-
+<!-- =========================
+     MAIN APP
+========================= -->
 
 <main id="app">
 
 
 
-<!-- HOME PAGE -->
+
+
+<!-- HOME -->
 
 <section id="home-page" class="page">
 
 
 <div class="hero">
 
+
 <h1>
 HornMarket
 </h1>
+
 
 <p>
 Your local digital marketplace
 </p>
 
 
-<button>
+<button class="primary-btn" data-page="products">
+
 Start Shopping
+
 </button>
 
 
 </div>
+
 
 
 
@@ -121,9 +122,13 @@ Featured Products
 </h2>
 
 
-<div id="featured-products" class="product-grid">
+<div 
+id="featured-products"
+class="products">
+
 
 </div>
+
 
 
 </section>
@@ -133,10 +138,12 @@ Featured Products
 
 
 
-<!-- PRODUCTS PAGE -->
 
+<!-- PRODUCTS -->
 
-<section id="products-page" class="page hidden">
+<section 
+id="products-page"
+class="page hidden">
 
 
 <h2>
@@ -144,30 +151,62 @@ All Products
 </h2>
 
 
+
+
+
 <div class="category-bar">
 
-<button>
+
+<button class="category-btn active">
+
 All
+
 </button>
 
-<button>
+
+
+<button class="category-btn">
+
 Electronics
+
 </button>
 
-<button>
+
+
+<button class="category-btn">
+
 Fashion
+
 </button>
 
-<button>
+
+
+<button class="category-btn">
+
 Food
+
 </button>
+
+
+
+<button class="category-btn">
+
+Home
+
+</button>
+
 
 
 </div>
 
 
 
-<div id="products-container" class="product-grid">
+
+
+
+<div 
+id="products-container"
+class="products">
 
 
 </div>
@@ -182,11 +221,11 @@ Food
 
 
 
+<!-- SELL -->
 
-<!-- SELL PRODUCT PAGE -->
-
-
-<section id="sell-page" class="page hidden">
+<section 
+id="sell-page"
+class="page hidden">
 
 
 <h2>
@@ -194,42 +233,88 @@ Sell Product
 </h2>
 
 
+
+
 <form id="sell-form">
 
 
-<input 
+
+<input
+
 id="product-name"
+
+type="text"
+
 placeholder="Product name"
+
 required
+
 >
 
 
-<input 
+
+<input
+
 id="product-price"
+
 type="number"
-placeholder="Price"
+
+placeholder="Price in Birr"
+
 required
+
 >
 
 
-<input 
+
+
+<input
+
 id="product-category"
+
+type="text"
+
 placeholder="Category"
+
 required
+
 >
 
 
 
-<input 
+
+
+<input
+
 id="product-image"
-placeholder="Image URL"
+
+type="url"
+
+placeholder="Product image URL"
+
 >
 
 
 
-<button>
+
+<textarea
+
+id="product-description"
+
+placeholder="Product description">
+
+</textarea>
+
+
+
+
+
+<button class="primary-btn">
+
 Publish Product
+
 </button>
+
 
 
 </form>
@@ -244,10 +329,11 @@ Publish Product
 
 
 
-<!-- ACCOUNT PAGE -->
+<!-- ACCOUNT -->
 
-
-<section id="account-page" class="page hidden">
+<section 
+id="account-page"
+class="page hidden">
 
 
 <h2>
@@ -255,7 +341,9 @@ My Account
 </h2>
 
 
+
 <div class="account-card">
+
 
 <h3>
 Seller Dashboard
@@ -263,8 +351,56 @@ Seller Dashboard
 
 
 <p>
-Manage your products and orders.
+Manage products, sales and orders.
 </p>
+
+
+<div class="dashboard">
+
+
+<div class="dashboard-card">
+
+<h3>
+Products
+</h3>
+
+<strong id="product-count">
+0
+</strong>
+
+</div>
+
+
+
+<div class="dashboard-card">
+
+<h3>
+Orders
+</h3>
+
+<strong>
+0
+</strong>
+
+</div>
+
+
+
+<div class="dashboard-card">
+
+<h3>
+Sales
+</h3>
+
+<strong>
+0 Birr
+</strong>
+
+</div>
+
+
+
+</div>
 
 
 </div>
@@ -284,13 +420,21 @@ Manage your products and orders.
 
 
 
-<!-- CART DRAWER -->
 
 
-<div id="cart-panel" class="cart-panel hidden">
+<!-- =========================
+     CART PANEL
+========================= -->
+
+
+<div 
+id="cart-panel"
+class="cart-panel hidden">
+
 
 
 <div class="cart-header">
+
 
 <h2>
 Your Cart
@@ -298,11 +442,15 @@ Your Cart
 
 
 <button id="close-cart">
+
 ✕
+
 </button>
 
 
 </div>
+
+
 
 
 
@@ -313,9 +461,17 @@ Your Cart
 
 
 
+
+
+<div class="cart-summary">
+
+
 <h3 id="cart-total">
+
 Total: 0 Birr
+
 </h3>
+
 
 
 <button class="checkout-btn">
@@ -330,9 +486,87 @@ Checkout
 
 
 
+</div>
+
+
+
+
+
+
+
+
+<!-- =========================
+     MOBILE NAVIGATION
+========================= -->
+
+
+<nav class="bottom-nav">
+
+
+<button data-page="home">
+
+<span>
+🏠
+</span>
+
+Home
+
+</button>
+
+
+
+
+<button data-page="products">
+
+<span>
+📦
+</span>
+
+Products
+
+</button>
+
+
+
+
+
+<button data-page="sell">
+
+<span>
+➕
+
+</span>
+
+Sell
+
+</button>
+
+
+
+
+
+<button data-page="account">
+
+<span>
+👤
+</span>
+
+Account
+
+</button>
+
+
+
+</nav>
+
+
+
+
+
 
 
 <script src="script.js"></script>
+
 
 </body>
 
