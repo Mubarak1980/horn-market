@@ -1,5 +1,5 @@
 /* =====================================
-   HORNMARKET APP ENGINE
+   HORNM ARKET APP ENGINE
 ===================================== */
 
 
@@ -11,10 +11,6 @@ JSON.parse(localStorage.getItem("products")) || [],
 
 cart:
 JSON.parse(localStorage.getItem("cart")) || [],
-
-
-favorites:
-JSON.parse(localStorage.getItem("favorites")) || [],
 
 
 page:"home",
@@ -47,12 +43,6 @@ JSON.stringify(state.cart)
 );
 
 
-localStorage.setItem(
-"favorites",
-JSON.stringify(state.favorites)
-);
-
-
 render();
 
 }
@@ -61,19 +51,15 @@ render();
 
 
 
-/* ==============================
-PRODUCT MANAGEMENT
-============================== */
+/* =========================
+PRODUCT SYSTEM
+========================= */
 
 
 function addProduct(product){
 
+
 product.id = Date.now();
-
-
-product.date =
-new Date().toISOString();
-
 
 
 state.products.unshift(product);
@@ -81,7 +67,9 @@ state.products.unshift(product);
 
 save();
 
+
 }
+
 
 
 
@@ -95,21 +83,20 @@ p=>p.id===id
 );
 
 
-
 if(!product)return;
 
 
 
-const existing =
+const item =
 state.cart.find(
 p=>p.id===id
 );
 
 
 
-if(existing){
+if(item){
 
-existing.qty++;
+item.qty++;
 
 }
 
@@ -128,11 +115,11 @@ qty:1
 }
 
 
-
 save();
 
 
 }
+
 
 
 
@@ -148,7 +135,6 @@ p=>p.id!==id
 
 
 save();
-
 
 }
 
@@ -169,9 +155,7 @@ p=>p.id===id
 if(!item)return;
 
 
-
 item.qty += value;
-
 
 
 if(item.qty<=0){
@@ -179,6 +163,7 @@ if(item.qty<=0){
 removeCart(id);
 
 }
+
 else{
 
 save();
@@ -192,51 +177,33 @@ save();
 
 
 
-/* ==============================
-SEARCH
-============================== */
-
-
-function searchProducts(text){
-
-state.search =
-text.toLowerCase();
-
-
-render();
-
-
-}
-
-
-
-
-
-/* ==============================
-FILTER
-============================== */
+/* =========================
+SEARCH + CATEGORY
+========================= */
 
 
 function getProducts(){
 
 
-return state.products.filter(product=>{
+return state.products.filter(p=>{
 
 
-const matchSearch =
-product.name
+const search =
+p.name
 .toLowerCase()
-.includes(state.search);
+.includes(
+state.search
+);
 
 
 
-const matchCategory =
+const category =
 state.category==="all" ||
-product.category===state.category;
+p.category===state.category;
 
 
 
-return matchSearch && matchCategory;
+return search && category;
 
 
 });
@@ -248,57 +215,24 @@ return matchSearch && matchCategory;
 
 
 
-/* ==============================
-RENDER PRODUCTS
-============================== */
+/* =========================
+PRODUCT DISPLAY
+========================= */
 
 
-function renderProducts(){
+function productHTML(p){
 
 
-const box =
-$("products-container");
+return `
 
 
-if(!box)return;
+<div class="card">
 
 
-
-const products =
-getProducts();
+<img src="${p.image || ''}">
 
 
-
-if(products.length===0){
-
-
-box.innerHTML=`
-
-<div class="empty">
-
-No products available
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-
-box.innerHTML =
-products.map(p=>`
-
-
-<div class="product-card">
-
-
-<img 
-src="${p.image || 'images/default.png'}"
-onerror="this.src='images/default.png'"
->
+<div class="card-content">
 
 
 <h3>
@@ -306,18 +240,21 @@ ${p.name}
 </h3>
 
 
-<p class="location">
-📍 ${p.location || "Ethiopia"}
+<span class="category">
+${p.category}
+</span>
+
+
+<p class="price">
+
+${p.price} Birr
+
 </p>
 
 
-<strong>
-${p.price} Birr
-</strong>
 
-
-
-<button onclick="addToCart(${p.id})">
+<button class="add-to-cart"
+onclick="addToCart(${p.id})">
 
 Add Cart
 
@@ -327,8 +264,78 @@ Add Cart
 </div>
 
 
-`).join("");
+</div>
 
+
+`;
+
+}
+
+
+
+
+
+function renderProducts(){
+
+
+const products =
+getProducts();
+
+
+
+const all =
+$("products-container");
+
+
+const featured =
+$("featured-products");
+
+
+
+const html =
+products.length
+
+?
+
+products.map(productHTML).join("")
+
+:
+
+`
+
+<div class="empty-state">
+
+<h3>
+No products yet
+</h3>
+
+<p>
+Be the first seller on HornMarket
+</p>
+
+</div>
+
+`;
+
+
+
+if(all)
+all.innerHTML=html;
+
+
+
+if(featured)
+featured.innerHTML=
+products.slice(0,4)
+.map(productHTML)
+.join("");
+
+
+
+if($("product-count"))
+
+$("product-count").innerHTML =
+state.products.length;
 
 
 }
@@ -337,9 +344,9 @@ Add Cart
 
 
 
-/* ==============================
-CART DISPLAY
-============================== */
+/* =========================
+CART
+========================= */
 
 
 function renderCart(){
@@ -354,11 +361,17 @@ if(!box)return;
 
 
 box.innerHTML =
+state.cart.length
+
+?
+
 state.cart.map(item=>`
 
 
 <div class="cart-item">
 
+
+<div>
 
 <h4>
 ${item.name}
@@ -369,6 +382,12 @@ ${item.name}
 ${item.price} Birr
 </p>
 
+
+</div>
+
+
+
+<div>
 
 
 <button onclick="changeQty(${item.id},-1)">
@@ -384,7 +403,6 @@ ${item.qty}
 </button>
 
 
-
 <button onclick="removeCart(${item.id})">
 
 Remove
@@ -395,7 +413,17 @@ Remove
 </div>
 
 
-`).join("");
+</div>
+
+
+`).join("")
+
+
+:
+
+"<p>Your cart is empty</p>";
+
+
 
 
 
@@ -413,15 +441,29 @@ $("cart-count").innerHTML=count;
 
 
 
+let total =
+state.cart.reduce(
+(a,b)=>a+(b.price*b.qty),
+0
+);
+
+
+
+if($("cart-total"))
+
+$("cart-total").innerHTML =
+"Total: "+total+" Birr";
+
+
 }
 
 
 
 
 
-/* ==============================
-PAGE ROUTING
-============================== */
+/* =========================
+PAGE SYSTEM
+========================= */
 
 
 function showPage(page){
@@ -444,36 +486,15 @@ if(target)
 target.classList.remove("hidden");
 
 
-state.page=page;
-
-
 }
 
 
 
 
 
-/* ==============================
-MAIN RENDER
-============================== */
-
-
-function render(){
-
-
-renderProducts();
-
-renderCart();
-
-
-}
-
-
-
-
-/* ==============================
+/* =========================
 EVENTS
-============================== */
+========================= */
 
 
 document.addEventListener(
@@ -490,6 +511,7 @@ if(page){
 showPage(page);
 
 }
+
 
 
 });
@@ -515,7 +537,9 @@ $("product-name").value,
 
 
 price:
-Number($("product-price").value),
+Number(
+$("product-price").value
+),
 
 
 category:
@@ -526,7 +550,8 @@ image:
 $("product-image").value,
 
 
-location:"Ethiopia"
+description:
+$("product-description").value
 
 
 });
@@ -536,10 +561,7 @@ location:"Ethiopia"
 e.target.reset();
 
 
-alert(
-"Product published successfully"
-);
-
+showPage("home");
 
 
 });
@@ -553,12 +575,73 @@ $("search")?.addEventListener(
 e=>{
 
 
-searchProducts(
-e.target.value
-);
+state.search =
+e.target.value.toLowerCase();
+
+
+render();
 
 
 });
+
+
+
+
+
+
+
+document
+.querySelectorAll(".category-btn")
+.forEach(btn=>{
+
+
+btn.onclick=()=>{
+
+
+state.category =
+btn.innerText==="All"
+?
+"all"
+:
+btn.innerText;
+
+
+render();
+
+
+};
+
+
+});
+
+
+
+
+
+/* CART OPEN CLOSE */
+
+
+$("open-cart")?.addEventListener(
+"click",
+()=>{
+
+$("cart-panel")
+.classList.remove("hidden");
+
+});
+
+
+
+$("close-cart")?.addEventListener(
+"click",
+()=>{
+
+$("cart-panel")
+.classList.add("hidden");
+
+});
+
+
 
 
 
