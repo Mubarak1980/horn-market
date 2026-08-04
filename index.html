@@ -1,55 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyShop | Modern E-Commerce</title>
-    <link rel="stylesheet" href="style.css">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HornMarket | Ethiopia Marketplace</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
+
+
 <body>
 
-<header>
-    <div class="container header-content">
-        <div class="logo"><h1>MyShop</h1></div>
-        <nav>
-            <ul>
-                <li><a href="#" data-page="home">Home</a></li>
-                <li><a href="#" data-page="products">Products</a></li>
-                <li><a href="#" data-page="add-product">Sell Product</a></li>
-                <li><a href="#" data-page="cart">Cart (<span id="cart-count">0</span>)</a></li>
-            </ul>
-        </nav>
-    </div>
+
+<!-- APP HEADER -->
+<header class="app-header">
+
+<div class="logo">
+    🛒 HornMarket
+</div>
+
+
+<div class="search-box">
+
+<input 
+type="search"
+id="search"
+placeholder="Search products..."
+>
+
+
+<button>
+🔍
+</button>
+
+</div>
+
+
+<button class="cart-btn" id="open-cart">
+
+🛒
+<span id="cart-count">0</span>
+
+</button>
+
+
 </header>
 
+
+
+<!-- NAVIGATION -->
+
+<nav class="bottom-nav">
+
+<button data-page="home">
+🏠
+Home
+</button>
+
+
+<button data-page="products">
+📦
+Products
+</button>
+
+
+<button data-page="sell">
+➕
+Sell
+</button>
+
+
+<button data-page="account">
+👤
+Account
+</button>
+
+
+</nav>
+
+
+
+
+
 <main id="app">
-    <section id="home-page" class="page">
-        <h2>Best Deals Online</h2>
-        <section class="products" id="home-products"></section>
-    </section>
 
-    <section id="products-page" class="page hidden">
-        <h2>All Products</h2>
-        <section class="products" id="all-products"></section>
-    </section>
 
-    <section id="add-product-page" class="page hidden">
-        <h2>Sell a New Product</h2>
-        <form id="product-form">
-            <input type="text" id="new-p-name" placeholder="Product Name" required>
-            <input type="number" id="new-p-price" placeholder="Price ($)" required>
-            <input type="text" id="new-p-category" placeholder="Category" required>
-            <button type="submit">Add to Catalog</button>
-        </form>
-    </section>
 
-    <section id="cart-page" class="page hidden">
-        <h2>Your Cart</h2>
-        <div id="cart-items"></div>
-        <h3 id="total-price">Total: $0</h3>
-    </section>
+<!-- HOME PAGE -->
+
+<section id="home-page" class="page">
+
+
+<div class="hero">
+
+<h1>
+HornMarket
+</h1>
+
+<p>
+Your local digital marketplace
+</p>
+
+
+<button>
+Start Shopping
+</button>
+
+
+</div>
+
+
+
+
+<h2>
+Featured Products
+</h2>
+
+
+<div id="featured-products" class="product-grid">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<!-- PRODUCTS PAGE -->
+
+
+<section id="products-page" class="page hidden">
+
+
+<h2>
+All Products
+</h2>
+
+
+<div class="category-bar">
+
+<button>
+All
+</button>
+
+<button>
+Electronics
+</button>
+
+<button>
+Fashion
+</button>
+
+<button>
+Food
+</button>
+
+
+</div>
+
+
+
+<div id="products-container" class="product-grid">
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+<!-- SELL PRODUCT PAGE -->
+
+
+<section id="sell-page" class="page hidden">
+
+
+<h2>
+Sell Product
+</h2>
+
+
+<form id="sell-form">
+
+
+<input 
+id="product-name"
+placeholder="Product name"
+required
+>
+
+
+<input 
+id="product-price"
+type="number"
+placeholder="Price"
+required
+>
+
+
+<input 
+id="product-category"
+placeholder="Category"
+required
+>
+
+
+
+<input 
+id="product-image"
+placeholder="Image URL"
+>
+
+
+
+<button>
+Publish Product
+</button>
+
+
+</form>
+
+
+
+</section>
+
+
+
+
+
+
+
+<!-- ACCOUNT PAGE -->
+
+
+<section id="account-page" class="page hidden">
+
+
+<h2>
+My Account
+</h2>
+
+
+<div class="account-card">
+
+<h3>
+Seller Dashboard
+</h3>
+
+
+<p>
+Manage your products and orders.
+</p>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
 </main>
 
+
+
+
+
+
+
+<!-- CART DRAWER -->
+
+
+<div id="cart-panel" class="cart-panel hidden">
+
+
+<div class="cart-header">
+
+<h2>
+Your Cart
+</h2>
+
+
+<button id="close-cart">
+✕
+</button>
+
+
+</div>
+
+
+
+<div id="cart-items">
+
+
+</div>
+
+
+
+<h3 id="cart-total">
+Total: 0 Birr
+</h3>
+
+
+<button class="checkout-btn">
+
+Checkout
+
+</button>
+
+
+</div>
+
+
+
+
+
+
 <script src="script.js"></script>
+
 </body>
+
 </html>
