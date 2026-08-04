@@ -1,132 +1,567 @@
-// =========================
-// 1. DATA & INITIALIZATION
-// =========================
+/* =====================================
+   HORNMARKET APP ENGINE
+===================================== */
+
+
 const state = {
-    // Start with empty array to ensure only user-registered products exist
-    products: JSON.parse(localStorage.getItem("userProducts")) || [],
-    cart: JSON.parse(localStorage.getItem("cart")) || [],
-    page: "home",
-    category: "all"
+
+products:
+JSON.parse(localStorage.getItem("products")) || [],
+
+
+cart:
+JSON.parse(localStorage.getItem("cart")) || [],
+
+
+favorites:
+JSON.parse(localStorage.getItem("favorites")) || [],
+
+
+page:"home",
+
+
+search:"",
+
+
+category:"all"
+
 };
 
-// =========================
-// 2. CORE HELPERS & PERSISTENCE
-// =========================
-const el = (id) => document.getElementById(id);
 
-function saveState() {
-    localStorage.setItem("userProducts", JSON.stringify(state.products));
-    localStorage.setItem("cart", JSON.stringify(state.cart));
-    update(); // Re-render whenever state changes
+
+const $ = id => document.getElementById(id);
+
+
+
+function save(){
+
+localStorage.setItem(
+"products",
+JSON.stringify(state.products)
+);
+
+
+localStorage.setItem(
+"cart",
+JSON.stringify(state.cart)
+);
+
+
+localStorage.setItem(
+"favorites",
+JSON.stringify(state.favorites)
+);
+
+
+render();
+
 }
 
-// =========================
-// 3. LOGIC (ACTIONS)
-// =========================
-function addToCart(id) {
-    const product = state.products.find(p => p.id === id);
-    if (!product) return;
-    const item = state.cart.find(i => i.id === id);
-    item ? item.qty++ : state.cart.push({ ...product, qty: 1 });
-    saveState();
+
+
+
+
+/* ==============================
+PRODUCT MANAGEMENT
+============================== */
+
+
+function addProduct(product){
+
+product.id = Date.now();
+
+
+product.date =
+new Date().toISOString();
+
+
+
+state.products.unshift(product);
+
+
+save();
+
 }
 
-function updateQty(index, delta) {
-    state.cart[index].qty += delta;
-    if (state.cart[index].qty <= 0) state.cart.splice(index, 1);
-    saveState();
+
+
+
+function addToCart(id){
+
+
+const product =
+state.products.find(
+p=>p.id===id
+);
+
+
+
+if(!product)return;
+
+
+
+const existing =
+state.cart.find(
+p=>p.id===id
+);
+
+
+
+if(existing){
+
+existing.qty++;
+
 }
 
-function removeCartItem(index) {
-    state.cart.splice(index, 1);
-    saveState();
-}
+else{
 
-// =========================
-// 4. RENDER ENGINE (UI)
-// =========================
-function update() {
-    // Page Routing
-    const pages = ["home-page", "products-page", "cart-page", "add-product-page"];
-    pages.forEach(id => {
-        const pageEl = el(id);
-        if (pageEl) pageEl.classList.toggle("hidden", id !== `${state.page}-page`);
-    });
 
-    // Render Product Lists
-    const filtered = state.products.filter(p => state.category === "all" || p.category === state.category);
-    renderList("home-products", filtered.slice(0, 4)); // Show 4 latest on home
-    renderList("all-products", filtered);
+state.cart.push({
 
-    // Update Cart Display
-    const cartBox = el("cart-items");
-    if (cartBox) {
-        cartBox.innerHTML = state.cart.length ? state.cart.map((item, i) => `
-            <div class="cart-item">
-                <span>${item.name} - $${item.price}</span>
-                <button onclick="updateQty(${i}, -1)">-</button>
-                <span>${item.qty}</span>
-                <button onclick="updateQty(${i}, 1)">+</button>
-                <button onclick="removeCartItem(${i})">Remove</button>
-            </div>
-        `).join("") : "<p>Your cart is empty.</p>";
-    }
-    
-    const countEl = el("cart-count");
-    if (countEl) countEl.textContent = state.cart.reduce((sum, i) => sum + i.qty, 0);
-}
+...product,
 
-function renderList(id, list) {
-    const container = el(id);
-    if (!container) return;
+qty:1
 
-    // Handle Empty Catalog State
-    if (list.length === 0) {
-        container.innerHTML = `<p style="text-align:center; padding: 2rem;">No products registered yet. <a href="#" data-page="add-product-page" onclick="state.page='add-product-page'; update();">Register the first product!</a></p>`;
-        return;
-    }
-
-    container.innerHTML = list.map(p => `
-        <article class="card">
-            <img src="${p.image}" alt="${p.name}">
-            <div class="card-content">
-                <h3>${p.name}</h3>
-                <p class="price">$${p.price}</p>
-                <button class="add-to-cart" onclick="addToCart(${p.id})">Add to Cart</button>
-            </div>
-        </article>
-    `).join("");
-}
-
-// =========================
-// 5. EVENT DELEGATION
-// =========================
-document.addEventListener("click", (e) => {
-    const nav = e.target.closest("[data-page]");
-    if (nav) {
-        e.preventDefault();
-        state.page = nav.dataset.page;
-        update();
-    }
 });
 
-document.addEventListener("submit", (e) => {
-    if (e.target.id === "product-form") {
-        e.preventDefault();
-        const newProduct = {
-            id: Date.now(),
-            name: el("new-p-name").value,
-            price: parseFloat(el("new-p-price").value),
-            category: el("new-p-category").value,
-            image: "https://picsum.photos/600/400?random=" + Date.now()
-        };
-        state.products.push(newProduct);
-        saveState(); // This calls update() automatically
-        alert("Product registered successfully!");
-        e.target.reset();
-        state.page = "home";
-    }
+
+}
+
+
+
+save();
+
+
+}
+
+
+
+
+
+function removeCart(id){
+
+
+state.cart =
+state.cart.filter(
+p=>p.id!==id
+);
+
+
+save();
+
+
+}
+
+
+
+
+
+function changeQty(id,value){
+
+
+const item =
+state.cart.find(
+p=>p.id===id
+);
+
+
+
+if(!item)return;
+
+
+
+item.qty += value;
+
+
+
+if(item.qty<=0){
+
+removeCart(id);
+
+}
+else{
+
+save();
+
+}
+
+
+}
+
+
+
+
+
+/* ==============================
+SEARCH
+============================== */
+
+
+function searchProducts(text){
+
+state.search =
+text.toLowerCase();
+
+
+render();
+
+
+}
+
+
+
+
+
+/* ==============================
+FILTER
+============================== */
+
+
+function getProducts(){
+
+
+return state.products.filter(product=>{
+
+
+const matchSearch =
+product.name
+.toLowerCase()
+.includes(state.search);
+
+
+
+const matchCategory =
+state.category==="all" ||
+product.category===state.category;
+
+
+
+return matchSearch && matchCategory;
+
+
 });
 
-// Initialization
-update();
+
+}
+
+
+
+
+
+/* ==============================
+RENDER PRODUCTS
+============================== */
+
+
+function renderProducts(){
+
+
+const box =
+$("products-container");
+
+
+if(!box)return;
+
+
+
+const products =
+getProducts();
+
+
+
+if(products.length===0){
+
+
+box.innerHTML=`
+
+<div class="empty">
+
+No products available
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+
+box.innerHTML =
+products.map(p=>`
+
+
+<div class="product-card">
+
+
+<img 
+src="${p.image || 'images/default.png'}"
+onerror="this.src='images/default.png'"
+>
+
+
+<h3>
+${p.name}
+</h3>
+
+
+<p class="location">
+📍 ${p.location || "Ethiopia"}
+</p>
+
+
+<strong>
+${p.price} Birr
+</strong>
+
+
+
+<button onclick="addToCart(${p.id})">
+
+Add Cart
+
+</button>
+
+
+</div>
+
+
+`).join("");
+
+
+
+}
+
+
+
+
+
+/* ==============================
+CART DISPLAY
+============================== */
+
+
+function renderCart(){
+
+
+const box =
+$("cart-items");
+
+
+if(!box)return;
+
+
+
+box.innerHTML =
+state.cart.map(item=>`
+
+
+<div class="cart-item">
+
+
+<h4>
+${item.name}
+</h4>
+
+
+<p>
+${item.price} Birr
+</p>
+
+
+
+<button onclick="changeQty(${item.id},-1)">
+-
+</button>
+
+
+${item.qty}
+
+
+<button onclick="changeQty(${item.id},1)">
++
+</button>
+
+
+
+<button onclick="removeCart(${item.id})">
+
+Remove
+
+</button>
+
+
+</div>
+
+
+`).join("");
+
+
+
+const count =
+state.cart.reduce(
+(a,b)=>a+b.qty,
+0
+);
+
+
+
+if($("cart-count"))
+
+$("cart-count").innerHTML=count;
+
+
+
+}
+
+
+
+
+
+/* ==============================
+PAGE ROUTING
+============================== */
+
+
+function showPage(page){
+
+
+document
+.querySelectorAll(".page")
+.forEach(
+p=>p.classList.add("hidden")
+);
+
+
+
+const target =
+$(page+"-page");
+
+
+if(target)
+
+target.classList.remove("hidden");
+
+
+state.page=page;
+
+
+}
+
+
+
+
+
+/* ==============================
+MAIN RENDER
+============================== */
+
+
+function render(){
+
+
+renderProducts();
+
+renderCart();
+
+
+}
+
+
+
+
+/* ==============================
+EVENTS
+============================== */
+
+
+document.addEventListener(
+"click",
+e=>{
+
+
+const page =
+e.target.dataset.page;
+
+
+if(page){
+
+showPage(page);
+
+}
+
+
+});
+
+
+
+
+
+$("sell-form")?.addEventListener(
+"submit",
+e=>{
+
+
+e.preventDefault();
+
+
+
+addProduct({
+
+
+name:
+$("product-name").value,
+
+
+price:
+Number($("product-price").value),
+
+
+category:
+$("product-category").value,
+
+
+image:
+$("product-image").value,
+
+
+location:"Ethiopia"
+
+
+});
+
+
+
+e.target.reset();
+
+
+alert(
+"Product published successfully"
+);
+
+
+
+});
+
+
+
+
+
+$("search")?.addEventListener(
+"input",
+e=>{
+
+
+searchProducts(
+e.target.value
+);
+
+
+});
+
+
+
+
+
+render();
