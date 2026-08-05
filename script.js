@@ -1,367 +1,853 @@
 /* ==========================================================
-   HORNMARKET APP ENGINE V2
-   PART 1 - CORE ENGINE
+   HORNM ARKET PREMIUM MARKETPLACE
+   JAVASCRIPT V3
+   PART 1/6 - CORE ENGINE
 ========================================================== */
 
-/* =========================
+
+/* ==========================================================
    APP STATE
-========================= */
+========================================================== */
+
 
 const state = {
 
-    products: JSON.parse(localStorage.getItem("products")) || [],
 
-    cart: JSON.parse(localStorage.getItem("cart")) || [],
+    products:
 
-    favorites: JSON.parse(localStorage.getItem("favorites")) || [],
+    JSON.parse(
+        localStorage.getItem("products")
+    ) || [],
 
-    page: "home",
 
-    category: "all",
 
-    search: "",
+    cart:
+
+    JSON.parse(
+        localStorage.getItem("cart")
+    ) || [],
+
+
+
+    favorites:
+
+    JSON.parse(
+        localStorage.getItem("favorites")
+    ) || [],
+
+
+
+    orders:
+
+    JSON.parse(
+        localStorage.getItem("orders")
+    ) || [],
+
+
+
+    page:"home",
+
+
+    category:"all",
+
+
+    search:"",
+
 
     darkMode:
-        JSON.parse(localStorage.getItem("darkMode")) || false
+
+    JSON.parse(
+        localStorage.getItem("darkMode")
+    ) || false
+
 
 };
 
 
 
-/* =========================
-   SHORTCUTS
-========================= */
-
-const $ = id => document.getElementById(id);
-
-const $$ = selector => document.querySelectorAll(selector);
 
 
+/* ==========================================================
+   DOM SHORTCUTS
+========================================================== */
 
-/* =========================
-   STORAGE
-========================= */
 
-function save(){
+const $ = id =>
+document.getElementById(id);
+
+
+
+const $$ = selector =>
+document.querySelectorAll(selector);
+
+
+
+
+
+
+/* ==========================================================
+   STORAGE SYSTEM
+========================================================== */
+
+
+function saveData(){
+
 
     localStorage.setItem(
+
         "products",
-        JSON.stringify(state.products)
+
+        JSON.stringify(
+            state.products
+        )
+
     );
 
+
+
     localStorage.setItem(
+
         "cart",
-        JSON.stringify(state.cart)
+
+        JSON.stringify(
+            state.cart
+        )
+
     );
 
+
+
     localStorage.setItem(
+
         "favorites",
-        JSON.stringify(state.favorites)
+
+        JSON.stringify(
+            state.favorites
+        )
+
     );
+
+
 
     localStorage.setItem(
+
+        "orders",
+
+        JSON.stringify(
+            state.orders
+        )
+
+    );
+
+
+
+    localStorage.setItem(
+
         "darkMode",
-        JSON.stringify(state.darkMode)
-    );
 
-}
-
-
-
-/* =========================
-   PAGE ROUTER
-========================= */
-
-function showPage(page){
-
-    state.page = page;
-
-    $$(".page").forEach(section=>{
-
-        section.classList.add("hidden");
-
-    });
-
-    const current = $(page + "-page");
-
-    if(current){
-
-        current.classList.remove("hidden");
-
-    }
-
-    highlightNavigation();
-
-}
-
-
-
-/* =========================
-   NAVIGATION ACTIVE BUTTON
-========================= */
-
-function highlightNavigation(){
-
-    $$("[data-page]").forEach(button=>{
-
-        if(button.dataset.page===state.page){
-
-            button.classList.add("active");
-
-        }
-
-        else{
-
-            button.classList.remove("active");
-
-        }
-
-    });
-
-}
-
-
-
-/* =========================
-   DARK MODE
-========================= */
-
-function applyTheme(){
-
-    if(state.darkMode){
-
-        document.body.classList.add("dark");
-
-    }
-
-    else{
-
-        document.body.classList.remove("dark");
-
-    }
-
-}
-
-
-
-/* =========================
-   CART COUNTER
-========================= */
-
-function updateCartCounter(){
-
-    const count = state.cart.reduce(
-
-        (sum,item)=>sum+item.qty,
-
-        0
+        JSON.stringify(
+            state.darkMode
+        )
 
     );
 
-    if($("cart-count")){
-
-        $("cart-count").textContent = count;
-
-    }
 
 }
 
 
 
-/* =========================
-   MAIN RENDER
-========================= */
-
-function render(){
-
-    applyTheme();
-
-    showPage(state.page);
-
-    renderProducts();
-
-    renderCart();
-
-    updateCartCounter();
-
-}
 
 
 
-/* =========================
+
+/* ==========================================================
    UTILITIES
-========================= */
+========================================================== */
+
 
 function generateID(){
 
-    return Date.now() + Math.floor(Math.random()*1000);
+
+    return Date.now()
+
+    +
+
+    Math.floor(
+        Math.random()*999
+    );
+
 
 }
+
 
 
 
 function formatPrice(price){
 
-    return Number(price).toLocaleString()+" Birr";
+
+    return Number(price)
+
+    .toLocaleString()
+
+    +
+
+    " Birr";
+
 
 }
+
+
+
+
+
+function cleanText(text){
+
+
+    return String(text)
+
+    .trim();
+
+
+}
+
+
+
 
 
 /* ==========================================================
-   PART 2 - PRODUCT ENGINE
+   PAGE ROUTER
 ========================================================== */
 
-/* =========================
-   ADD PRODUCT
-========================= */
 
-function addProduct(product){
+function showPage(page){
 
-    const newProduct = {
 
-        id: generateID(),
-
-        name: product.name.trim(),
-
-        price: Number(product.price),
-
-        category: product.category.trim(),
-
-        image: product.image.trim(),
-
-        description: product.description || "",
-
-        location: product.location || "Ethiopia",
-
-        date: new Date().toISOString()
-
-    };
-
-    state.products.unshift(newProduct);
-
-    save();
-
-    render();
-
-}
+    state.page = page;
 
 
 
-/* =========================
-   SEARCH
-========================= */
+    $$(".page")
 
-function searchProducts(text){
-
-    state.search = text.toLowerCase();
-
-    render();
-
-}
+    .forEach(section=>{
 
 
+        section.classList.add(
+            "hidden"
+        );
 
-/* =========================
-   CATEGORY
-========================= */
-
-function setCategory(category){
-
-    state.category = category;
-
-    render();
-
-}
-
-
-
-/* =========================
-   FILTER PRODUCTS
-========================= */
-
-function getProducts(){
-
-    return state.products.filter(product=>{
-
-        const matchSearch =
-
-            product.name
-            .toLowerCase()
-            .includes(state.search);
-
-        const matchCategory =
-
-            state.category==="all"
-
-            ||
-
-            product.category===state.category;
-
-        return matchSearch && matchCategory;
 
     });
 
+
+
+    const currentPage =
+
+    $(page+"-page");
+
+
+
+    if(currentPage){
+
+
+        currentPage.classList.remove(
+            "hidden"
+        );
+
+
+    }
+
+
+
+    updateNavigation();
+
+
 }
 
 
 
-/* =========================
-   FAVORITES
-========================= */
 
-function toggleFavorite(id){
 
-    const index =
-        state.favorites.indexOf(id);
 
-    if(index===-1){
+/* ==========================================================
+   NAVIGATION ACTIVE STATE
+========================================================== */
 
-        state.favorites.push(id);
+
+function updateNavigation(){
+
+
+    $$("[data-page]")
+
+    .forEach(button=>{
+
+
+        if(
+            button.dataset.page
+            ===
+            state.page
+        ){
+
+
+            button.classList.add(
+                "active"
+            );
+
+
+        }
+
+        else{
+
+
+            button.classList.remove(
+                "active"
+            );
+
+
+        }
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================
+   DARK MODE ENGINE
+========================================================== */
+
+
+function applyTheme(){
+
+
+
+    if(state.darkMode){
+
+
+        document.body.classList.add(
+            "dark"
+        );
+
 
     }
 
     else{
 
-        state.favorites.splice(index,1);
+
+        document.body.classList.remove(
+            "dark"
+        );
+
 
     }
 
-    save();
-
-    render();
 
 }
 
 
 
-/* =========================
-   PRODUCT CARD
-========================= */
 
-function productCard(product){
 
-    const favorite =
 
-        state.favorites.includes(product.id)
+function toggleDarkMode(){
 
-        ? "❤️"
 
-        : "🤍";
+
+    state.darkMode =
+
+    !state.darkMode;
+
+
+
+    saveData();
+
+
+    applyTheme();
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   CART COUNTER
+========================================================== */
+
+
+function updateCartCount(){
+
+
+
+    const count =
+
+    state.cart.reduce(
+
+        (total,item)=>
+
+        total + item.qty,
+
+        0
+
+    );
+
+
+
+    if($("cart-count")){
+
+
+        $("cart-count").textContent =
+        count;
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   GLOBAL RENDER ENGINE
+========================================================== */
+
+
+function render(){
+
+
+
+    applyTheme();
+
+
+
+    showPage(
+        state.page
+    );
+
+
+
+    renderProducts();
+
+
+
+    renderCart();
+
+
+
+    updateCartCount();
+
+
+
+    updateDashboard();
+
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================
+   SAFE INITIALIZATION
+========================================================== */
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+
+    render();
+
+
+}
+
+);
+
+
+
+
+/* ==========================================================
+   END PART 1/6
+========================================================== */
+/* ==========================================================
+   HORNM ARKET PREMIUM MARKETPLACE
+   JAVASCRIPT V3
+   PART 2/6 - PRODUCT ENGINE
+========================================================== */
+
+
+/* ==========================================================
+   ADD PRODUCT
+========================================================== */
+
+
+function addProduct(data){
+
+
+    const product = {
+
+
+        id:
+        generateID(),
+
+
+
+        name:
+        cleanText(data.name),
+
+
+
+        price:
+        Number(data.price),
+
+
+
+        category:
+        cleanText(data.category),
+
+
+
+        image:
+        cleanText(data.image),
+
+
+
+        description:
+        cleanText(data.description || "No description"),
+
+
+
+        location:
+        data.location || "Ethiopia",
+
+
+
+        date:
+        new Date().toISOString()
+
+
+    };
+
+
+
+    state.products.unshift(product);
+
+
+
+    saveData();
+
+
+
+    render();
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================
+   SEARCH ENGINE
+========================================================== */
+
+
+function searchProducts(value){
+
+
+
+    state.search =
+
+    value
+
+    .toLowerCase()
+
+    .trim();
+
+
+
+    render();
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================
+   CATEGORY FILTER
+========================================================== */
+
+
+function setCategory(category){
+
+
+
+    if(
+        !category ||
+        category==="All"
+    ){
+
+        state.category="all";
+
+    }
+
+    else{
+
+
+        state.category =
+
+        category
+
+        .toLowerCase()
+
+        .trim();
+
+
+    }
+
+
+
+    render();
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================
+   GET FILTERED PRODUCTS
+========================================================== */
+
+
+function getProducts(){
+
+
+
+    return state.products.filter(product=>{
+
+
+
+        const name =
+
+        product.name
+
+        .toLowerCase();
+
+
+
+        const category =
+
+        product.category
+
+        .toLowerCase();
+
+
+
+
+
+        const searchMatch =
+
+
+        name.includes(
+            state.search
+        );
+
+
+
+
+
+
+        const categoryMatch =
+
+
+        state.category==="all"
+
+        ||
+
+        category===state.category;
+
+
+
+
+
+        return (
+
+            searchMatch
+
+            &&
+
+            categoryMatch
+
+        );
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================
+   FAVORITE SYSTEM
+========================================================== */
+
+
+function toggleFavorite(id){
+
+
+
+    const index =
+
+    state.favorites.indexOf(id);
+
+
+
+
+
+    if(index===-1){
+
+
+
+        state.favorites.push(id);
+
+
+
+    }
+
+    else{
+
+
+
+        state.favorites.splice(
+            index,
+            1
+        );
+
+
+    }
+
+
+
+    saveData();
+
+
+
+    render();
+
+
+}
+
+
+
+
+
+
+
+function isFavorite(id){
+
+
+
+    return state.favorites.includes(id);
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   PRODUCT CARD TEMPLATE
+========================================================== */
+
+
+function createProductCard(product){
+
+
+
+    const heart =
+
+
+    isFavorite(product.id)
+
+    ?
+
+    "❤️"
+
+    :
+
+    "🤍";
+
+
+
 
     return `
 
+
+
 <article class="card">
 
+
+
 <img
-src="${product.image || "https://via.placeholder.com/400x300"}"
+
+src="${product.image || 'https://via.placeholder.com/400x300'}"
+
 alt="${product.name}"
+
 loading="lazy"
+
 onerror="this.src='https://via.placeholder.com/400x300'"
+
 >
+
+
 
 <div class="card-content">
 
+
+
 <div class="card-top">
+
+
 
 <span class="category">
 
@@ -369,15 +855,25 @@ ${product.category}
 
 </span>
 
+
+
 <button
+
 class="favorite-btn"
+
 onclick="toggleFavorite(${product.id})">
 
-${favorite}
+${heart}
 
 </button>
 
+
+
 </div>
+
+
+
+
 
 <h3>
 
@@ -385,11 +881,19 @@ ${product.name}
 
 </h3>
 
+
+
+
+
 <p class="price">
 
 ${formatPrice(product.price)}
 
 </p>
+
+
+
+
 
 <p class="location">
 
@@ -397,33 +901,61 @@ ${formatPrice(product.price)}
 
 </p>
 
-<button
-class="add-to-cart"
-onclick="addToCart(${product.id})">
 
-Add to Cart
+
+
+
+<button
+
+class="primary-btn"
+
+onclick="openProductModal(${product.id})">
+
+View Details
 
 </button>
 
+
+
+
+
 </div>
+
+
 
 </article>
 
+
+
 `;
+
+
 
 }
 
 
 
-/* =========================
-   EMPTY STATE
-========================= */
+
+
+
+
+
+/* ==========================================================
+   EMPTY PRODUCT MESSAGE
+========================================================== */
+
 
 function emptyProducts(){
 
-    return `
+
+
+return `
+
+
 
 <div class="empty-state">
+
+
 
 <h2>
 
@@ -431,106 +963,227 @@ function emptyProducts(){
 
 </h2>
 
+
+
 <h3>
 
-No Products Yet
+No Products Found
 
 </h3>
 
+
+
 <p>
 
-Publish the first product on HornMarket.
+Try another search or category.
 
 </p>
 
+
+
 </div>
 
+
+
 `;
+
+
 
 }
 
 
 
-/* =========================
-   RENDER PRODUCTS
-========================= */
+
+
+
+
+
+/* ==========================================================
+   PRODUCT RENDERING
+========================================================== */
+
 
 function renderProducts(){
 
-    const products =
-        getProducts();
 
-    const productsBox =
-        $("products-container");
+
+    const products =
+
+    getProducts();
+
+
+
+
+
+    const mainBox =
+
+    $("products-container");
+
+
+
+
 
     const featuredBox =
-        $("featured-products");
 
-    if(productsBox){
+    $("featured-products");
+
+
+
+
+
+
+
+    if(mainBox){
+
+
 
         if(products.length){
 
-            productsBox.innerHTML =
 
-                products
-                .map(productCard)
-                .join("");
+
+            mainBox.innerHTML =
+
+            products
+
+            .map(createProductCard)
+
+            .join("");
+
+
 
         }
 
         else{
 
-            productsBox.innerHTML =
-                emptyProducts();
+
+
+            mainBox.innerHTML =
+
+            emptyProducts();
+
+
 
         }
 
+
     }
+
+
+
+
+
+
 
     if(featuredBox){
 
+
+
         featuredBox.innerHTML =
 
-            products
-            .slice(0,4)
-            .map(productCard)
-            .join("");
+
+
+        products
+
+        .slice(0,4)
+
+        .map(createProductCard)
+
+        .join("");
+
+
 
     }
+
+
+
+
+
+
 
     if($("product-count")){
 
+
+
         $("product-count").textContent =
-            state.products.length;
+
+        state.products.length;
+
+
 
     }
+
+
 
 }
 
 
+
+
+
+
+
 /* ==========================================================
-   PART 3 - CART + EVENTS + INITIALIZATION
+   END PART 2/6
 ========================================================== */
 
-/* =========================
-   CART SYSTEM
-========================= */
+
+/* ==========================================================
+   HORNM ARKET PREMIUM MARKETPLACE
+   JAVASCRIPT V3
+   PART 3/6 - CART ENGINE + CHECKOUT
+========================================================== */
+
+
+/* ==========================================================
+   ADD TO CART
+========================================================== */
+
 
 function addToCart(id){
 
-    const product = state.products.find(p=>p.id===id);
 
-    if(!product) return;
+    const product =
 
-    const item = state.cart.find(p=>p.id===id);
+    state.products.find(
 
-    if(item){
+        item=>item.id===id
 
-        item.qty++;
+    );
+
+
+
+    if(!product){
+
+        return;
+
+    }
+
+
+
+
+
+    const existing =
+
+    state.cart.find(
+
+        item=>item.id===id
+
+    );
+
+
+
+
+
+    if(existing){
+
+
+        existing.qty++;
+
 
     }
 
     else{
+
 
         state.cart.push({
 
@@ -540,287 +1193,1870 @@ function addToCart(id){
 
         });
 
+
     }
 
-    save();
+
+
+
+
+    saveData();
+
+
 
     render();
+
+
 
 }
 
 
 
-function changeQty(id,value){
 
-    const item = state.cart.find(p=>p.id===id);
 
-    if(!item) return;
 
-    item.qty += value;
 
-    if(item.qty<=0){
+/* ==========================================================
+   CHANGE QUANTITY
+========================================================== */
 
-        removeCart(id);
+
+function changeQuantity(id,amount){
+
+
+
+    const item =
+
+    state.cart.find(
+
+        product=>product.id===id
+
+    );
+
+
+
+
+
+    if(!item){
 
         return;
 
     }
 
-    save();
+
+
+
+
+    item.qty += amount;
+
+
+
+
+
+    if(item.qty <= 0){
+
+
+        removeFromCart(id);
+
+
+        return;
+
+
+    }
+
+
+
+
+
+    saveData();
+
+
 
     render();
+
+
 
 }
 
 
 
-function removeCart(id){
 
-    state.cart = state.cart.filter(p=>p.id!==id);
 
-    save();
+
+
+
+/* ==========================================================
+   REMOVE FROM CART
+========================================================== */
+
+
+function removeFromCart(id){
+
+
+
+    state.cart =
+
+    state.cart.filter(
+
+        item=>item.id!==id
+
+    );
+
+
+
+
+
+    saveData();
+
+
 
     render();
+
+
 
 }
 
 
 
-/* =========================
+
+
+
+
+
+/* ==========================================================
+   CLEAR CART
+========================================================== */
+
+
+function clearCart(){
+
+
+
+    state.cart=[];
+
+
+
+    saveData();
+
+
+
+    render();
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   CART TOTAL
+========================================================== */
+
+
+function getCartTotal(){
+
+
+
+    return state.cart.reduce(
+
+
+        (total,item)=>
+
+
+        total +
+
+        (
+
+            item.price *
+
+            item.qty
+
+        ),
+
+
+        0
+
+
+    );
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
    CART RENDER
-========================= */
+========================================================== */
+
 
 function renderCart(){
 
-    const box = $("cart-items");
 
-    if(!box) return;
+
+    const cartBox =
+
+    $("cart-items");
+
+
+
+
+
+    if(!cartBox){
+
+        return;
+
+    }
+
+
+
+
+
 
     if(state.cart.length===0){
 
-        box.innerHTML = `
+
+
+        cartBox.innerHTML = `
+
 
         <div class="empty-state">
 
-            <h3>Your cart is empty</h3>
 
-            <p>Add products to begin shopping.</p>
+        <h3>
+
+        🛒 Cart Empty
+
+        </h3>
+
+
+
+        <p>
+
+        Add products to start shopping.
+
+        </p>
+
 
         </div>
 
+
         `;
+
 
     }
 
     else{
 
-        box.innerHTML = state.cart.map(item=>`
 
-        <div class="cart-item">
 
-            <div>
+        cartBox.innerHTML =
 
-                <h4>${item.name}</h4>
 
-                <p>${formatPrice(item.price)}</p>
+        state.cart.map(item=>`
 
-            </div>
 
-            <div class="cart-controls">
 
-                <button onclick="changeQty(${item.id},-1)">−</button>
+<div class="cart-item">
 
-                <span>${item.qty}</span>
 
-                <button onclick="changeQty(${item.id},1)">+</button>
 
-                <button onclick="removeCart(${item.id})">
+<div>
 
-                    Remove
 
-                </button>
 
-            </div>
+<h4>
 
-        </div>
+${item.name}
 
-        `).join("");
+</h4>
+
+
+
+<p>
+
+${formatPrice(item.price)}
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+<div class="cart-controls">
+
+
+
+<button
+
+onclick="changeQuantity(${item.id},-1)">
+
+−
+
+</button>
+
+
+
+<span>
+
+${item.qty}
+
+</span>
+
+
+
+<button
+
+onclick="changeQuantity(${item.id},1)">
+
++
+
+</button>
+
+
+
+
+
+<button
+
+class="remove-btn"
+
+onclick="removeFromCart(${item.id})">
+
+Remove
+
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+`).join("");
+
+
 
     }
 
-    const total = state.cart.reduce(
 
-        (sum,item)=>sum+(item.price*item.qty),
 
-        0
 
-    );
+
+
+
 
     if($("cart-total")){
 
+
+
         $("cart-total").textContent =
 
-            "Total: " + formatPrice(total);
+
+
+        "Total: " +
+
+        formatPrice(
+
+            getCartTotal()
+
+        );
+
+
 
     }
+
+
 
 }
 
 
 
-/* =========================
-   SELL FORM
-========================= */
 
-$("sell-form")?.addEventListener(
+
+
+
+
+/* ==========================================================
+   OPEN / CLOSE CART PANEL
+========================================================== */
+
+
+function openCart(){
+
+
+
+    const panel =
+
+    $("cart-panel");
+
+
+
+    if(panel){
+
+
+
+        panel.classList.remove(
+
+            "hidden"
+
+        );
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+function closeCart(){
+
+
+
+    const panel =
+
+    $("cart-panel");
+
+
+
+    if(panel){
+
+
+
+        panel.classList.add(
+
+            "hidden"
+
+        );
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   CHECKOUT SYSTEM
+========================================================== */
+
+
+function checkout(){
+
+
+
+    if(state.cart.length===0){
+
+
+        alert(
+
+            "Your cart is empty."
+
+        );
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+    const order = {
+
+
+
+        id:
+
+        generateID(),
+
+
+
+        items:
+
+        [...state.cart],
+
+
+
+        total:
+
+        getCartTotal(),
+
+
+
+        date:
+
+        new Date().toISOString()
+
+
+
+    };
+
+
+
+
+
+
+
+    state.orders.unshift(order);
+
+
+
+
+
+    clearCart();
+
+
+
+    saveData();
+
+
+
+
+
+    alert(
+
+        "Order placed successfully!"
+
+    );
+
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================
+   END PART 3/6
+========================================================== */
+
+
+/* ==========================================================
+   HORNM ARKET PREMIUM MARKETPLACE
+   JAVASCRIPT V3
+   PART 4/6 - PRODUCT MODAL + DETAILS SYSTEM
+========================================================== */
+
+
+/* ==========================================================
+   CURRENT SELECTED PRODUCT
+========================================================== */
+
+
+let selectedProduct = null;
+
+
+
+
+
+
+
+/* ==========================================================
+   OPEN PRODUCT MODAL
+========================================================== */
+
+
+function openProductModal(id){
+
+
+
+    const product =
+
+    state.products.find(
+
+        item=>item.id===id
+
+    );
+
+
+
+
+
+    if(!product){
+
+        return;
+
+    }
+
+
+
+
+
+    selectedProduct = product;
+
+
+
+
+
+
+    if($("modal-image")){
+
+
+        $("modal-image").src =
+
+        product.image ||
+
+        "https://via.placeholder.com/400x300";
+
+
+    }
+
+
+
+
+
+
+    if($("modal-name")){
+
+
+        $("modal-name").textContent =
+
+        product.name;
+
+
+    }
+
+
+
+
+
+
+
+    if($("modal-description")){
+
+
+        $("modal-description").textContent =
+
+        product.description;
+
+
+    }
+
+
+
+
+
+
+
+    if($("modal-price")){
+
+
+        $("modal-price").textContent =
+
+        formatPrice(product.price);
+
+
+    }
+
+
+
+
+
+
+
+    const modal =
+
+    $("product-modal");
+
+
+
+
+
+    if(modal){
+
+
+
+        modal.classList.remove(
+
+            "hidden"
+
+        );
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   CLOSE PRODUCT MODAL
+========================================================== */
+
+
+function closeProductModal(){
+
+
+
+    const modal =
+
+    $("product-modal");
+
+
+
+    if(modal){
+
+
+
+        modal.classList.add(
+
+            "hidden"
+
+        );
+
+
+
+    }
+
+
+
+    selectedProduct = null;
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   ADD PRODUCT FROM MODAL
+========================================================== */
+
+
+function addModalProductToCart(){
+
+
+
+    if(!selectedProduct){
+
+        return;
+
+    }
+
+
+
+    addToCart(
+
+        selectedProduct.id
+
+    );
+
+
+
+    closeProductModal();
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   MODAL EVENTS
+========================================================== */
+
+
+$("close-modal")
+
+?.addEventListener(
+
+"click",
+
+()=>{
+
+
+    closeProductModal();
+
+
+}
+
+);
+
+
+
+
+
+
+$("modal-cart")
+
+?.addEventListener(
+
+"click",
+
+()=>{
+
+
+    addModalProductToCart();
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+========================================================== */
+
+
+$("product-modal")
+
+?.addEventListener(
+
+"click",
+
+event=>{
+
+
+    if(
+
+        event.target ===
+
+        $("product-modal")
+
+    ){
+
+
+        closeProductModal();
+
+
+    }
+
+
+}
+
+);
+
+
+
+
+
+
+
+/* ==========================================================
+   KEYBOARD CONTROL
+========================================================== */
+
+
+document.addEventListener(
+
+"keydown",
+
+event=>{
+
+
+
+    if(
+
+        event.key==="Escape"
+
+    ){
+
+
+        closeProductModal();
+
+
+        closeCart();
+
+
+    }
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+/* ==========================================================
+   END PART 4/6
+========================================================== */
+
+
+
+/* ==========================================================
+   HORNM ARKET PREMIUM MARKETPLACE
+   JAVASCRIPT V3
+   PART 5/6 - EVENTS + SELL FORM + NAVIGATION
+========================================================== */
+
+
+/* ==========================================================
+   SELL PRODUCT FORM
+========================================================== */
+
+
+function setupSellForm(){
+
+
+
+    const form =
+
+    $("sell-form");
+
+
+
+
+
+    if(!form){
+
+        return;
+
+    }
+
+
+
+
+
+    form.addEventListener(
 
     "submit",
 
-    e=>{
+    event=>{
 
-        e.preventDefault();
 
-        addProduct({
 
-            name:$("product-name").value,
+        event.preventDefault();
 
-            price:$("product-price").value,
 
-            category:$("product-category").value,
 
-            image:$("product-image").value,
 
-            description:$("product-description")?.value || "",
 
-            location:"Ethiopia"
+        const product = {
 
-        });
 
-        e.target.reset();
 
-        showPage("home");
+            name:
+
+            $("product-name").value,
+
+
+
+            price:
+
+            $("product-price").value,
+
+
+
+            category:
+
+            $("product-category").value,
+
+
+
+            image:
+
+            $("product-image").value,
+
+
+
+            description:
+
+            $("product-description").value,
+
+
+
+            location:
+
+            "Ethiopia"
+
+
+
+        };
+
+
+
+
+
+
+
+        if(
+
+            !product.name ||
+
+            !product.price ||
+
+            !product.category
+
+        ){
+
+
+
+            alert(
+
+            "Please fill required fields."
+
+            );
+
+
+
+            return;
+
+
+
+        }
+
+
+
+
+
+
+
+        addProduct(product);
+
+
+
+
+
+
+        form.reset();
+
+
+
+
+
+
+        showPage(
+
+            "home"
+
+        );
+
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   SEARCH SYSTEM
+========================================================== */
+
+
+function setupSearch(){
+
+
+
+    const searchInput =
+
+    $("search");
+
+
+
+
+
+    if(!searchInput){
+
+        return;
 
     }
 
-);
 
 
 
-/* =========================
-   SEARCH
-========================= */
 
-$("search")?.addEventListener(
+
+    searchInput.addEventListener(
 
     "input",
 
-    e=>{
+    event=>{
 
-        searchProducts(e.target.value);
+
+
+        state.search =
+
+        event.target.value
+
+        .toLowerCase();
+
+
+
+
+
+        renderProducts();
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   CATEGORY FILTER SYSTEM
+========================================================== */
+
+
+function setupCategories(){
+
+
+
+    const buttons =
+
+    document.querySelectorAll(
+
+        ".category-btn"
+
+    );
+
+
+
+
+
+
+    buttons.forEach(
+
+    button=>{
+
+
+
+
+
+        button.addEventListener(
+
+        "click",
+
+        ()=>{
+
+
+
+            buttons.forEach(
+
+            btn=>
+
+            btn.classList.remove(
+
+                "active"
+
+            )
+
+            );
+
+
+
+
+
+            button.classList.add(
+
+                "active"
+
+            );
+
+
+
+
+
+
+
+            const category =
+
+            button.dataset.category ||
+
+            "all";
+
+
+
+
+
+
+
+            state.category =
+
+            category;
+
+
+
+
+
+            renderProducts();
+
+
+
+
+
+        });
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   PAGE NAVIGATION
+========================================================== */
+
+
+function setupNavigation(){
+
+
+
+    document.addEventListener(
+
+    "click",
+
+    event=>{
+
+
+
+        const button =
+
+        event.target.closest(
+
+            "[data-page]"
+
+        );
+
+
+
+
+
+
+        if(!button){
+
+            return;
+
+        }
+
+
+
+
+
+
+
+        showPage(
+
+            button.dataset.page
+
+        );
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   CART BUTTON EVENTS
+========================================================== */
+
+
+function setupCartButtons(){
+
+
+
+    $("open-cart")
+
+    ?.addEventListener(
+
+    "click",
+
+    ()=>{
+
+
+        openCart();
+
 
     }
+
+    );
+
+
+
+
+
+
+    $("close-cart")
+
+    ?.addEventListener(
+
+    "click",
+
+    ()=>{
+
+
+        closeCart();
+
+
+    }
+
+    );
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   CHECKOUT BUTTON
+========================================================== */
+
+
+function setupCheckout(){
+
+
+
+    document.querySelector(
+
+        ".checkout-btn"
+
+    )
+
+    ?.addEventListener(
+
+    "click",
+
+    ()=>{
+
+
+        checkout();
+
+
+    }
+
+    );
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   PRODUCT CLICK DETAILS
+========================================================== */
+
+
+function setupProductClicks(){
+
+
+
+    document.addEventListener(
+
+    "click",
+
+    event=>{
+
+
+
+        const card =
+
+        event.target.closest(
+
+            ".card"
+
+        );
+
+
+
+
+
+        if(
+
+            !card ||
+
+            event.target.closest(
+
+            "button"
+
+            )
+
+        ){
+
+            return;
+
+        }
+
+
+
+
+
+
+
+        const id =
+
+        Number(
+
+            card.dataset.id
+
+        );
+
+
+
+
+
+
+        if(id){
+
+
+
+            openProductModal(id);
+
+
+
+        }
+
+
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   INITIAL EVENT LOADER
+========================================================== */
+
+
+function setupEvents(){
+
+
+
+    setupSellForm();
+
+
+
+    setupSearch();
+
+
+
+    setupCategories();
+
+
+
+    setupNavigation();
+
+
+
+    setupCartButtons();
+
+
+
+    setupCheckout();
+
+
+
+    setupProductClicks();
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   END PART 5/6
+========================================================== */
+
+/* ==========================================================
+   HORNM ARKET PREMIUM MARKETPLACE
+   JAVASCRIPT V3
+   PART 6/6 - FINAL ENGINE + COMPATIBILITY FIXES
+========================================================== */
+
+
+
+/* ==========================================================
+   FIX PRODUCT CARD DATA ID
+========================================================== */
+
+
+const originalProductCard = productCard;
+
+
+productCard = function(product){
+
+
+    const card = originalProductCard(product);
+
+
+    return card.replace(
+
+        '<article class="card">',
+
+        `<article 
+            class="card" 
+            data-id="${product.id}"
+        >`
+
+    );
+
+
+};
+
+
+
+
+
+
+
+/* ==========================================================
+   DARK MODE SUPPORT
+========================================================== */
+
+
+function toggleDarkMode(){
+
+
+
+    state.darkMode =
+
+    !state.darkMode;
+
+
+
+    save();
+
+
+
+    applyTheme();
+
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================
+   AUTO UPDATE ACCOUNT DATA
+========================================================== */
+
+
+function updateAccount(){
+
+
+
+    const productCount =
+
+    $("my-products");
+
+
+
+    if(productCount){
+
+
+
+        productCount.textContent =
+
+        state.products.length;
+
+
+
+    }
+
+
+
+    const sellerCount =
+
+    $("seller-count");
+
+
+
+    if(sellerCount){
+
+
+
+        sellerCount.textContent =
+
+        state.products.length > 0
+
+        ? 1
+
+        : 0;
+
+
+
+    }
+
+
+
+    const orderCount =
+
+    $("order-count");
+
+
+
+    if(orderCount){
+
+
+
+        orderCount.textContent =
+
+        state.cart.length;
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================
+   EXTEND MAIN RENDER
+========================================================== */
+
+
+const oldRender = render;
+
+
+
+render = function(){
+
+
+
+    oldRender();
+
+
+
+    updateAccount();
+
+
+
+};
+
+
+
+
+
+
+
+/* ==========================================================
+   START APPLICATION
+========================================================== */
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+
+
+    setupEvents();
+
+
+
+    applyTheme();
+
+
+
+    render();
+
+
+
+}
 
 );
 
 
 
-/* =========================
-   CATEGORY BUTTONS
-========================= */
 
-document.querySelectorAll(".category-btn")
 
-.forEach(button=>{
 
-    button.addEventListener("click",()=>{
 
-        document
+/* ==========================================================
+   GLOBAL EXPORTS
+   FOR HTML ONCLICK BUTTONS
+========================================================== */
 
-        .querySelectorAll(".category-btn")
 
-        .forEach(btn=>btn.classList.remove("active"));
+window.addToCart = addToCart;
 
-        button.classList.add("active");
+window.removeCart = removeCart;
 
-        const category =
+window.changeQty = changeQty;
 
-            button.dataset.category || "all";
+window.toggleFavorite = toggleFavorite;
 
-        setCategory(category);
+window.openProductModal = openProductModal;
 
-    });
+window.closeProductModal = closeProductModal;
+
+window.showPage = showPage;
+
+window.toggleDarkMode = toggleDarkMode;
+
+
+
+
+
+
+
+/* ==========================================================
+   SAFETY CHECK
+========================================================== */
+
+
+window.addEventListener(
+
+"error",
+
+event=>{
+
+
+
+    console.warn(
+
+        "HornMarket handled error:",
+
+        event.message
+
+    );
+
+
 
 });
 
 
 
-/* =========================
-   PAGE NAVIGATION
-========================= */
-
-document.addEventListener(
-
-    "click",
-
-    e=>{
-
-        const nav = e.target.closest("[data-page]");
-
-        if(!nav) return;
-
-        showPage(nav.dataset.page);
-
-    }
-
-);
 
 
 
-/* =========================
-   CART PANEL
-========================= */
 
-$("open-cart")?.addEventListener(
-
-    "click",
-
-    ()=>{
-
-        $("cart-panel")?.classList.remove("hidden");
-
-    }
-
-);
+/* ==========================================================
+   HORNMARKET ENGINE COMPLETE
+========================================================== */
 
 
-
-$("close-cart")?.addEventListener(
-
-    "click",
-
-    ()=>{
-
-        $("cart-panel")?.classList.add("hidden");
-
-    }
-
-);
-
-
-
-/* =========================
-   START APPLICATION
-========================= */
-
-document.addEventListener(
-
-    "DOMContentLoaded",
-
-    ()=>{
-
-        render();
-
-    }
-
-);
 
