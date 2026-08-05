@@ -1,31 +1,42 @@
 /* =====================================================
    HORNM ARKET PREMIUM MARKETPLACE UI
    CSS PART 1/12
-   DESIGN SYSTEM + RESET + GLOBAL
+
+   DESIGN SYSTEM
+   RESET
+   GLOBAL STYLES
 ===================================================== */
 
 
-/* =====================================================
+/* ================================
    DESIGN VARIABLES
-===================================================== */
+================================ */
+
 
 :root{
 
 
-    /* BRAND COLORS */
+    /* BRAND */
 
     --primary:#2563eb;
+
     --primary-dark:#1d4ed8;
+
     --accent:#06b6d4;
 
 
+
+    /* STATUS */
+
     --success:#16a34a;
+
     --danger:#ef4444;
+
     --warning:#f59e0b;
 
 
 
-    /* BACKGROUND */
+    /* COLORS */
 
     --bg:#f8fafc;
 
@@ -36,21 +47,6 @@
     --muted:#64748b;
 
     --border:#e2e8f0;
-
-
-
-    /* EFFECTS */
-
-    --shadow-sm:
-    0 4px 12px rgba(0,0,0,.06);
-
-
-    --shadow-md:
-    0 10px 30px rgba(0,0,0,.12);
-
-
-    --shadow-lg:
-    0 20px 50px rgba(0,0,0,.18);
 
 
 
@@ -66,7 +62,22 @@
 
 
 
-    /* MOTION */
+    /* SHADOW */
+
+    --shadow-sm:
+    0 4px 12px rgba(0,0,0,.06);
+
+
+    --shadow-md:
+    0 10px 30px rgba(0,0,0,.12);
+
+
+    --shadow-lg:
+    0 20px 50px rgba(0,0,0,.18);
+
+
+
+    /* TRANSITION */
 
     --transition:.25s ease;
 
@@ -75,6 +86,7 @@
     /* FONT */
 
     --font:
+
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
@@ -83,21 +95,22 @@
     Arial,
     sans-serif;
 
-
 }
 
 
 
 
 
-/* =====================================================
+
+/* ================================
    RESET
-===================================================== */
+================================ */
 
 
 *,
 *::before,
 *::after{
+
 
     margin:0;
 
@@ -105,71 +118,112 @@
 
     box-sizing:border-box;
 
+
 }
+
 
 
 
 html{
 
+
     scroll-behavior:smooth;
 
+
 }
+
 
 
 
 body{
 
+
     min-height:100vh;
+
 
     font-family:var(--font);
 
+
     background:var(--bg);
+
 
     color:var(--text);
 
+
     line-height:1.5;
+
 
     overflow-x:hidden;
 
+
     padding-bottom:90px;
 
+
 }
+
+
 
 
 
 img{
 
-    width:100%;
+
+    max-width:100%;
 
     display:block;
 
+
 }
+
 
 
 
 button,
 input,
-textarea{
+textarea,
+select{
+
 
     font-family:inherit;
 
+
 }
+
 
 
 
 button{
 
-    border:none;
 
     cursor:pointer;
 
+    border:none;
+
+
 }
+
+
+
+
+a{
+
+
+    text-decoration:none;
+
+    color:inherit;
+
+
+}
+
+
 
 
 
 .hidden{
 
+
     display:none!important;
+
 
 }
 
@@ -177,23 +231,25 @@ button{
 
 
 
-/* =====================================================
-   CONTAINER
-===================================================== */
+/* ================================
+   CONTAINERS
+================================ */
 
 
 .container{
+
 
     width:min(1200px,92%);
 
     margin:auto;
 
+
 }
 
 
 
-
 #app{
+
 
     width:100%;
 
@@ -201,21 +257,62 @@ button{
 
     margin:auto;
 
+
 }
 
 
 
 
 
+/* ================================
+   PAGE SYSTEM
+================================ */
+
+
+.page{
+
+
+    padding:20px 16px;
+
+
+}
+
+
+
+.page h2{
+
+
+    font-size:1.6rem;
+
+
+    font-weight:900;
+
+
+    margin-bottom:20px;
+
+
+}
+
 /* =====================================================
+   CSS PART 2/12
+
    TOP BAR
+   HEADER
+   LOGO
+   SEARCH
+   CART BUTTON
 ===================================================== */
+
+
+/* ================================
+   TOP BAR
+================================ */
 
 
 .top-bar{
 
-    background:
-    var(--primary);
+
+    background:var(--primary);
 
 
     color:white;
@@ -224,9 +321,7 @@ button{
     text-align:center;
 
 
-    padding:
-
-    8px 15px;
+    padding:8px 15px;
 
 
     font-size:.85rem;
@@ -241,103 +336,41 @@ button{
 
 
 
-/* =====================================================
-   PAGE SYSTEM
-===================================================== */
 
-
-.page{
-
-    padding:20px 16px;
-
-}
-
-
-
-.page h2{
-
-    font-size:1.6rem;
-
-    font-weight:900;
-
-    margin-bottom:20px;
-
-}
-
-
-
-
-
-/* =====================================================
-   SECTION HEADER
-===================================================== */
-
-
-.section-header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:20px;
-
-}
-
-
-
-.section-header h2{
-
-    margin:0;
-
-}
-
-
-
-.view-all{
-
-    background:none;
-
-    color:var(--primary);
-
-    font-weight:800;
-
-}
-
-/* =====================================================
-   HEADER SYSTEM
-   CSS PART 2/12
-===================================================== */
-
-
-/* =====================================================
-   APP HEADER
-===================================================== */
+/* ================================
+   HEADER
+================================ */
 
 
 .app-header{
 
+
     position:sticky;
 
+
     top:0;
+
 
     z-index:1000;
 
 
     background:
-    rgba(255,255,255,.88);
+
+    rgba(255,255,255,.9);
 
 
     backdrop-filter:
+
     blur(15px);
 
 
     border-bottom:
+
     1px solid var(--border);
 
 
     padding:
+
     14px 0;
 
 
@@ -347,11 +380,16 @@ button{
 
 
 
+
+
 .header-content{
+
 
     display:flex;
 
+
     align-items:center;
+
 
     justify-content:space-between;
 
@@ -365,9 +403,10 @@ button{
 
 
 
-/* =====================================================
+
+/* ================================
    LOGO
-===================================================== */
+================================ */
 
 
 .logo{
@@ -383,19 +422,13 @@ button{
 .logo h1{
 
 
-    font-size:
-
-    1.4rem;
+    font-size:1.4rem;
 
 
-    font-weight:
-
-    950;
+    font-weight:950;
 
 
-    color:
-
-    var(--primary);
+    color:var(--primary);
 
 
     line-height:1.2;
@@ -408,14 +441,10 @@ button{
 .logo p{
 
 
-    font-size:
-
-    .75rem;
+    font-size:.75rem;
 
 
-    color:
-
-    var(--muted);
+    color:var(--muted);
 
 
     font-weight:600;
@@ -429,9 +458,9 @@ button{
 
 
 
-/* =====================================================
+/* ================================
    SEARCH BOX
-===================================================== */
+================================ */
 
 
 .search-box{
@@ -463,16 +492,10 @@ button{
     width:100%;
 
 
-    padding:
-
-    13px 18px;
+    padding:13px 18px;
 
 
-
-    border-radius:
-
-    var(--radius-pill);
-
+    border-radius:var(--radius-pill);
 
 
     border:
@@ -480,26 +503,16 @@ button{
     1px solid var(--border);
 
 
-
-    background:
-
-    var(--card);
+    background:var(--card);
 
 
-
-    color:
-
-    var(--text);
-
+    color:var(--text);
 
 
     outline:none;
 
 
-
-    transition:
-
-    var(--transition);
+    transition:var(--transition);
 
 
 }
@@ -511,9 +524,7 @@ button{
 .search-box input::placeholder{
 
 
-    color:
-
-    var(--muted);
+    color:var(--muted);
 
 
 }
@@ -525,9 +536,7 @@ button{
 .search-box input:focus{
 
 
-    border-color:
-
-    var(--primary);
+    border-color:var(--primary);
 
 
     box-shadow:
@@ -536,6 +545,7 @@ button{
 
 
 }
+
 
 
 
@@ -563,10 +573,7 @@ button{
     justify-content:center;
 
 
-
-    background:
-
-    var(--primary);
+    background:var(--primary);
 
 
     color:white;
@@ -575,9 +582,7 @@ button{
     font-size:1.1rem;
 
 
-    transition:
-
-    var(--transition);
+    transition:var(--transition);
 
 
 }
@@ -588,14 +593,10 @@ button{
 .search-box button:hover{
 
 
-    background:
-
-    var(--primary-dark);
+    background:var(--primary-dark);
 
 
-    transform:
-
-    translateY(-2px);
+    transform:translateY(-2px);
 
 
 }
@@ -606,10 +607,9 @@ button{
 
 
 
-
-/* =====================================================
+/* ================================
    CART BUTTON
-===================================================== */
+================================ */
 
 
 .cart-btn{
@@ -627,15 +627,10 @@ button{
     border-radius:50%;
 
 
-    background:
-
-    var(--primary);
+    background:var(--primary);
 
 
     color:white;
-
-
-    font-size:1.2rem;
 
 
     display:flex;
@@ -647,13 +642,14 @@ button{
     justify-content:center;
 
 
+    font-size:1.2rem;
 
-    transition:
 
-    var(--transition);
+    transition:var(--transition);
 
 
 }
+
 
 
 
@@ -661,14 +657,10 @@ button{
 .cart-btn:hover{
 
 
-    background:
-
-    var(--primary-dark);
+    background:var(--primary-dark);
 
 
-    transform:
-
-    scale(1.05);
+    transform:scale(1.05);
 
 
 }
@@ -679,9 +671,9 @@ button{
 
 
 
-/* =====================================================
-   CART COUNT BADGE
-===================================================== */
+/* ================================
+   CART NUMBER
+================================ */
 
 
 #cart-count{
@@ -702,25 +694,13 @@ button{
     height:21px;
 
 
-    padding:2px;
-
-
     border-radius:50%;
 
 
-    background:
-
-    var(--danger);
+    background:var(--danger);
 
 
     color:white;
-
-
-    font-size:.7rem;
-
-
-    font-weight:900;
-
 
 
     display:flex;
@@ -732,15 +712,22 @@ button{
     justify-content:center;
 
 
+    font-size:.7rem;
+
+
+    font-weight:900;
+
+
 }
 
 
 
 
 
-/* =====================================================
-   MOBILE HEADER
-===================================================== */
+
+/* ================================
+   HEADER MOBILE
+================================ */
 
 
 @media(max-width:700px){
@@ -766,6 +753,7 @@ button{
 
 
 
+
     .logo p{
 
 
@@ -779,9 +767,7 @@ button{
     .search-box input{
 
 
-        padding:
-
-        11px 12px;
+        padding:11px 12px;
 
 
     }
@@ -817,72 +803,542 @@ button{
 
 
 /* =====================================================
-   HORNMARKET PREMIUM UI
-   STYLE.CSS PART 3/4
+   CSS PART 3/12
+
+   HERO SECTION
+   HERO BUTTONS
 ===================================================== */
+
+
+/* ================================
+   HERO
+================================ */
+
+
+.hero{
+
+
+    margin:20px 16px;
+
+
+    padding:45px 20px;
+
+
+    border-radius:var(--radius-lg);
+
+
+    background:
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--accent)
+    );
+
+
+    color:white;
+
+
+    text-align:center;
+
+
+    box-shadow:var(--shadow-md);
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+
+
+
+.hero-content{
+
+
+    max-width:700px;
+
+
+    margin:auto;
+
+
+}
+
+
+
+
+
+
+
+.hero h1{
+
+
+    font-size:
+
+    clamp(2rem,6vw,3rem);
+
+
+    font-weight:950;
+
+
+    line-height:1.15;
+
+
+    margin-bottom:15px;
+
+
+}
+
+
+
+
+
+.hero p{
+
+
+    font-size:1.05rem;
+
+
+    opacity:.9;
+
+
+    margin-bottom:10px;
+
+
+}
+
+
+
+
+
+
+
+/* ================================
+   HERO BUTTON GROUP
+================================ */
+
+
+.hero-buttons{
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    align-items:center;
+
+
+    gap:15px;
+
+
+    flex-wrap:wrap;
+
+
+    margin-top:25px;
+
+
+}
+
+
+
+
+
+
+
+
+/* ================================
+   BUTTON SYSTEM
+================================ */
+
+
+.primary-btn,
+
+
+.secondary-btn{
+
+
+    padding:14px 28px;
+
+
+    border-radius:var(--radius-pill);
+
+
+    font-weight:900;
+
+
+    transition:var(--transition);
+
+
+}
+
+
+
+
+
+
+
+.primary-btn{
+
+
+    background:white;
+
+
+    color:var(--primary);
+
+
+}
+
+
+
+
+
+.primary-btn:hover{
+
+
+    transform:translateY(-3px);
+
+
+    box-shadow:var(--shadow-md);
+
+
+}
+
+
+
+
+
+
+
+.secondary-btn{
+
+
+    background:rgba(255,255,255,.15);
+
+
+    color:white;
+
+
+    border:
+
+    1px solid rgba(255,255,255,.5);
+
+
+}
+
+
+
+
+
+.secondary-btn:hover{
+
+
+    background:white;
+
+
+    color:var(--primary);
+
+
+    transform:translateY(-3px);
+
+
+}
+
+
+
+
+
+
+
+
+/* ================================
+   GENERAL BUTTON EFFECT
+================================ */
+
+
+button{
+
+
+    transition:var(--transition);
+
+
+}
+
+
+
+
+
+button:active{
+
+
+    transform:scale(.97);
+
+
+}
+
+
+
+
+
+
+
+
+/* ================================
+   MOBILE HERO
+================================ */
+
+
+@media(max-width:600px){
+
+
+
+    .hero{
+
+
+        padding:35px 15px;
+
+
+        margin:15px;
+
+
+    }
+
+
+
+    .hero h1{
+
+
+        font-size:2rem;
+
+
+    }
+
+
+
+
+    .hero-buttons{
+
+
+        flex-direction:column;
+
+
+    }
+
+
+
+
+    .primary-btn,
+
+
+    .secondary-btn{
+
+
+        width:100%;
+
+
+        max-width:280px;
+
+
+    }
+
+
+}
+
 
 
 /* =====================================================
+   CSS PART 4/12
+
    STATS SECTION
+   STAT CARDS
 ===================================================== */
+
+
+/* ================================
+   STATS CONTAINER
+================================ */
 
 
 .stats{
 
+
     display:grid;
 
+
     grid-template-columns:
-    repeat(auto-fit,minmax(150px,1fr));
 
-    gap:15px;
+    repeat(
+        auto-fit,
+        minmax(150px,1fr)
+    );
 
-    padding:20px 16px;
+
+    gap:16px;
+
+
+    padding:
+
+    20px 16px;
+
 
 }
 
+
+
+
+
+
+
+/* ================================
+   STAT CARD
+================================ */
 
 
 .stat-card{
 
+
     background:
+
     var(--card);
 
+
+
     border:
+
     1px solid var(--border);
 
+
+
     border-radius:
+
     var(--radius-lg);
 
-    padding:22px;
+
+
+    padding:
+
+    24px 15px;
+
+
 
     text-align:center;
 
+
+
     box-shadow:
+
     var(--shadow-sm);
+
+
+
+    transition:
+
+    var(--transition);
+
+
 
 }
 
+
+
+
+
+
+.stat-card:hover{
+
+
+    transform:
+
+    translateY(-5px);
+
+
+
+    box-shadow:
+
+    var(--shadow-md);
+
+
+
+    border-color:
+
+    var(--primary);
+
+
+}
+
+
+
+
+
+
+
+/* ================================
+   STAT NUMBER
+================================ */
 
 
 .stat-card h3{
 
-    font-size:2rem;
 
-    font-weight:900;
+    font-size:
+
+    2.2rem;
+
+
+
+    font-weight:
+
+    950;
+
+
 
     color:
+
     var(--primary);
+
+
+
+    margin-bottom:
+
+    5px;
+
 
 }
 
+
+
+
+
+
+
+/* ================================
+   STAT LABEL
+================================ */
 
 
 .stat-card p{
 
+
     color:
+
     var(--muted);
 
-    font-weight:700;
+
+
+    font-size:
+
+    .9rem;
+
+
+
+    font-weight:
+
+    700;
+
+
 
 }
 
@@ -890,15 +1346,84 @@ button{
 
 
 
+
+
+/* ================================
+   MOBILE STATS
+================================ */
+
+
+@media(max-width:600px){
+
+
+    .stats{
+
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+
+        gap:12px;
+
+
+        padding:
+
+        15px;
+
+
+    }
+
+
+
+    .stat-card{
+
+
+        padding:
+
+        18px 10px;
+
+
+    }
+
+
+
+    .stat-card h3{
+
+
+        font-size:
+
+        1.8rem;
+
+
+    }
+
+
+}
+
+
 /* =====================================================
+   CSS PART 5/12
+
    CATEGORY SECTION
+   CATEGORY GRID
+   CATEGORY BUTTONS
 ===================================================== */
+
+
+/* ================================
+   CATEGORY SECTION
+================================ */
 
 
 .categories{
 
+
     padding:
-    20px 16px;
+
+    25px 16px;
+
+
 
 }
 
@@ -906,73 +1431,218 @@ button{
 
 .categories h2{
 
-    margin-bottom:20px;
+
+    font-size:
+
+    1.6rem;
+
+
+
+    font-weight:
+
+    950;
+
+
+
+    margin-bottom:
+
+    20px;
+
+
 
 }
 
+
+
+
+
+
+
+/* ================================
+   CATEGORY GRID
+================================ */
 
 
 .category-grid{
 
+
     display:grid;
 
-    grid-template-columns:
-    repeat(auto-fit,minmax(100px,1fr));
 
-    gap:14px;
+
+    grid-template-columns:
+
+    repeat(
+        auto-fit,
+        minmax(100px,1fr)
+    );
+
+
+
+    gap:
+
+    14px;
+
+
 
 }
 
+
+
+
+
+
+
+/* ================================
+   CATEGORY BUTTON
+================================ */
 
 
 .category-btn{
 
-    padding:18px 10px;
+
+    min-height:
+
+    90px;
+
+
+
+    padding:
+
+    15px 10px;
+
+
 
     border-radius:
+
     var(--radius-lg);
 
+
+
     background:
+
     var(--card);
 
+
+
     border:
+
     1px solid var(--border);
 
+
+
     color:
+
     var(--text);
 
-    font-weight:800;
 
-    font-size:.9rem;
+
+    font-size:
+
+    .9rem;
+
+
+
+    font-weight:
+
+    850;
+
+
+
+    display:flex;
+
+
+
+    flex-direction:column;
+
+
+
+    align-items:center;
+
+
+
+    justify-content:center;
+
+
+
+    gap:6px;
+
+
 
     transition:
+
     var(--transition);
 
+
+
 }
+
+
+
+
 
 
 
 .category-btn:hover{
 
+
     transform:
-    translateY(-4px);
+
+    translateY(-5px);
+
+
 
     border-color:
+
     var(--primary);
+
+
+
+    box-shadow:
+
+    var(--shadow-md);
+
+
 
 }
 
+
+
+
+
+
+
+/* ================================
+   ACTIVE CATEGORY
+================================ */
 
 
 .category-btn.active{
 
+
     background:
+
     var(--primary);
 
-    color:white;
+
+
+    color:
+
+    white;
+
+
 
     border-color:
+
     var(--primary);
+
+
+
+    box-shadow:
+
+    0 10px 25px rgba(37,99,235,.25);
+
+
 
 }
 
@@ -981,29 +1651,150 @@ button{
 
 
 
+
+/* ================================
+   CATEGORY ICON SIZE
+================================ */
+
+
+.category-btn::first-line{
+
+
+    font-size:
+
+    1.5rem;
+
+
+
+}
+
+
+
+
+
+
+
+/* ================================
+   MOBILE CATEGORY
+================================ */
+
+
+@media(max-width:600px){
+
+
+    .category-grid{
+
+
+        grid-template-columns:
+
+        repeat(4,1fr);
+
+
+
+        gap:
+
+        10px;
+
+
+    }
+
+
+
+    .category-btn{
+
+
+        min-height:
+
+        80px;
+
+
+
+        font-size:
+
+        .75rem;
+
+
+    }
+
+
+
+}
+
+
+
+@media(max-width:400px){
+
+
+    .category-grid{
+
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+
+    }
+
+
+
+}
+
+
 /* =====================================================
+   CSS PART 6/12
+
    FEATURED PRODUCTS
+   PRODUCT GRID
+   PRODUCT CARD
 ===================================================== */
+
+
+/* ================================
+   FEATURED SECTION
+================================ */
 
 
 .featured-section{
 
+
     padding:
-    20px 16px;
+
+    25px 16px;
+
+
 
 }
 
 
 
+
+
+
+/* ================================
+   SECTION HEADER
+================================ */
+
+
 .section-header{
+
 
     display:flex;
 
+
+
     align-items:center;
+
+
 
     justify-content:space-between;
 
-    margin-bottom:15px;
+
+
+    margin-bottom:
+
+    20px;
+
+
 
 }
 
@@ -1011,20 +1802,62 @@ button{
 
 .section-header h2{
 
-    font-size:1.5rem;
+
+    font-size:
+
+    1.6rem;
+
+
+
+    font-weight:
+
+    950;
+
+
 
 }
+
+
 
 
 
 .view-all{
 
+
     background:none;
 
+
+
     color:
+
     var(--primary);
 
-    font-weight:800;
+
+
+    font-weight:
+
+    900;
+
+
+
+    padding:
+
+    8px 12px;
+
+
+
+}
+
+
+
+.view-all:hover{
+
+
+    text-decoration:
+
+    underline;
+
+
 
 }
 
@@ -1032,14 +1865,19 @@ button{
 
 
 
-/* =====================================================
+
+
+/* ================================
    PRODUCT GRID
-===================================================== */
+================================ */
 
 
 .products{
 
+
     display:grid;
+
+
 
     grid-template-columns:
 
@@ -1048,7 +1886,13 @@ button{
         minmax(220px,1fr)
     );
 
-    gap:20px;
+
+
+    gap:
+
+    20px;
+
+
 
 }
 
@@ -1056,107 +1900,641 @@ button{
 
 
 
-/* PRODUCT CARD */
+
+
+/* ================================
+   PRODUCT CARD
+================================ */
 
 
 .card{
 
+
     background:
+
     var(--card);
 
+
+
     border:
+
     1px solid var(--border);
 
+
+
     border-radius:
+
     var(--radius-lg);
+
+
 
     overflow:hidden;
 
+
+
     box-shadow:
+
     var(--shadow-sm);
 
+
+
     transition:
+
+    var(--transition);
+
+
+
+    position:relative;
+
+
+
+}
+
+
+
+
+
+
+
+.card:hover{
+
+
+    transform:
+
+    translateY(-7px);
+
+
+
+    box-shadow:
+
+    var(--shadow-lg);
+
+
+
+    border-color:
+
+    var(--primary);
+
+
+
+}
+
+
+
+
+
+
+
+/* ================================
+   PRODUCT IMAGE
+================================ */
+
+
+.card img{
+
+
+    width:100%;
+
+
+
+    height:
+
+    220px;
+
+
+
+    object-fit:
+
+    cover;
+
+
+
+}
+
+
+
+
+
+
+
+/* ================================
+   PRODUCT CONTENT
+================================ */
+
+
+.card-content{
+
+
+    padding:
+
+    16px;
+
+
+
+}
+
+
+
+
+
+
+
+.card h3{
+
+
+    font-size:
+
+    1.1rem;
+
+
+
+    font-weight:
+
+    900;
+
+
+
+    color:
+
+    var(--text);
+
+
+
+    margin-bottom:
+
+    8px;
+
+
+
+}
+
+
+
+
+
+
+
+/* ================================
+   CATEGORY LABEL
+================================ */
+
+
+.category{
+
+
+    display:inline-block;
+
+
+
+    padding:
+
+    5px 12px;
+
+
+
+    border-radius:
+
+    var(--radius-pill);
+
+
+
+    background:
+
+    rgba(37,99,235,.12);
+
+
+
+    color:
+
+    var(--primary);
+
+
+
+    font-size:
+
+    .8rem;
+
+
+
+    font-weight:
+
+    800;
+
+
+
+}
+
+
+
+
+
+
+
+/* ================================
+   PRODUCT PRICE
+================================ */
+
+
+.price{
+
+
+    margin-top:
+
+    12px;
+
+
+
+    color:
+
+    var(--primary);
+
+
+
+    font-size:
+
+    1.25rem;
+
+
+
+    font-weight:
+
+    950;
+
+
+
+}
+
+
+
+
+
+
+
+/* ================================
+   ADD TO CART BUTTON
+================================ */
+
+
+.add-to-cart{
+
+
+    width:100%;
+
+
+
+    margin-top:
+
+    15px;
+
+
+
+    padding:
+
+    13px;
+
+
+
+    border-radius:
+
+    var(--radius-md);
+
+
+
+    background:
+
+    var(--primary);
+
+
+
+    color:white;
+
+
+
+    font-weight:
+
+    900;
+
+
+
+    transition:
+
+    var(--transition);
+
+
+
+}
+
+
+
+
+
+
+
+.add-to-cart:hover{
+
+
+    background:
+
+    var(--primary-dark);
+
+
+
+    transform:
+
+    translateY(-2px);
+
+
+
+}
+
+
+
+
+
+
+
+/* ================================
+   EMPTY PRODUCTS STATE
+================================ */
+
+
+.empty-state{
+
+
+    text-align:center;
+
+
+
+    padding:
+
+    40px 20px;
+
+
+
+    background:
+
+    var(--card);
+
+
+
+    border-radius:
+
+    var(--radius-lg);
+
+
+
+    color:
+
+    var(--muted);
+
+
+
+}
+
+
+
+
+
+
+
+/* ================================
+   MOBILE PRODUCTS
+================================ */
+
+
+@media(max-width:600px){
+
+
+    .products{
+
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+
+
+        gap:
+
+        12px;
+
+
+
+    }
+
+
+
+    .card img{
+
+
+        height:
+
+        150px;
+
+
+
+    }
+
+
+
+    .card-content{
+
+
+        padding:
+
+        12px;
+
+
+
+    }
+
+
+
+    .card h3{
+
+
+        font-size:
+
+        .95rem;
+
+
+
+    }
+
+
+
+    .price{
+
+
+        font-size:
+
+        1rem;
+
+
+
+    }
+
+
+
+}
+
+
+/* =====================================================
+   HORNM ARKET PREMIUM MARKETPLACE UI
+   CSS PART 7/12
+   SELL PAGE + FORMS + INPUT SYSTEM
+===================================================== */
+
+
+/* =====================================================
+   SELL PAGE
+===================================================== */
+
+
+#sell-page{
+
+    min-height:70vh;
+
+}
+
+
+
+#sell-page h2{
+
+    margin-bottom:25px;
+
+}
+
+
+
+/* =====================================================
+   SELL FORM CARD
+===================================================== */
+
+
+#sell-form{
+
+    width:100%;
+
+    max-width:650px;
+
+    margin:auto;
+
+    padding:25px;
+
+
+    background:
+    var(--card);
+
+
+    border:
+
+    1px solid var(--border);
+
+
+    border-radius:
+
+    var(--radius-lg);
+
+
+    box-shadow:
+
+    var(--shadow-md);
+
+}
+
+
+
+
+
+/* =====================================================
+   FORM INPUTS
+===================================================== */
+
+
+#sell-form input,
+#sell-form textarea,
+#sell-form select{
+
+
+    width:100%;
+
+
+    padding:
+
+    14px 16px;
+
+
+    margin-bottom:18px;
+
+
+    border:
+
+    1px solid var(--border);
+
+
+    border-radius:
+
+    var(--radius-md);
+
+
+    background:
+
+    var(--bg);
+
+
+    color:
+
+    var(--text);
+
+
+    font-size:1rem;
+
+
+    outline:none;
+
+
+    transition:
+
     var(--transition);
 
 }
 
 
 
-.card:hover{
 
-    transform:
-    translateY(-6px);
+#sell-form input::placeholder,
+#sell-form textarea::placeholder{
+
+
+    color:
+
+    var(--muted);
+
+}
+
+
+
+
+
+#sell-form input:focus,
+#sell-form textarea:focus,
+#sell-form select:focus{
+
+
+    border-color:
+
+    var(--primary);
+
+
+    background:
+
+    var(--card);
+
 
     box-shadow:
-    var(--shadow-lg);
 
-}
-
-
-
-.card img{
-
-    width:100%;
-
-    height:220px;
-
-    object-fit:cover;
-
-}
-
-
-
-.card-content{
-
-    padding:16px;
-
-}
-
-
-
-.card h3{
-
-    font-size:1.1rem;
-
-    font-weight:900;
-
-}
-
-
-
-.category{
-
-    display:inline-block;
-
-    margin-top:8px;
-
-    padding:5px 12px;
-
-    border-radius:
-    var(--radius-pill);
-
-    background:
-    var(--primary-soft);
-
-    color:
-    var(--primary);
-
-    font-size:.8rem;
-
-}
-
-
-
-.price{
-
-    margin-top:10px;
-
-    color:
-    var(--primary);
-
-    font-size:1.2rem;
-
-    font-weight:900;
+    0 0 0 4px rgba(37,99,235,.15);
 
 }
 
@@ -1164,32 +2542,19 @@ button{
 
 
 
-.add-to-cart{
-
-    width:100%;
-
-    margin-top:15px;
-
-    padding:12px;
-
-    border-radius:
-    var(--radius-md);
-
-    background:
-    var(--primary);
-
-    color:white;
-
-    font-weight:900;
-
-}
+/* =====================================================
+   TEXTAREA
+===================================================== */
 
 
+#sell-form textarea{
 
-.add-to-cart:hover{
 
-    background:
-    var(--primary-dark);
+    min-height:150px;
+
+
+    resize:vertical;
+
 
 }
 
@@ -1199,122 +2564,1081 @@ button{
 
 
 /* =====================================================
+   PRIMARY BUTTON SYSTEM
+===================================================== */
+
+
+.primary-btn{
+
+
+    width:100%;
+
+
+    padding:
+
+    14px 20px;
+
+
+    border-radius:
+
+    var(--radius-md);
+
+
+    background:
+
+    var(--primary);
+
+
+    color:white;
+
+
+    font-size:1rem;
+
+
+    font-weight:900;
+
+
+    transition:
+
+    var(--transition);
+
+
+}
+
+
+
+
+.primary-btn:hover{
+
+
+    background:
+
+    var(--primary-dark);
+
+
+    transform:
+
+    translateY(-3px);
+
+
+    box-shadow:
+
+    var(--shadow-md);
+
+}
+
+
+
+
+
+
+/* =====================================================
+   SECONDARY BUTTON
+===================================================== */
+
+
+.secondary-btn{
+
+
+    padding:
+
+    14px 25px;
+
+
+    border-radius:
+
+    var(--radius-pill);
+
+
+    background:
+
+    white;
+
+
+    color:
+
+    var(--primary);
+
+
+    font-weight:900;
+
+
+    transition:
+
+    var(--transition);
+
+
+}
+
+
+
+
+
+.secondary-btn:hover{
+
+
+    transform:
+
+    translateY(-3px);
+
+
+    box-shadow:
+
+    var(--shadow-sm);
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   HERO BUTTON GROUP
+===================================================== */
+
+
+.hero-buttons{
+
+
+    display:flex;
+
+
+    justify-content:center;
+
+
+    gap:15px;
+
+
+    margin-top:25px;
+
+
+}
+
+
+
+
+.hero-buttons button{
+
+
+    width:auto;
+
+
+}
+
+
+
+
+
+/* =====================================================
+   FORM RESPONSIVE
+===================================================== */
+
+
+@media(max-width:600px){
+
+
+    #sell-form{
+
+
+        padding:
+
+        18px;
+
+    }
+
+
+
+    .hero-buttons{
+
+
+        flex-direction:column;
+
+    }
+
+
+
+    .hero-buttons button{
+
+
+        width:100%;
+
+    }
+
+
+}
+
+
+/* =====================================================
+   HORNM ARKET PREMIUM MARKETPLACE UI
+   CSS PART 8/12
+
+   ACCOUNT PAGE
+   SELLER DASHBOARD
+   DASHBOARD CARDS
+===================================================== */
+
+
+/* =====================================================
+   ACCOUNT PAGE
+===================================================== */
+
+
+#account-page{
+
+
+    min-height:70vh;
+
+
+}
+
+
+
+#account-page h2{
+
+
+    margin-bottom:
+
+    25px;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   ACCOUNT CARD
+===================================================== */
+
+
+.account-card{
+
+
+    background:
+
+    var(--card);
+
+
+
+    border:
+
+    1px solid var(--border);
+
+
+
+    border-radius:
+
+    var(--radius-lg);
+
+
+
+    padding:
+
+    25px;
+
+
+
+    box-shadow:
+
+    var(--shadow-md);
+
+
+
+}
+
+
+
+
+
+.account-card h3{
+
+
+    font-size:
+
+    1.4rem;
+
+
+
+    font-weight:
+
+    950;
+
+
+
+    color:
+
+    var(--primary);
+
+
+
+    margin-bottom:
+
+    8px;
+
+
+
+}
+
+
+
+
+.account-card p{
+
+
+    color:
+
+    var(--muted);
+
+
+
+    margin-bottom:
+
+    20px;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   DASHBOARD GRID
+===================================================== */
+
+
+.dashboard{
+
+
+    display:grid;
+
+
+
+    grid-template-columns:
+
+    repeat(
+        auto-fit,
+        minmax(200px,1fr)
+    );
+
+
+
+    gap:
+
+    18px;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   DASHBOARD CARD
+===================================================== */
+
+
+.dashboard-card{
+
+
+    background:
+
+    var(--bg);
+
+
+
+    border:
+
+    1px solid var(--border);
+
+
+
+    border-radius:
+
+    var(--radius-lg);
+
+
+
+    padding:
+
+    22px;
+
+
+
+    text-align:center;
+
+
+
+    transition:
+
+    var(--transition);
+
+
+
+}
+
+
+
+
+
+
+
+.dashboard-card:hover{
+
+
+    transform:
+
+    translateY(-5px);
+
+
+
+    border-color:
+
+    var(--primary);
+
+
+
+    box-shadow:
+
+    var(--shadow-md);
+
+
+
+}
+
+
+
+
+
+
+
+.dashboard-card h3{
+
+
+    color:
+
+    var(--muted);
+
+
+
+    font-size:
+
+    .95rem;
+
+
+
+    font-weight:
+
+    800;
+
+
+
+}
+
+
+
+
+
+
+
+.dashboard-card strong{
+
+
+    display:block;
+
+
+
+    margin-top:
+
+    15px;
+
+
+
+    font-size:
+
+    2rem;
+
+
+
+    font-weight:
+
+    950;
+
+
+
+    color:
+
+    var(--primary);
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   SELLER STAT COLORS
+===================================================== */
+
+
+#my-products{
+
+
+    color:
+
+    var(--success);
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   ACCOUNT MOBILE
+===================================================== */
+
+
+@media(max-width:600px){
+
+
+    .account-card{
+
+
+        padding:
+
+        18px;
+
+
+
+    }
+
+
+
+    .dashboard{
+
+
+        grid-template-columns:
+
+        1fr;
+
+
+
+    }
+
+
+
+    .dashboard-card strong{
+
+
+        font-size:
+
+        1.7rem;
+
+
+
+    }
+
+
+}
+
+
+
+/* =====================================================
+   HORNM ARKET PREMIUM MARKETPLACE UI
+   CSS PART 9/12
+
    PRODUCT MODAL
+===================================================== */
+
+
+/* =====================================================
+   MODAL BACKGROUND
 ===================================================== */
 
 
 .modal{
 
+
     position:fixed;
+
 
     inset:0;
 
-    background:
-    rgba(0,0,0,.55);
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    padding:20px;
 
     z-index:3000;
 
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    padding:20px;
+
+
+
+    background:
+
+    rgba(0,0,0,.55);
+
+
+
+    backdrop-filter:
+
+    blur(5px);
+
+
+
 }
 
+
+
+
+
+
+
+/* =====================================================
+   MODAL BOX
+===================================================== */
 
 
 .modal-content{
 
+
     width:100%;
+
 
     max-width:500px;
 
+
+
     background:
+
     var(--card);
 
+
+
     border-radius:
+
     var(--radius-lg);
 
-    padding:25px;
+
+
+    padding:
+
+    25px;
+
+
 
     position:relative;
 
+
+
     box-shadow:
+
     var(--shadow-lg);
+
+
+
+    animation:
+
+    modalOpen .25s ease;
+
+
 
 }
 
+
+
+
+
+
+
+/* =====================================================
+   MODAL IMAGE
+===================================================== */
 
 
 .modal-content img{
 
+
     width:100%;
+
 
     height:260px;
 
+
     object-fit:cover;
 
+
+
     border-radius:
+
     var(--radius-md);
 
-    margin-bottom:20px;
+
+
+    margin-bottom:
+
+    20px;
+
+
 
 }
 
+
+
+
+
+
+
+/* =====================================================
+   CLOSE BUTTON
+===================================================== */
 
 
 #close-modal{
 
+
     position:absolute;
 
-    right:15px;
+
 
     top:15px;
 
-    width:35px;
 
-    height:35px;
+
+    right:15px;
+
+
+
+    width:38px;
+
+
+
+    height:38px;
+
+
 
     border-radius:50%;
 
+
+
     background:
+
     var(--danger);
+
+
 
     color:white;
 
-    font-size:18px;
+
+
+    font-size:1.2rem;
+
+
+
+    display:flex;
+
+
+
+    align-items:center;
+
+
+
+    justify-content:center;
+
+
+
+    transition:
+
+    var(--transition);
+
+
 
 }
 
 
 
+
+
+#close-modal:hover{
+
+
+    transform:
+
+    rotate(90deg);
+
+
+
+    background:
+
+    #dc2626;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   MODAL TEXT
+===================================================== */
 
 
 #modal-name{
 
-    font-weight:900;
 
-    margin-bottom:10px;
+    font-size:
+
+    1.5rem;
+
+
+
+    font-weight:
+
+    950;
+
+
+
+    margin-bottom:
+
+    10px;
+
+
 
 }
+
+
+
+
+
+
+
+#modal-description{
+
+
+    color:
+
+    var(--muted);
+
+
+
+    line-height:
+
+    1.6;
+
+
+
+}
+
+
+
+
 
 
 
 #modal-price{
 
+
+    margin:
+
+    18px 0;
+
+
+
     color:
+
     var(--primary);
 
-    margin:15px 0;
+
+
+    font-size:
+
+    1.4rem;
+
+
+
+    font-weight:
+
+    950;
+
+
 
 }
 
 
 
 
+
+
+
+/* =====================================================
+   MODAL CART BUTTON
+===================================================== */
+
+
+#modal-cart{
+
+
+    width:100%;
+
+
+
+    padding:
+
+    14px;
+
+
+
+    border-radius:
+
+    var(--radius-md);
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   MODAL ANIMATION
+===================================================== */
+
+
+@keyframes modalOpen{
+
+
+    from{
+
+
+        opacity:0;
+
+
+        transform:
+
+        scale(.9);
+
+
+
+    }
+
+
+
+    to{
+
+
+        opacity:1;
+
+
+        transform:
+
+        scale(1);
+
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   MOBILE MODAL
+===================================================== */
+
+
+@media(max-width:600px){
+
+
+    .modal-content{
+
+
+        padding:
+
+        18px;
+
+
+
+    }
+
+
+
+    .modal-content img{
+
+
+        height:
+
+        200px;
+
+
+
+    }
+
+
+
+    #modal-name{
+
+
+        font-size:
+
+        1.2rem;
+
+
+
+    }
+
+
+}
+
+
+
+/* =====================================================
+   HORNM ARKET PREMIUM MARKETPLACE UI
+   CSS PART 10/12
+
+   CART PANEL
+   CART ITEMS
+   CHECKOUT
+===================================================== */
 
 
 /* =====================================================
@@ -1324,141 +3648,954 @@ button{
 
 .cart-panel{
 
+
     position:fixed;
+
+
 
     top:0;
 
+
+
     right:0;
 
-    height:100%;
+
 
     width:min(420px,100%);
 
-    background:
-    var(--bg);
+
+
+    height:100vh;
+
+
 
     z-index:2500;
 
-    padding:20px;
+
+
+    background:
+
+    var(--bg);
+
+
+
+    padding:
+
+    20px;
+
+
 
     overflow-y:auto;
 
+
+
     box-shadow:
-    -10px 0 40px rgba(0,0,0,.2);
+
+    -10px 0 40px rgba(0,0,0,.25);
+
+
+
+    animation:
+
+    cartSlide .3s ease;
+
+
 
 }
 
+
+
+
+
+
+
+/* =====================================================
+   CART HEADER
+===================================================== */
 
 
 .cart-header{
 
+
     display:flex;
 
-    justify-content:space-between;
+
 
     align-items:center;
 
-    margin-bottom:20px;
+
+
+    justify-content:space-between;
+
+
+
+    margin-bottom:
+
+    25px;
+
+
 
 }
+
+
+
+.cart-header h2{
+
+
+    font-size:
+
+    1.5rem;
+
+
+
+    font-weight:
+
+    950;
+
+
+
+}
+
+
 
 
 
 .cart-header button{
 
-    width:40px;
 
-    height:40px;
+    width:
 
-    border-radius:50%;
+    40px;
+
+
+
+    height:
+
+    40px;
+
+
+
+    border-radius:
+
+    50%;
+
+
 
     background:
+
     var(--danger);
+
+
 
     color:white;
 
+
+
+    font-size:
+
+    1.1rem;
+
+
+
 }
+
+
+
+
+
+
+
+/* =====================================================
+   CART ITEMS
+===================================================== */
+
+
+#cart-items{
+
+
+    display:flex;
+
+
+
+    flex-direction:column;
+
+
+
+    gap:
+
+    12px;
+
+
+
+}
+
+
+
+
 
 
 
 .cart-item{
 
+
     display:flex;
 
-    justify-content:space-between;
+
 
     align-items:center;
 
-    gap:10px;
 
-    padding:15px;
+
+    justify-content:space-between;
+
+
+
+    gap:
+
+    10px;
+
+
+
+    padding:
+
+    15px;
+
+
 
     background:
+
     var(--card);
 
-    border-radius:
-    var(--radius-md);
+
 
     border:
+
     1px solid var(--border);
 
-    margin-bottom:12px;
 
-}
-
-
-
-.cart-item button{
-
-    padding:8px 12px;
 
     border-radius:
-    var(--radius-sm);
+
+    var(--radius-md);
+
+
 
 }
 
 
 
-.cart-item button:first-child,
-.cart-item button:nth-child(3){
+
+
+
+
+.cart-item span{
+
+
+    font-weight:
+
+    800;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   QUANTITY BUTTONS
+===================================================== */
+
+
+.qty-btn{
+
+
+    width:
+
+    32px;
+
+
+
+    height:
+
+    32px;
+
+
+
+    border-radius:
+
+    50%;
+
+
 
     background:
+
     var(--primary);
 
+
+
     color:white;
+
+
+
+    font-weight:
+
+    900;
+
+
 
 }
 
 
 
-.cart-item button:last-child{
+
+
+
+
+.qty-btn:hover{
+
 
     background:
-    var(--danger);
 
-    color:white;
+    var(--primary-dark);
+
+
 
 }
 
+
+
+
+
+
+
+/* =====================================================
+   REMOVE BUTTON
+===================================================== */
+
+
+.remove-btn{
+
+
+    padding:
+
+    8px 12px;
+
+
+
+    border-radius:
+
+    var(--radius-sm);
+
+
+
+    background:
+
+    var(--danger);
+
+
+
+    color:white;
+
+
+
+    font-weight:
+
+    800;
+
+
+
+}
+
+
+
+
+
+
+
+.remove-btn:hover{
+
+
+    opacity:.85;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   CART TOTAL
+===================================================== */
+
+
+#cart-total{
+
+
+    margin-top:
+
+    25px;
+
+
+
+    padding:
+
+    18px;
+
+
+
+    background:
+
+    var(--card);
+
+
+
+    border:
+
+    1px solid var(--border);
+
+
+
+    border-radius:
+
+    var(--radius-lg);
+
+
+
+    color:
+
+    var(--primary);
+
+
+
+    font-size:
+
+    1.3rem;
+
+
+
+    font-weight:
+
+    950;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   CHECKOUT BUTTON
+===================================================== */
 
 
 .checkout-btn{
 
+
     width:100%;
 
-    margin-top:20px;
 
-    padding:15px;
+
+    margin-top:
+
+    15px;
+
+
+
+    padding:
+
+    15px;
+
+
 
     border-radius:
+
     var(--radius-md);
 
+
+
     background:
+
     var(--success);
+
+
 
     color:white;
 
-    font-weight:900;
+
+
+    font-size:
+
+    1rem;
+
+
+
+    font-weight:
+
+    950;
+
+
+
+    transition:
+
+    var(--transition);
+
+
+
+}
+
+
+
+
+
+.checkout-btn:hover{
+
+
+    background:
+
+    #15803d;
+
+
+
+    transform:
+
+    translateY(-3px);
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   CART ANIMATION
+===================================================== */
+
+
+@keyframes cartSlide{
+
+
+    from{
+
+
+        transform:
+
+        translateX(100%);
+
+
+
+    }
+
+
+
+    to{
+
+
+        transform:
+
+        translateX(0);
+
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   MOBILE CART
+===================================================== */
+
+
+@media(max-width:600px){
+
+
+    .cart-panel{
+
+
+        width:
+
+        100%;
+
+
+
+    }
+
+
+
+}
+
+
+/* =====================================================
+   HORNM ARKET PREMIUM MARKETPLACE UI
+   CSS PART 11/12
+
+   MOBILE BOTTOM NAVIGATION
+===================================================== */
+
+
+/* =====================================================
+   BOTTOM NAV CONTAINER
+===================================================== */
+
+
+.bottom-nav{
+
+
+    position:fixed;
+
+
+
+    bottom:0;
+
+
+
+    left:0;
+
+
+
+    width:100%;
+
+
+
+    height:75px;
+
+
+
+    z-index:2000;
+
+
+
+    display:flex;
+
+
+
+    align-items:center;
+
+
+
+    justify-content:space-around;
+
+
+
+    background:
+
+    var(--card);
+
+
+
+    border-top:
+
+    1px solid var(--border);
+
+
+
+    box-shadow:
+
+    0 -8px 25px rgba(0,0,0,.12);
+
+
+
+    padding:
+
+    8px;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   NAV BUTTONS
+===================================================== */
+
+
+.bottom-nav button{
+
+
+    flex:1;
+
+
+
+    height:60px;
+
+
+
+    background:none;
+
+
+
+    color:
+
+    var(--muted);
+
+
+
+    display:flex;
+
+
+
+    flex-direction:column;
+
+
+
+    align-items:center;
+
+
+
+    justify-content:center;
+
+
+
+    gap:4px;
+
+
+
+    font-size:
+
+    .75rem;
+
+
+
+    font-weight:
+
+    800;
+
+
+
+    border-radius:
+
+    var(--radius-md);
+
+
+
+    transition:
+
+    var(--transition);
+
+
+
+}
+
+
+
+
+
+
+
+.bottom-nav button:hover{
+
+
+    color:
+
+    var(--primary);
+
+
+
+    background:
+
+    rgba(37,99,235,.08);
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   ACTIVE NAV BUTTON
+===================================================== */
+
+
+.bottom-nav button.active{
+
+
+    color:
+
+    var(--primary);
+
+
+
+    background:
+
+    rgba(37,99,235,.12);
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   NAV ICON SIZE
+=============================================== */
+
+
+.bottom-nav button::first-line{
+
+
+    font-size:
+
+    1.4rem;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   SAFE MOBILE AREA
+===================================================== */
+
+
+@supports(padding-bottom:env(safe-area-inset-bottom)){
+
+
+    .bottom-nav{
+
+
+        padding-bottom:
+
+        calc(
+            8px + env(safe-area-inset-bottom)
+        );
+
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   HIDE ON LARGE DESKTOP
+===================================================== */
+
+
+@media(min-width:900px){
+
+
+    .bottom-nav{
+
+
+        max-width:
+
+        600px;
+
+
+
+        left:
+
+        50%;
+
+
+
+        transform:
+
+        translateX(-50%);
+
+
+
+        border-radius:
+
+        var(--radius-lg);
+
+
+
+        bottom:
+
+        20px;
+
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   SMALL PHONE OPTIMIZATION
+===================================================== */
+
+
+@media(max-width:400px){
+
+
+    .bottom-nav button{
+
+
+        font-size:
+
+        .7rem;
+
+
+
+    }
+
+
+
+    .bottom-nav{
+
+
+        height:
+
+        70px;
+
+
+
+    }
+
 
 }
 
@@ -1468,70 +4605,594 @@ button{
 
 
 /* =====================================================
-   ACCOUNT DASHBOARD
+   HORNM ARKET PREMIUM MARKETPLACE UI
+   CSS PART 12/12
+
+   FINAL POLISH
+   DARK MODE
+   ANIMATIONS
+   RESPONSIVE
+   ACCESSIBILITY
 ===================================================== */
 
 
-.dashboard{
+/* =====================================================
+   SMOOTH TRANSITIONS
+===================================================== */
 
-    display:grid;
 
-    grid-template-columns:
+body,
+.card,
+.modal-content,
+.cart-panel,
+.account-card,
+.dashboard-card,
+.category-btn,
+input,
+textarea,
+button{
 
-    repeat(
-        auto-fit,
-        minmax(200px,1fr)
-    );
 
-    gap:18px;
+    transition:
 
-    margin-top:25px;
+    background .3s ease,
+
+    color .3s ease,
+
+    border-color .3s ease,
+
+    transform .25s ease;
+
 
 }
 
 
 
-.dashboard-card{
 
-    background:
-    var(--card);
 
-    padding:25px;
+
+
+/* =====================================================
+   LOADING EFFECT
+===================================================== */
+
+
+.loader{
+
+
+    width:
+
+    45px;
+
+
+
+    height:
+
+    45px;
+
+
 
     border-radius:
-    var(--radius-lg);
+
+    50%;
+
+
 
     border:
-    1px solid var(--border);
+
+    4px solid var(--border);
+
+
+
+    border-top-color:
+
+    var(--primary);
+
+
+
+    animation:
+
+    spin 1s linear infinite;
+
+
+
+    margin:
+
+    30px auto;
+
+
+
+}
+
+
+
+@keyframes spin{
+
+
+    from{
+
+
+        transform:
+
+        rotate(0deg);
+
+
+    }
+
+
+
+    to{
+
+
+        transform:
+
+        rotate(360deg);
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+
+.empty-state{
+
 
     text-align:center;
 
-}
 
 
+    padding:
 
-.dashboard-card h3{
+    50px 20px;
+
+
 
     color:
+
     var(--muted);
 
+
+
 }
 
 
 
-.dashboard-card strong{
+.empty-state h3{
 
-    display:block;
-
-    margin-top:15px;
-
-    font-size:2rem;
 
     color:
-    var(--primary);
+
+    var(--text);
+
+
+
+    margin-bottom:
+
+    10px;
+
+
 
 }
 
+
+
+
+
+
+
+/* =====================================================
+   DARK MODE SUPPORT
+===================================================== */
+
+
+body.dark{
+
+
+    --bg:#020617;
+
+    --card:#0f172a;
+
+    --text:#f8fafc;
+
+    --muted:#94a3b8;
+
+    --border:#1e293b;
+
+
+}
+
+
+
+
+
+
+
+body.dark .app-header{
+
+
+    background:
+
+    rgba(15,23,42,.9);
+
+
+
+}
+
+
+
+
+
+
+
+body.dark .secondary-btn{
+
+
+    background:
+
+    var(--card);
+
+
+
+    color:
+
+    white;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   FOCUS ACCESSIBILITY
+===================================================== */
+
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible{
+
+
+    outline:
+
+    3px solid var(--primary);
+
+
+
+    outline-offset:
+
+    3px;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   LARGE SCREEN OPTIMIZATION
+===================================================== */
+
+
+@media(min-width:1200px){
+
+
+    #app{
+
+
+        max-width:
+
+        1200px;
+
+
+
+    }
+
+
+
+    .products{
+
+
+        grid-template-columns:
+
+        repeat(4,1fr);
+
+
+
+    }
+
+
+
+    .dashboard{
+
+
+        grid-template-columns:
+
+        repeat(3,1fr);
+
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   TABLET OPTIMIZATION
+===================================================== */
+
+
+@media(max-width:900px){
+
+
+    .header-content{
+
+
+        flex-wrap:
+
+        wrap;
+
+
+
+    }
+
+
+
+    .search-box{
+
+
+        order:
+
+        3;
+
+
+
+        width:
+
+        100%;
+
+
+
+        max-width:none;
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   MOBILE FINAL FIXES
+===================================================== */
+
+
+@media(max-width:600px){
+
+
+    body{
+
+
+        padding-bottom:
+
+        90px;
+
+
+
+    }
+
+
+
+    .page{
+
+
+        padding:
+
+        15px;
+
+
+
+    }
+
+
+
+    .hero{
+
+
+        padding:
+
+        30px 15px;
+
+
+
+        margin:
+
+        15px;
+
+
+
+    }
+
+
+
+    .hero h1{
+
+
+        font-size:
+
+        1.8rem;
+
+
+
+    }
+
+
+
+    .stats{
+
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+
+
+    }
+
+
+
+    .stat-card{
+
+
+        padding:
+
+        15px;
+
+
+
+    }
+
+
+
+    .stat-card h3{
+
+
+        font-size:
+
+        1.5rem;
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   VERY SMALL DEVICES
+===================================================== */
+
+
+@media(max-width:380px){
+
+
+    .stats{
+
+
+        grid-template-columns:
+
+        1fr;
+
+
+
+    }
+
+
+
+    .logo h1{
+
+
+        font-size:
+
+        1rem;
+
+
+
+    }
+
+
+
+    .cart-btn{
+
+
+        width:
+
+        38px;
+
+
+
+        height:
+
+        38px;
+
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   IMAGE SAFETY
+===================================================== */
+
+
+img{
+
+
+    object-fit:
+
+    cover;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   END OF HORNM ARKET CSS ENGINE
+===================================================== */
 
 
 
