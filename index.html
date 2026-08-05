@@ -21,8 +21,8 @@
 
 <div class="top-bar">
 
-🇪🇹 Ethiopia's Digital Marketplace 
-| Buy • Sell • Discover
+🇪🇹 Ethiopia's Digital Marketplace |
+Buy • Sell • Discover
 
 </div>
 
@@ -34,12 +34,8 @@
 
 <header class="app-header">
 
-
 <div class="container header-content">
 
-
-
-<!-- LOGO -->
 
 <div class="logo">
 
@@ -56,13 +52,9 @@ Ethiopia Marketplace
 
 
 
-
-<!-- SEARCH -->
-
 <div class="search-box">
 
-
-<input
+<input 
 type="search"
 id="search"
 placeholder="Search products..."
@@ -81,13 +73,7 @@ placeholder="Search products..."
 
 
 
-
-<!-- CART -->
-
-<button 
-class="cart-btn" 
-id="open-cart">
-
+<button class="cart-btn" id="open-cart">
 
 🛒
 
@@ -95,15 +81,19 @@ id="open-cart">
 0
 </span>
 
-
 </button>
-
 
 
 </div>
 
-
 </header>
+
+
+
+
+
+
+
 <!-- MAIN APP -->
 
 <main id="app">
@@ -112,7 +102,10 @@ id="open-cart">
 
 
 
-<!-- HOME PAGE -->
+<!-- =====================
+     HOME PAGE
+===================== -->
+
 
 <section id="home-page" class="page">
 
@@ -120,7 +113,7 @@ id="open-cart">
 
 
 
-<!-- HERO SECTION -->
+<!-- HERO -->
 
 <div class="hero">
 
@@ -135,17 +128,13 @@ In One Marketplace
 </h1>
 
 
-
 <p>
 Buy and sell products easily across Ethiopia.
 </p>
 
 
 
-
-
 <div class="hero-buttons">
-
 
 
 <button 
@@ -158,8 +147,6 @@ Start Shopping
 
 
 
-
-
 <button 
 class="secondary-btn"
 data-page="sell">
@@ -169,7 +156,6 @@ Sell Product
 </button>
 
 
-
 </div>
 
 
@@ -182,16 +168,12 @@ Sell Product
 
 
 
-</section>
-
-   
 
 
+<!-- STATS -->
 
-<!-- MARKETPLACE STATISTICS -->
 
 <section class="stats">
-
 
 
 <div class="stat-card">
@@ -205,8 +187,6 @@ Products
 </p>
 
 </div>
-
-
 
 
 
@@ -224,8 +204,6 @@ Sellers
 
 
 
-
-
 <div class="stat-card">
 
 <h3 id="order-count">
@@ -237,8 +215,6 @@ Orders
 </p>
 
 </div>
-
-
 
 
 
@@ -255,7 +231,6 @@ Ethiopia
 </div>
 
 
-
 </section>
 
 
@@ -264,11 +239,10 @@ Ethiopia
 
 
 
-<!-- CATEGORY SECTION -->
+<!-- CATEGORIES -->
 
 
 <section class="categories">
-
 
 
 <h2>
@@ -277,170 +251,542 @@ Shop By Category
 
 
 
-
 <div class="category-grid">
 
 
 
-
-
-<button class="category-card category-btn active">
-
-<span>
+<button class="category-btn active">
 🛍️
-</span>
-
+<br>
 All
-
 </button>
 
 
 
-
-
-<button class="category-card category-btn">
-
-<span>
+<button class="category-btn">
 📱
-</span>
-
+<br>
 Electronics
-
 </button>
 
 
 
-
-
-<button class="category-card category-btn">
-
-<span>
+<button class="category-btn">
 👕
-</span>
-
+<br>
 Fashion
-
 </button>
 
 
 
-
-
-<button class="category-card category-btn">
-
-<span>
+<button class="category-btn">
 🍔
-</span>
-
+<br>
 Food
+</button>
+
+
+
+<button class="category-btn">
+🏠
+<br>
+Home
+</button>
+
+
+
+<button class="category-btn">
+🚗
+<br>
+Vehicles
+</button>
+
+
+
+<button class="category-btn">
+💻
+<br>
+Computers
+</button>
+
+
+
+<button class="category-btn">
+📚
+<br>
+Books
+</button>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- FEATURED PRODUCTS -->
+
+
+<section class="featured-section">
+
+
+<div class="section-header">
+
+
+<h2>
+Featured Products
+</h2>
+
+
+
+<button 
+class="view-all"
+data-page="products">
+
+View All
+
+</button>
+
+
+</div>
+
+
+
+
+<div 
+id="featured-products"
+class="products">
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+<!-- =====================
+     PRODUCTS PAGE
+===================== -->
+
+
+<section id="products-page" class="page hidden">
+
+
+<h2>
+All Products
+</h2>
+
+
+
+<div 
+id="products-container"
+class="products">
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =====================
+     SELL PAGE
+===================== -->
+
+
+<section id="sell-page" class="page hidden">
+
+
+<h2>
+Sell Product
+</h2>
+
+
+
+<form id="sell-form">
+
+
+<input
+id="product-name"
+type="text"
+placeholder="Product name"
+required
+>
+
+
+
+
+<input
+id="product-price"
+type="number"
+placeholder="Price in Birr"
+required
+>
+
+
+
+
+<input
+id="product-category"
+type="text"
+placeholder="Category"
+required
+>
+
+
+
+
+<input
+id="product-image"
+type="url"
+placeholder="Image URL"
+>
+
+
+
+
+<textarea
+id="product-description"
+placeholder="Product description">
+</textarea>
+
+
+
+
+<button class="primary-btn">
+
+Publish Product
+
+</button>
+
+
+</form>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- =====================
+     ACCOUNT PAGE
+===================== -->
+
+
+<section id="account-page" class="page hidden">
+
+
+<h2>
+My Account
+</h2>
+
+
+
+<div class="account-card">
+
+
+<h3>
+Seller Dashboard
+</h3>
+
+
+
+<p>
+Manage products, sales and orders.
+</p>
+
+
+
+<div class="dashboard">
+
+
+<div class="dashboard-card">
+
+<h3>
+Products
+</h3>
+
+<strong id="my-products">
+0
+</strong>
+
+</div>
+
+
+
+<div class="dashboard-card">
+
+<h3>
+Orders
+</h3>
+
+<strong>
+0
+</strong>
+
+</div>
+
+
+
+<div class="dashboard-card">
+
+<h3>
+Sales
+</h3>
+
+<strong>
+0 Birr
+</strong>
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+</main>
+
+
+
+
+
+
+
+
+
+<!-- =====================
+     PRODUCT MODAL
+===================== -->
+
+
+<div id="product-modal" class="modal hidden">
+
+
+<div class="modal-content">
+
+
+<button id="close-modal">
+
+✕
 
 </button>
 
 
 
+<img id="modal-image">
 
 
-<button class="category-card category-btn">
 
-<span>
+<h2 id="modal-name">
+Product Name
+</h2>
+
+
+
+<p id="modal-description">
+
+Description
+
+</p>
+
+
+
+<h3 id="modal-price">
+
+0 Birr
+
+</h3>
+
+
+
+<button 
+class="primary-btn"
+id="modal-cart">
+
+Add To Cart
+
+</button>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================
+     CART PANEL
+===================== -->
+
+
+<div 
+id="cart-panel"
+class="cart-panel hidden">
+
+
+<div class="cart-header">
+
+
+<h2>
+Your Cart
+</h2>
+
+
+
+<button id="close-cart">
+
+✕
+
+</button>
+
+
+</div>
+
+
+
+<div id="cart-items">
+
+</div>
+
+
+
+<h3 id="cart-total">
+
+Total: 0 Birr
+
+</h3>
+
+
+
+<button class="checkout-btn">
+
+Checkout
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- =====================
+     MOBILE NAVIGATION
+===================== -->
+
+
+<nav class="bottom-nav">
+
+
+<button data-page="home">
+
 🏠
-</span>
-
+<br>
 Home
 
 </button>
 
 
 
+<button data-page="products">
 
-
-<button class="category-card category-btn">
-
-<span>
-🚗
-</span>
-
-Vehicles
+📦
+<br>
+Products
 
 </button>
 
 
 
+<button data-page="sell">
 
-
-<button class="category-card category-btn">
-
-<span>
-💻
-</span>
-
-Computers
+➕
+<br>
+Sell
 
 </button>
 
 
 
+<button data-page="account">
 
-
-<button class="category-card category-btn">
-
-<span>
-📚
-</span>
-
-Books
+👤
+<br>
+Account
 
 </button>
 
 
 
+</nav>
 
 
-</div>
 
 
 
-</section>  
-
-   <body>
-
-<div class="top-bar">
-</div>
-
-<header>
-</header>
 
 
-<main id="app">
 
+<script src="script.js"></script>
 
-<section id="home-page" class="page">
-
-
-<div class="hero">
-</div>
-
-
-<section class="stats">
-</section>
-
-
-<section class="categories">
-</section>
-
-
-<!-- MORE HOME SECTIONS COME HERE -->
-
-
-</section>
-
-
-</main>
-
-
-<!-- NAVIGATION, CART, SCRIPT, AND HTML CLOSING COME LAST -->
 
 </body>
 
-</html>  
-     
+</html>
