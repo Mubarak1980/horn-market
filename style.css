@@ -1,41 +1,37 @@
 /* =====================================================
-   HORNMARKET PREMIUM MOBILE MARKETPLACE UI
-   STYLE.CSS PART 1/4
+   HORNM ARKET PREMIUM MARKETPLACE UI
+   CSS PART 1/12
+   DESIGN SYSTEM + RESET + GLOBAL
 ===================================================== */
 
 
 /* =====================================================
-   DESIGN SYSTEM
+   DESIGN VARIABLES
 ===================================================== */
 
 :root{
 
 
-    /* BRAND */
+    /* BRAND COLORS */
 
     --primary:#2563eb;
     --primary-dark:#1d4ed8;
-    --primary-soft:rgba(37,99,235,.12);
-
     --accent:#06b6d4;
 
+
     --success:#16a34a;
-    --warning:#f59e0b;
     --danger:#ef4444;
+    --warning:#f59e0b;
 
 
 
-    /* COLORS */
+    /* BACKGROUND */
 
-    --bg:#f1f5f9;
+    --bg:#f8fafc;
 
     --card:#ffffff;
 
-    --card-hover:#f8fafc;
-
     --text:#0f172a;
-
-    --text-light:#334155;
 
     --muted:#64748b;
 
@@ -43,32 +39,10 @@
 
 
 
-    /* DARK MODE */
-
-    --dark-bg:#020617;
-
-    --dark-card:#0f172a;
-
-    --dark-border:#1e293b;
-
-
-
-    /* RADIUS */
-
-    --radius-sm:10px;
-
-    --radius-md:16px;
-
-    --radius-lg:22px;
-
-    --radius-pill:999px;
-
-
-
-    /* SHADOW */
+    /* EFFECTS */
 
     --shadow-sm:
-    0 3px 10px rgba(0,0,0,.06);
+    0 4px 12px rgba(0,0,0,.06);
 
 
     --shadow-md:
@@ -80,28 +54,27 @@
 
 
 
-    /* SPACING */
+    /* RADIUS */
 
-    --space-1:6px;
-    --space-2:10px;
-    --space-3:14px;
-    --space-4:18px;
-    --space-5:24px;
-    --space-6:40px;
+    --radius-sm:10px;
+
+    --radius-md:16px;
+
+    --radius-lg:24px;
+
+    --radius-pill:999px;
 
 
 
     /* MOTION */
 
-    --transition:
-    .25s ease;
+    --transition:.25s ease;
 
 
 
     /* FONT */
 
     --font:
-
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
@@ -116,41 +89,6 @@
 
 
 
-/* =====================================================
-   DARK MODE
-===================================================== */
-
-
-body.dark{
-
-
-    --bg:
-    var(--dark-bg);
-
-
-    --card:
-    var(--dark-card);
-
-
-    --text:
-    #f8fafc;
-
-
-    --text-light:
-    #cbd5e1;
-
-
-    --muted:
-    #94a3b8;
-
-
-    --border:
-    var(--dark-border);
-
-}
-
-
-
 
 /* =====================================================
    RESET
@@ -161,20 +99,17 @@ body.dark{
 *::before,
 *::after{
 
-
     margin:0;
 
     padding:0;
 
     box-sizing:border-box;
 
-
 }
 
 
 
 html{
-
 
     scroll-behavior:smooth;
 
@@ -184,27 +119,19 @@ html{
 
 body{
 
-
     min-height:100vh;
-
 
     font-family:var(--font);
 
-
     background:var(--bg);
-
 
     color:var(--text);
 
-
     line-height:1.5;
-
 
     overflow-x:hidden;
 
-
-    padding-bottom:80px;
-
+    padding-bottom:90px;
 
 }
 
@@ -212,11 +139,9 @@ body{
 
 img{
 
-
-    max-width:100%;
+    width:100%;
 
     display:block;
-
 
 }
 
@@ -224,12 +149,9 @@ img{
 
 button,
 input,
-textarea,
-select{
-
+textarea{
 
     font-family:inherit;
-
 
 }
 
@@ -237,37 +159,17 @@ select{
 
 button{
 
+    border:none;
 
     cursor:pointer;
 
-
-    border:none;
-
-
 }
-
-
-
-
-a{
-
-
-    text-decoration:none;
-
-
-    color:inherit;
-
-
-}
-
 
 
 
 .hidden{
 
-
     display:none!important;
-
 
 }
 
@@ -276,12 +178,22 @@ a{
 
 
 /* =====================================================
-   APP CONTAINER
+   CONTAINER
 ===================================================== */
 
 
-#app{
+.container{
 
+    width:min(1200px,92%);
+
+    margin:auto;
+
+}
+
+
+
+
+#app{
 
     width:100%;
 
@@ -289,121 +201,162 @@ a{
 
     margin:auto;
 
-
 }
-
-
-
-
-.container{
-
-
-    width:
-
-    min(1200px,92%);
-
-
-    margin:auto;
-
-
-}
-
 
 
 
 
 
 /* =====================================================
-   HEADER
+   TOP BAR
+===================================================== */
+
+
+.top-bar{
+
+    background:
+    var(--primary);
+
+
+    color:white;
+
+
+    text-align:center;
+
+
+    padding:
+
+    8px 15px;
+
+
+    font-size:.85rem;
+
+
+    font-weight:700;
+
+
+}
+
+
+
+
+
+/* =====================================================
+   PAGE SYSTEM
+===================================================== */
+
+
+.page{
+
+    padding:20px 16px;
+
+}
+
+
+
+.page h2{
+
+    font-size:1.6rem;
+
+    font-weight:900;
+
+    margin-bottom:20px;
+
+}
+
+
+
+
+
+/* =====================================================
+   SECTION HEADER
+===================================================== */
+
+
+.section-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.section-header h2{
+
+    margin:0;
+
+}
+
+
+
+.view-all{
+
+    background:none;
+
+    color:var(--primary);
+
+    font-weight:800;
+
+}
+
+/* =====================================================
+   HEADER SYSTEM
+   CSS PART 2/12
+===================================================== */
+
+
+/* =====================================================
+   APP HEADER
 ===================================================== */
 
 
 .app-header{
 
-
     position:sticky;
 
-
     top:0;
-
 
     z-index:1000;
 
 
+    background:
+    rgba(255,255,255,.88);
+
+
+    backdrop-filter:
+    blur(15px);
+
+
+    border-bottom:
+    1px solid var(--border);
+
+
+    padding:
+    14px 0;
+
+
+}
+
+
+
+
+
+.header-content{
+
     display:flex;
 
-
     align-items:center;
-
 
     justify-content:space-between;
 
 
-    gap:12px;
-
-
-
-    padding:
-
-    14px 16px;
-
-
-
-    background:
-
-    rgba(255,255,255,.85);
-
-
-
-    backdrop-filter:
-
-    blur(15px);
-
-
-
-    border-bottom:
-
-    1px solid var(--border);
-
-
-
-}
-
-
-
-
-
-body.dark .app-header{
-
-
-    background:
-
-    rgba(15,23,42,.85);
-
-
-}
-
-
-
-
-
-/* LOGO */
-
-
-.logo{
-
-
-    font-size:1.25rem;
-
-
-    font-weight:900;
-
-
-    white-space:nowrap;
-
-
-
-    color:var(--primary);
+    gap:15px;
 
 
 }
@@ -413,7 +366,71 @@ body.dark .app-header{
 
 
 /* =====================================================
-   SEARCH BAR
+   LOGO
+===================================================== */
+
+
+.logo{
+
+
+    min-width:max-content;
+
+
+}
+
+
+
+.logo h1{
+
+
+    font-size:
+
+    1.4rem;
+
+
+    font-weight:
+
+    950;
+
+
+    color:
+
+    var(--primary);
+
+
+    line-height:1.2;
+
+
+}
+
+
+
+.logo p{
+
+
+    font-size:
+
+    .75rem;
+
+
+    color:
+
+    var(--muted);
+
+
+    font-weight:600;
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   SEARCH BOX
 ===================================================== */
 
 
@@ -421,6 +438,9 @@ body.dark .app-header{
 
 
     flex:1;
+
+
+    max-width:500px;
 
 
     display:flex;
@@ -432,11 +452,8 @@ body.dark .app-header{
     gap:8px;
 
 
-
-    max-width:450px;
-
-
 }
+
 
 
 
@@ -448,7 +465,7 @@ body.dark .app-header{
 
     padding:
 
-    12px 18px;
+    13px 18px;
 
 
 
@@ -490,6 +507,21 @@ body.dark .app-header{
 
 
 
+
+.search-box input::placeholder{
+
+
+    color:
+
+    var(--muted);
+
+
+}
+
+
+
+
+
 .search-box input:focus{
 
 
@@ -498,13 +530,13 @@ body.dark .app-header{
     var(--primary);
 
 
-
     box-shadow:
 
-    0 0 0 4px var(--primary-soft);
+    0 0 0 4px rgba(37,99,235,.15);
 
 
 }
+
 
 
 
@@ -515,10 +547,21 @@ body.dark .app-header{
 
     width:45px;
 
+
     height:45px;
 
 
     border-radius:50%;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
 
 
     background:
@@ -532,9 +575,12 @@ body.dark .app-header{
     font-size:1.1rem;
 
 
+    transition:
+
+    var(--transition);
+
 
 }
-
 
 
 
@@ -547,7 +593,13 @@ body.dark .app-header{
     var(--primary-dark);
 
 
+    transform:
+
+    translateY(-2px);
+
+
 }
+
 
 
 
@@ -566,10 +618,10 @@ body.dark .app-header{
     position:relative;
 
 
-    width:45px;
+    width:48px;
 
 
-    height:45px;
+    height:48px;
 
 
     border-radius:50%;
@@ -584,32 +636,6 @@ body.dark .app-header{
 
 
     font-size:1.2rem;
-
-
-
-}
-
-
-
-
-
-#cart-count{
-
-
-    position:absolute;
-
-
-    top:-5px;
-
-
-    right:-5px;
-
-
-
-    min-width:20px;
-
-
-    height:20px;
 
 
     display:flex;
@@ -622,13 +648,69 @@ body.dark .app-header{
 
 
 
+    transition:
+
+    var(--transition);
+
+
+}
+
+
+
+
+.cart-btn:hover{
+
+
+    background:
+
+    var(--primary-dark);
+
+
+    transform:
+
+    scale(1.05);
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   CART COUNT BADGE
+===================================================== */
+
+
+#cart-count{
+
+
+    position:absolute;
+
+
+    top:-6px;
+
+
+    right:-6px;
+
+
+    min-width:21px;
+
+
+    height:21px;
+
+
+    padding:2px;
+
+
     border-radius:50%;
 
 
     background:
 
     var(--danger);
-
 
 
     color:white;
@@ -640,239 +722,14 @@ body.dark .app-header{
     font-weight:900;
 
 
-}
-
-
-
-
-
-/* =====================================================
-   BOTTOM APP NAVIGATION
-===================================================== */
-
-
-.bottom-nav{
-
-
-    position:fixed;
-
-
-    bottom:0;
-
-
-    left:0;
-
-
-    right:0;
-
-
-    height:70px;
-
-
 
     display:flex;
-
-
-    justify-content:space-around;
 
 
     align-items:center;
 
 
-
-    background:
-
-    var(--card);
-
-
-
-    border-top:
-
-    1px solid var(--border);
-
-
-
-    z-index:2000;
-
-
-
-    box-shadow:
-
-    0 -8px 25px rgba(0,0,0,.08);
-
-
-
-}
-
-
-
-
-.bottom-nav button{
-
-
-    background:none;
-
-
-    color:
-
-    var(--muted);
-
-
-
-    display:flex;
-
-
-    flex-direction:column;
-
-
-    align-items:center;
-
-
-    gap:3px;
-
-
-
-    font-size:.75rem;
-
-
-
-}
-
-
-
-
-
-.bottom-nav button:hover{
-
-
-    color:
-
-    var(--primary);
-
-
-}
-
-
-
-/* =====================================================
-   HERO SECTION
-===================================================== */
-
-
-.hero{
-
-
-    margin:20px 16px;
-
-
-    padding:40px 20px;
-
-
-    border-radius:
-
-    var(--radius-lg);
-
-
-
-    background:
-
-    linear-gradient(
-        135deg,
-        var(--primary),
-        var(--accent)
-    );
-
-
-
-    color:white;
-
-
-    text-align:center;
-
-
-    box-shadow:
-
-    var(--shadow-md);
-
-
-
-}
-
-
-
-.hero h1{
-
-
-    font-size:
-
-    clamp(2rem,6vw,3rem);
-
-
-    font-weight:900;
-
-
-    margin-bottom:10px;
-
-
-}
-
-
-
-.hero p{
-
-
-    font-size:1.05rem;
-
-
-    opacity:.9;
-
-
-}
-
-
-
-.hero button{
-
-
-    margin-top:20px;
-
-
-    padding:
-
-    14px 30px;
-
-
-    border-radius:
-
-    var(--radius-pill);
-
-
-
-    background:white;
-
-
-    color:var(--primary);
-
-
-
-    font-weight:900;
-
-
-    transition:
-
-    var(--transition);
-
-
-}
-
-
-
-.hero button:hover{
-
-
-    transform:
-
-    translateY(-3px);
+    justify-content:center;
 
 
 }
@@ -882,31 +739,292 @@ body.dark .app-header{
 
 
 /* =====================================================
-   PAGE TITLES
+   MOBILE HEADER
 ===================================================== */
 
 
-.page{
+@media(max-width:700px){
 
+
+    .header-content{
+
+
+        gap:10px;
+
+
+    }
+
+
+
+    .logo h1{
+
+
+        font-size:1.1rem;
+
+
+    }
+
+
+
+    .logo p{
+
+
+        display:none;
+
+
+    }
+
+
+
+    .search-box input{
+
+
+        padding:
+
+        11px 12px;
+
+
+    }
+
+
+
+    .search-box button{
+
+
+        width:40px;
+
+
+        height:40px;
+
+
+    }
+
+
+
+    .cart-btn{
+
+
+        width:42px;
+
+
+        height:42px;
+
+
+    }
+
+
+}
+
+
+/* =====================================================
+   HORNMARKET PREMIUM UI
+   STYLE.CSS PART 3/4
+===================================================== */
+
+
+/* =====================================================
+   STATS SECTION
+===================================================== */
+
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(150px,1fr));
+
+    gap:15px;
 
     padding:20px 16px;
 
+}
+
+
+
+.stat-card{
+
+    background:
+    var(--card);
+
+    border:
+    1px solid var(--border);
+
+    border-radius:
+    var(--radius-lg);
+
+    padding:22px;
+
+    text-align:center;
+
+    box-shadow:
+    var(--shadow-sm);
 
 }
 
 
 
-.page h2{
+.stat-card h3{
 
-
-    font-size:1.5rem;
-
+    font-size:2rem;
 
     font-weight:900;
 
+    color:
+    var(--primary);
+
+}
+
+
+
+.stat-card p{
+
+    color:
+    var(--muted);
+
+    font-weight:700;
+
+}
+
+
+
+
+
+/* =====================================================
+   CATEGORY SECTION
+===================================================== */
+
+
+.categories{
+
+    padding:
+    20px 16px;
+
+}
+
+
+
+.categories h2{
 
     margin-bottom:20px;
 
+}
+
+
+
+.category-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(100px,1fr));
+
+    gap:14px;
+
+}
+
+
+
+.category-btn{
+
+    padding:18px 10px;
+
+    border-radius:
+    var(--radius-lg);
+
+    background:
+    var(--card);
+
+    border:
+    1px solid var(--border);
+
+    color:
+    var(--text);
+
+    font-weight:800;
+
+    font-size:.9rem;
+
+    transition:
+    var(--transition);
+
+}
+
+
+
+.category-btn:hover{
+
+    transform:
+    translateY(-4px);
+
+    border-color:
+    var(--primary);
+
+}
+
+
+
+.category-btn.active{
+
+    background:
+    var(--primary);
+
+    color:white;
+
+    border-color:
+    var(--primary);
+
+}
+
+
+
+
+
+
+/* =====================================================
+   FEATURED PRODUCTS
+===================================================== */
+
+
+.featured-section{
+
+    padding:
+    20px 16px;
+
+}
+
+
+
+.section-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:15px;
+
+}
+
+
+
+.section-header h2{
+
+    font-size:1.5rem;
+
+}
+
+
+
+.view-all{
+
+    background:none;
+
+    color:
+    var(--primary);
+
+    font-weight:800;
 
 }
 
@@ -919,11 +1037,9 @@ body.dark .app-header{
 ===================================================== */
 
 
-.product-grid{
-
+.products{
 
     display:grid;
-
 
     grid-template-columns:
 
@@ -932,679 +1048,35 @@ body.dark .app-header{
         minmax(220px,1fr)
     );
 
-
-    gap:18px;
-
-
-
-}
-
-
-
-
-
-/* =====================================================
-   PRODUCT CARD
-===================================================== */
-
-
-.product-card{
-
-
-    background:
-
-    var(--card);
-
-
-
-    border:
-
-    1px solid var(--border);
-
-
-
-    border-radius:
-
-    var(--radius-md);
-
-
-
-    overflow:hidden;
-
-
-
-    box-shadow:
-
-    var(--shadow-sm);
-
-
-
-    transition:
-
-    var(--transition);
-
-
-
-    position:relative;
-
-
-}
-
-
-
-.product-card:hover{
-
-
-    transform:
-
-    translateY(-6px);
-
-
-
-    box-shadow:
-
-    var(--shadow-lg);
-
-
-
-}
-
-
-
-
-
-.product-card img{
-
-
-    width:100%;
-
-
-    height:210px;
-
-
-    object-fit:cover;
-
-
-
-}
-
-
-
-
-
-.product-card-content{
-
-
-    padding:16px;
-
-
-}
-
-
-
-
-
-.product-card h3{
-
-
-    font-size:1.05rem;
-
-
-    font-weight:800;
-
-
-    margin-bottom:8px;
-
-
-}
-
-
-
-
-
-.product-price{
-
-
-    color:
-
-    var(--primary);
-
-
-
-    font-size:1.2rem;
-
-
-    font-weight:900;
-
-
-}
-
-
-
-.product-location{
-
-
-    color:
-
-    var(--muted);
-
-
-
-    font-size:.85rem;
-
-
-    margin:8px 0;
-
-
-}
-
-
-
-
-
-/* =====================================================
-   PRODUCT ACTION BUTTON
-===================================================== */
-
-
-.add-to-cart,
-
-
-.product-card button{
-
-
-    width:100%;
-
-
-    margin-top:12px;
-
-
-    padding:12px;
-
-
-
-    border-radius:
-
-    var(--radius-sm);
-
-
-
-    background:
-
-    var(--primary);
-
-
-
-    color:white;
-
-
-
-    font-weight:800;
-
-
-
-    transition:
-
-    var(--transition);
-
-
-
-}
-
-
-
-.add-to-cart:hover,
-
-
-.product-card button:hover{
-
-
-    background:
-
-    var(--primary-dark);
-
-
-
-    transform:
-
-    translateY(-2px);
-
-
-
-}
-
-
-
-
-
-/* =====================================================
-   CATEGORY BAR
-===================================================== */
-
-
-.category-bar{
-
-
-    display:flex;
-
-
-    gap:10px;
-
-
-    overflow-x:auto;
-
-
-
-    padding:
-
-    10px 0 20px;
-
-
-
-}
-
-
-
-.category-bar::-webkit-scrollbar{
-
-
-    display:none;
-
-
-}
-
-
-
-
-
-.category-btn{
-
-
-    flex:
-
-    0 0 auto;
-
-
-
-    padding:
-
-    9px 18px;
-
-
-
-    border-radius:
-
-    var(--radius-pill);
-
-
-
-    background:
-
-    var(--card);
-
-
-
-    border:
-
-    1px solid var(--border);
-
-
-
-    color:
-
-    var(--text);
-
-
-
-    font-weight:700;
-
-
-
-}
-
-
-
-.category-btn:hover,
-
-
-.category-btn.active{
-
-
-    background:
-
-    var(--primary);
-
-
-
-    color:white;
-
-
-    border-color:
-
-    var(--primary);
-
-
-}
-
-
-
-
-
-
-/* =====================================================
-   SELL PRODUCT FORM
-===================================================== */
-
-
-#sell-form,
-
-
-.sell-form{
-
-
-    background:
-
-    var(--card);
-
-
-
-    padding:
-
-    22px;
-
-
-
-    border-radius:
-
-    var(--radius-lg);
-
-
-
-    border:
-
-    1px solid var(--border);
-
-
-
-    box-shadow:
-
-    var(--shadow-md);
-
-
-
-}
-
-
-
-
-
-input,
-
-
-textarea,
-
-
-select{
-
-
-    width:100%;
-
-
-
-    padding:
-
-    14px 16px;
-
-
-
-    margin-bottom:15px;
-
-
-
-    border-radius:
-
-    var(--radius-sm);
-
-
-
-    border:
-
-    1px solid var(--border);
-
-
-
-    background:
-
-    var(--bg);
-
-
-
-    color:
-
-    var(--text);
-
-
-
-    outline:none;
-
-
-
-}
-
-
-
-
-
-input:focus,
-
-
-textarea:focus,
-
-
-select:focus{
-
-
-    border-color:
-
-    var(--primary);
-
-
-
-    box-shadow:
-
-    0 0 0 4px var(--primary-soft);
-
-
-
-}
-
-
-
-
-
-
-.sell-form button,
-
-
-#sell-form button{
-
-
-    width:100%;
-
-
-    padding:14px;
-
-
-
-    border-radius:
-
-    var(--radius-sm);
-
-
-
-    background:
-
-    var(--success);
-
-
-
-    color:white;
-
-
-
-    font-weight:900;
-
-
-
-}
-
-
-
-
-
-/* =====================================================
-   SELLER / ACCOUNT CARD
-===================================================== */
-
-
-.account-card{
-
-
-    background:
-
-    var(--card);
-
-
-
-    padding:
-
-    24px;
-
-
-
-    border-radius:
-
-    var(--radius-lg);
-
-
-
-    border:
-
-    1px solid var(--border);
-
-
-
-    box-shadow:
-
-    var(--shadow-md);
-
-
-
-}
-
-
-
-.account-card h3{
-
-
-    color:
-
-    var(--primary);
-
-
-
-    margin-bottom:10px;
-
-
-}
-
-
-
-
-
-/* =====================================================
-   EMPTY STATE
-===================================================== */
-
-
-.empty{
-
-
-    text-align:center;
-
-
-    padding:40px 20px;
-
-
-
-    color:
-
-    var(--muted);
-
-
-
-    background:
-
-    var(--card);
-
-
-
-    border-radius:
-
-    var(--radius-md);
-
-
-
-}
-
-
-
-
-/* ==========================================================
-   🛒 PRODUCT SYSTEM
-========================================================== */
-
-.products{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(220px,1fr)
-        );
-
     gap:20px;
 
-    padding:20px;
-
 }
 
+
+
+
+
+/* PRODUCT CARD */
 
 
 .card{
 
     background:
-        var(--card);
+    var(--card);
 
     border:
-
-        1px solid var(--border);
+    1px solid var(--border);
 
     border-radius:
-        var(--radius-lg);
+    var(--radius-lg);
 
     overflow:hidden;
 
-    position:relative;
-
     box-shadow:
-        var(--shadow-sm);
+    var(--shadow-sm);
 
     transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        border-color .25s ease;
+    var(--transition);
 
 }
 
@@ -1613,13 +1085,10 @@ select:focus{
 .card:hover{
 
     transform:
-        translateY(-8px);
-
-    border-color:
-        var(--primary);
+    translateY(-6px);
 
     box-shadow:
-        var(--shadow-lg);
+    var(--shadow-lg);
 
 }
 
@@ -1633,15 +1102,13 @@ select:focus{
 
     object-fit:cover;
 
-    display:block;
-
 }
 
 
 
 .card-content{
 
-    padding:18px;
+    padding:16px;
 
 }
 
@@ -1651,25 +1118,7 @@ select:focus{
 
     font-size:1.1rem;
 
-    margin-bottom:8px;
-
-    color:
-        var(--text);
-
-}
-
-
-
-.price{
-
-    color:
-        var(--primary);
-
-    font-size:1.25rem;
-
     font-weight:900;
-
-    margin:10px 0;
 
 }
 
@@ -1679,539 +1128,348 @@ select:focus{
 
     display:inline-block;
 
+    margin-top:8px;
+
     padding:5px 12px;
 
-    border-radius:999px;
+    border-radius:
+    var(--radius-pill);
 
     background:
-        var(--primary-soft);
+    var(--primary-soft);
 
     color:
-        var(--primary);
+    var(--primary);
 
     font-size:.8rem;
 
-    font-weight:700;
+}
+
+
+
+.price{
+
+    margin-top:10px;
+
+    color:
+    var(--primary);
+
+    font-size:1.2rem;
+
+    font-weight:900;
 
 }
 
 
 
-/* ==========================================================
-   🔘 PREMIUM BUTTONS
-========================================================== */
 
 
-button{
-
-    font-family:inherit;
-
-    cursor:pointer;
-
-    border:none;
-
-    font-weight:800;
-
-    transition:
-        .25s ease;
-
-}
-
-
-
-.primary-btn,
-.add-to-cart,
-.checkout-btn{
+.add-to-cart{
 
     width:100%;
 
-    padding:14px;
+    margin-top:15px;
+
+    padding:12px;
 
     border-radius:
-        var(--radius-md);
+    var(--radius-md);
 
     background:
-        var(--gradient-primary);
+    var(--primary);
 
-    color:#001018;
+    color:white;
 
-    box-shadow:
-        var(--shadow-primary);
-
-}
-
-
-
-.primary-btn:hover,
-.add-to-cart:hover,
-.checkout-btn:hover{
-
-    transform:
-        translateY(-3px);
-
-    filter:
-        brightness(1.1);
+    font-weight:900;
 
 }
 
 
 
-.secondary-btn{
-
-    padding:12px 18px;
-
-    border-radius:
-        var(--radius-md);
+.add-to-cart:hover{
 
     background:
-        var(--card);
-
-    color:
-        var(--text);
-
-    border:
-
-        1px solid var(--border);
+    var(--primary-dark);
 
 }
 
 
 
-.secondary-btn:hover{
 
-    border-color:
-        var(--primary);
 
-    color:
-        var(--primary);
+
+/* =====================================================
+   PRODUCT MODAL
+===================================================== */
+
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+    rgba(0,0,0,.55);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    z-index:3000;
 
 }
 
 
 
-/* ==========================================================
-   🔍 SEARCH SYSTEM
-========================================================== */
-
-
-.search-container{
+.modal-content{
 
     width:100%;
 
     max-width:500px;
 
-    display:flex;
+    background:
+    var(--card);
 
-    gap:10px;
+    border-radius:
+    var(--radius-lg);
 
-}
+    padding:25px;
 
+    position:relative;
 
-
-.search-container input{
-
-    flex:1;
-
-}
-
-
-
-.search-container button{
-
-    width:auto;
-
-    padding:
-        12px 20px;
+    box-shadow:
+    var(--shadow-lg);
 
 }
 
 
 
-/* ==========================================================
-   🏷 CATEGORY FILTER
-========================================================== */
+.modal-content img{
+
+    width:100%;
+
+    height:260px;
+
+    object-fit:cover;
+
+    border-radius:
+    var(--radius-md);
+
+    margin-bottom:20px;
+
+}
 
 
-.category-bar{
 
-    display:flex;
+#close-modal{
 
-    flex-wrap:wrap;
+    position:absolute;
 
-    justify-content:center;
+    right:15px;
 
-    gap:10px;
+    top:15px;
+
+    width:35px;
+
+    height:35px;
+
+    border-radius:50%;
+
+    background:
+    var(--danger);
+
+    color:white;
+
+    font-size:18px;
+
+}
+
+
+
+
+
+#modal-name{
+
+    font-weight:900;
+
+    margin-bottom:10px;
+
+}
+
+
+
+#modal-price{
+
+    color:
+    var(--primary);
+
+    margin:15px 0;
+
+}
+
+
+
+
+
+
+/* =====================================================
+   CART PANEL
+===================================================== */
+
+
+.cart-panel{
+
+    position:fixed;
+
+    top:0;
+
+    right:0;
+
+    height:100%;
+
+    width:min(420px,100%);
+
+    background:
+    var(--bg);
+
+    z-index:2500;
 
     padding:20px;
 
+    overflow-y:auto;
+
+    box-shadow:
+    -10px 0 40px rgba(0,0,0,.2);
+
 }
 
 
 
-.category-btn{
+.cart-header{
 
-    padding:
-        10px 18px;
+    display:flex;
 
-    border-radius:
-        999px;
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.cart-header button{
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:50%;
 
     background:
-        var(--card);
+    var(--danger);
 
-    border:
-
-        1px solid var(--border);
-
-    color:
-        var(--text);
+    color:white;
 
 }
 
-
-
-.category-btn:hover,
-.category-btn.active{
-
-    background:
-        var(--primary);
-
-    color:
-        white;
-
-    border-color:
-        var(--primary);
-
-}
-
-
-
-/* ==========================================================
-   🛍 CART SYSTEM
-========================================================== */
 
 
 .cart-item{
 
     display:flex;
 
-    align-items:center;
-
     justify-content:space-between;
 
-    gap:15px;
+    align-items:center;
 
-    padding:16px;
+    gap:10px;
+
+    padding:15px;
+
+    background:
+    var(--card);
+
+    border-radius:
+    var(--radius-md);
+
+    border:
+    1px solid var(--border);
 
     margin-bottom:12px;
 
+}
 
-    background:
-        var(--card);
 
-    border:
 
-        1px solid var(--border);
+.cart-item button{
 
+    padding:8px 12px;
 
     border-radius:
-        var(--radius-md);
+    var(--radius-sm);
 
 }
 
 
 
-.cart-item span:first-child{
-
-    flex:1;
-
-    font-weight:700;
-
-}
-
-
-
-.qty-control{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-}
-
-
-
-.qty-control button{
-
-    width:34px;
-
-    height:34px;
-
-    border-radius:50%;
+.cart-item button:first-child,
+.cart-item button:nth-child(3){
 
     background:
-        var(--primary);
-
-    color:
-        white;
-
-}
-
-
-
-.qty-control button:hover{
-
-    transform:
-        scale(1.1);
-
-}
-
-
-
-.remove-btn{
-
-    background:
-        var(--danger);
+    var(--primary);
 
     color:white;
 
-    padding:
-        8px 12px;
-
-    border-radius:
-        var(--radius-sm);
-
 }
 
 
 
-.cart-summary{
-
-    margin-top:20px;
-
-    padding:20px;
+.cart-item button:last-child{
 
     background:
-        var(--card);
+    var(--danger);
 
-    border-radius:
-        var(--radius-lg);
-
-    border:
-
-        1px solid var(--border);
+    color:white;
 
 }
 
 
 
-/* ==========================================================
-   📦 SELL PRODUCT FORM
-========================================================== */
-
-
-#product-form{
-
-    max-width:600px;
-
-    margin:
-        20px auto;
-
-    padding:25px;
-
-    background:
-        var(--card);
-
-    border-radius:
-        var(--radius-lg);
-
-    border:
-
-        1px solid var(--border);
-
-    box-shadow:
-        var(--shadow-md);
-
-}
-
-
-
-#product-form input,
-#product-form textarea,
-#product-form select{
-
-    margin-bottom:15px;
-
-}
-
-
-
-textarea{
-
-    resize:
-        vertical;
-
-    min-height:120px;
-
-}
-
-
-
-/* ==========================================================
-   📱 MOBILE PRODUCT OPTIMIZATION
-========================================================== */
-
-
-@media(max-width:600px){
-
-
-    .products{
-
-        grid-template-columns:
-            repeat(2,1fr);
-
-        gap:12px;
-
-        padding:12px;
-
-    }
-
-
-
-    .card img{
-
-        height:150px;
-
-    }
-
-
-
-    .card-content{
-
-        padding:12px;
-
-    }
-
-
-
-    .price{
-
-        font-size:1rem;
-
-    }
-
-
-
-    .cart-item{
-
-        flex-wrap:wrap;
-
-    }
-
-
-}
-
-
-
-
-/* ==========================================================
-   📱 MOBILE APP BOTTOM NAVIGATION
-========================================================== */
-
-
-.bottom-nav{
-
-    position:fixed;
-
-    bottom:0;
-
-    left:0;
+.checkout-btn{
 
     width:100%;
 
-    display:flex;
+    margin-top:20px;
 
-    justify-content:space-around;
+    padding:15px;
 
-    align-items:center;
-
-    padding:
-        12px 8px;
-
+    border-radius:
+    var(--radius-md);
 
     background:
-        rgba(15,23,42,.92);
+    var(--success);
 
+    color:white;
 
-    backdrop-filter:
-        blur(15px);
-
-
-    border-top:
-
-        1px solid var(--border);
-
-
-    z-index:999;
-
-
-
-}
-
-
-
-.bottom-nav a{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    gap:4px;
-
-
-    color:
-        var(--muted);
-
-
-    text-decoration:none;
-
-    font-size:.75rem;
-
-    font-weight:700;
-
-
-}
-
-
-
-.bottom-nav a:hover,
-.bottom-nav a.active{
-
-
-    color:
-        var(--primary);
-
-
-}
-
-
-
-.bottom-nav .icon{
-
-    font-size:1.4rem;
+    font-weight:900;
 
 }
 
 
 
 
-/* ==========================================================
-   🏪 SELLER DASHBOARD
-========================================================== */
+
+
+/* =====================================================
+   ACCOUNT DASHBOARD
+===================================================== */
 
 
 .dashboard{
@@ -2219,11 +1477,15 @@ textarea{
     display:grid;
 
     grid-template-columns:
-        repeat(auto-fit,minmax(220px,1fr));
+
+    repeat(
+        auto-fit,
+        minmax(200px,1fr)
+    );
 
     gap:18px;
 
-    padding:20px;
+    margin-top:25px;
 
 }
 
@@ -2231,45 +1493,18 @@ textarea{
 
 .dashboard-card{
 
-
     background:
-        var(--card);
+    var(--card);
 
-
-    border:
-
-        1px solid var(--border);
-
+    padding:25px;
 
     border-radius:
-        var(--radius-lg);
+    var(--radius-lg);
 
+    border:
+    1px solid var(--border);
 
-    padding:22px;
-
-
-    box-shadow:
-        var(--shadow-sm);
-
-
-    transition:
-        .25s ease;
-
-
-}
-
-
-
-.dashboard-card:hover{
-
-
-    transform:
-        translateY(-5px);
-
-
-    border-color:
-        var(--primary);
-
+    text-align:center;
 
 }
 
@@ -2277,459 +1512,25 @@ textarea{
 
 .dashboard-card h3{
 
-
     color:
-        var(--muted);
-
-
-    font-size:.9rem;
-
+    var(--muted);
 
 }
 
 
 
-.dashboard-number{
+.dashboard-card strong{
 
+    display:block;
 
-    margin-top:10px;
-
+    margin-top:15px;
 
     font-size:2rem;
 
-
-    font-weight:900;
-
-
     color:
-        var(--primary);
-
-
-}
-
-
-
-/* ==========================================================
-   👤 PROFILE SECTION
-========================================================== */
-
-
-.profile-card{
-
-
-    background:
-        var(--card);
-
-
-    padding:25px;
-
-
-    border-radius:
-        var(--radius-lg);
-
-
-    border:
-
-        1px solid var(--border);
-
-
-    text-align:center;
-
+    var(--primary);
 
 }
-
-
-
-.profile-image{
-
-
-    width:90px;
-
-    height:90px;
-
-
-    border-radius:50%;
-
-
-    object-fit:cover;
-
-
-    border:
-
-        3px solid var(--primary);
-
-
-}
-
-
-
-.profile-name{
-
-
-    margin-top:12px;
-
-
-    font-size:1.3rem;
-
-
-    font-weight:900;
-
-
-}
-
-
-
-/* ==========================================================
-   🔔 NOTIFICATIONS
-========================================================== */
-
-
-.notification{
-
-
-    display:flex;
-
-
-    align-items:center;
-
-
-    gap:12px;
-
-
-    padding:15px;
-
-
-    margin:10px 0;
-
-
-    background:
-        var(--card);
-
-
-    border:
-
-        1px solid var(--border);
-
-
-    border-radius:
-        var(--radius-md);
-
-
-}
-
-
-
-.notification.success{
-
-    border-left:
-
-        4px solid var(--success);
-
-}
-
-
-
-.notification.error{
-
-    border-left:
-
-        4px solid var(--danger);
-
-}
-
-
-
-
-
-/* ==========================================================
-   ⏳ LOADING EFFECT
-========================================================== */
-
-
-.loader{
-
-
-    width:45px;
-
-
-    height:45px;
-
-
-    border-radius:50%;
-
-
-    border:
-
-        4px solid var(--border);
-
-
-    border-top-color:
-
-        var(--primary);
-
-
-    animation:
-
-        spin 1s linear infinite;
-
-
-    margin:
-        30px auto;
-
-
-}
-
-
-
-@keyframes spin{
-
-
-    from{
-
-        transform:
-            rotate(0deg);
-
-    }
-
-
-    to{
-
-        transform:
-            rotate(360deg);
-
-    }
-
-
-}
-
-
-
-/* ==========================================================
-   ✨ EMPTY STATE
-========================================================== */
-
-
-.empty-state{
-
-
-    text-align:center;
-
-
-    padding:
-        50px 20px;
-
-
-    color:
-        var(--muted);
-
-
-}
-
-
-
-.empty-state h3{
-
-
-    color:
-        var(--text);
-
-
-    margin-bottom:10px;
-
-
-}
-
-
-
-
-/* ==========================================================
-   🌙 DARK MODE TRANSITIONS
-========================================================== */
-
-
-body,
-.card,
-header,
-button,
-input,
-select,
-textarea{
-
-
-    transition:
-
-        background .3s ease,
-
-        color .3s ease,
-
-        border-color .3s ease;
-
-
-}
-
-
-
-/* ==========================================================
-   📲 SAFE MOBILE AREA
-========================================================== */
-
-
-@supports(padding:env(safe-area-inset-bottom)){
-
-
-    .bottom-nav{
-
-
-        padding-bottom:
-
-        calc(
-            12px + env(safe-area-inset-bottom)
-        );
-
-
-    }
-
-
-}
-
-
-
-/* ==========================================================
-   📱 SMALL DEVICES
-========================================================== */
-
-
-@media(max-width:480px){
-
-
-    body{
-
-        font-size:14px;
-
-        padding-bottom:80px;
-
-    }
-
-
-
-    .logo h1{
-
-        font-size:1.25rem;
-
-    }
-
-
-
-    .hero{
-
-        padding:
-            35px 15px;
-
-    }
-
-
-
-    .hero h2{
-
-        font-size:1.4rem;
-
-    }
-
-
-
-    .dashboard{
-
-        grid-template-columns:
-            1fr;
-
-    }
-
-
-
-    .search-container{
-
-        flex-direction:column;
-
-    }
-
-
-
-    .search-container button{
-
-        width:100%;
-
-    }
-
-
-}
-
-
-
-/* ==========================================================
-   🖥 LARGE SCREEN
-========================================================== */
-
-
-@media(min-width:1200px){
-
-
-    .products{
-
-        grid-template-columns:
-
-        repeat(4,1fr);
-
-
-    }
-
-
-    .dashboard{
-
-        max-width:1200px;
-
-        margin:auto;
-
-    }
-
-
-}
-
-
-
-/* ==========================================================
-   ACCESSIBILITY
-========================================================== */
-
-
-button:focus-visible,
-a:focus-visible,
-input:focus-visible{
-
-
-    outline:
-
-        3px solid var(--primary);
-
-
-    outline-offset:
-
-        3px;
-
-
-}
-
-
-
-/* ==========================================================
-   END OF HORNM ARKET PREMIUM ENGINE
-========================================================== */
-
-
-
-
-
-
-
 
 
 
