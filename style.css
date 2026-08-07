@@ -1,85 +1,82 @@
 /* =====================================================
-   HORNM ARKET PREMIUM MARKETPLACE UI
-   CSS PART 1/12
+   HORNM ARKET PREMIUM MARKETPLACE
+   CSS V6 PART 1/12
 
-   DESIGN SYSTEM
+   PREMIUM DESIGN SYSTEM
    RESET
-   GLOBAL STYLES
+   GLOBAL ENGINE
 ===================================================== */
 
 
-/* ================================
-   DESIGN VARIABLES
-================================ */
-
+/* =====================================================
+   ROOT DESIGN SYSTEM
+===================================================== */
 
 :root{
 
-
-    /* BRAND */
+    /* BRAND COLORS */
 
     --primary:#2563eb;
-
-    --primary-dark:#1d4ed8;
+    --primary-dark:#1e40af;
+    --primary-light:#60a5fa;
 
     --accent:#06b6d4;
 
 
-
     /* STATUS */
 
-    --success:#16a34a;
-
+    --success:#22c55e;
     --danger:#ef4444;
-
     --warning:#f59e0b;
 
 
 
-    /* COLORS */
+    /* BACKGROUND */
 
-    --bg:#f8fafc;
-
+    --bg:#f1f5f9;
     --card:#ffffff;
 
     --text:#0f172a;
-
     --muted:#64748b;
 
     --border:#e2e8f0;
 
 
 
-    /* RADIUS */
+    /* PREMIUM EFFECTS */
 
-    --radius-sm:10px;
+    --glass:
+    rgba(255,255,255,.75);
 
-    --radius-md:16px;
-
-    --radius-lg:24px;
-
-    --radius-pill:999px;
-
-
-
-    /* SHADOW */
 
     --shadow-sm:
-    0 4px 12px rgba(0,0,0,.06);
+    0 4px 15px rgba(15,23,42,.06);
 
 
     --shadow-md:
-    0 10px 30px rgba(0,0,0,.12);
+    0 12px 35px rgba(15,23,42,.12);
 
 
     --shadow-lg:
-    0 20px 50px rgba(0,0,0,.18);
+    0 25px 60px rgba(15,23,42,.18);
 
 
 
-    /* TRANSITION */
+    /* RADIUS */
 
-    --transition:.25s ease;
+    --radius-sm:10px;
+    --radius-md:16px;
+    --radius-lg:24px;
+    --radius-xl:32px;
+
+    --pill:999px;
+
+
+
+    /* ANIMATION */
+
+    --transition:
+    .3s cubic-bezier(.4,0,.2,1);
 
 
 
@@ -87,11 +84,11 @@
 
     --font:
 
+    Inter,
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
-    Roboto,
     Arial,
     sans-serif;
 
@@ -99,18 +96,14 @@
 
 
 
-
-
-
-/* ================================
-   RESET
-================================ */
+/* =====================================================
+   GLOBAL RESET
+===================================================== */
 
 
 *,
 *::before,
 *::after{
-
 
     margin:0;
 
@@ -118,63 +111,54 @@
 
     box-sizing:border-box;
 
-
 }
-
 
 
 
 html{
 
-
     scroll-behavior:smooth;
 
-
 }
-
 
 
 
 body{
 
-
     min-height:100vh;
-
 
     font-family:var(--font);
 
+    background:
 
-    background:var(--bg);
+    radial-gradient(
+        circle at top,
+        #dbeafe,
+        transparent 35%
+    ),
+
+    var(--bg);
 
 
     color:var(--text);
 
-
-    line-height:1.5;
-
+    line-height:1.6;
 
     overflow-x:hidden;
 
-
     padding-bottom:90px;
 
-
 }
-
-
 
 
 
 img{
 
-
     max-width:100%;
 
     display:block;
 
-
 }
-
 
 
 
@@ -183,66 +167,50 @@ input,
 textarea,
 select{
 
-
     font-family:inherit;
 
-
 }
-
 
 
 
 button{
 
-
     cursor:pointer;
 
     border:none;
 
-
 }
-
 
 
 
 a{
 
-
     text-decoration:none;
 
     color:inherit;
 
-
 }
 
 
 
+/* =====================================================
+   GLOBAL UTILITIES
+===================================================== */
 
 
 .hidden{
 
-
     display:none!important;
-
 
 }
 
 
 
-
-
-/* ================================
-   CONTAINERS
-================================ */
-
-
 .container{
-
 
     width:min(1200px,92%);
 
     margin:auto;
-
 
 }
 
@@ -250,13 +218,11 @@ a{
 
 #app{
 
-
     width:100%;
 
     max-width:1200px;
 
     margin:auto;
-
 
 }
 
@@ -264,16 +230,20 @@ a{
 
 
 
-/* ================================
-   PAGE SYSTEM
-================================ */
+/* =====================================================
+   PAGE ENGINE
+===================================================== */
 
 
 .page{
 
+    padding:
 
-    padding:20px 16px;
+    25px 16px;
 
+    animation:
+
+    fadePage .35s ease;
 
 }
 
@@ -281,65 +251,146 @@ a{
 
 .page h2{
 
+    font-size:
 
-    font-size:1.6rem;
+    clamp(1.4rem,3vw,1.8rem);
 
+    font-weight:950;
 
-    font-weight:900;
-
-
-    margin-bottom:20px;
-
+    margin-bottom:25px;
 
 }
 
-/* =====================================================
-   CSS PART 2/12
 
-   TOP BAR
-   HEADER
-   LOGO
-   SEARCH
+
+@keyframes fadePage{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+/* =====================================================
+   GLOBAL SCROLLBAR
+===================================================== */
+
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+
+
+::-webkit-scrollbar-track{
+
+    background:var(--bg);
+
+}
+
+
+
+::-webkit-scrollbar-thumb{
+
+    background:#94a3b8;
+
+    border-radius:var(--pill);
+
+}
+
+
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:var(--primary);
+
+}
+
+
+
+/* =====================================================
+   TEXT SELECTION
+===================================================== */
+
+
+::selection{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+
+
+/* =====================================================
+   END CSS V6 PART 1/12
+===================================================== */
+
+/* =====================================================
+   CSS V6 PART 2/12
+
+   PREMIUM HEADER
+   SEARCH SYSTEM
    CART BUTTON
 ===================================================== */
 
 
-/* ================================
+/* =====================================================
    TOP BAR
-================================ */
+===================================================== */
 
 
 .top-bar{
 
+    background:
 
-    background:var(--primary);
+    linear-gradient(
+        90deg,
+        var(--primary),
+        var(--accent)
+    );
 
 
     color:white;
 
-
     text-align:center;
 
+    padding:
 
-    padding:8px 15px;
+    9px 15px;
 
 
     font-size:.85rem;
 
+    font-weight:800;
 
-    font-weight:700;
-
+    letter-spacing:.3px;
 
 }
 
 
 
-
-
-
-/* ================================
-   HEADER
-================================ */
+/* =====================================================
+   MAIN HEADER
+===================================================== */
 
 
 .app-header{
@@ -356,12 +407,12 @@ a{
 
     background:
 
-    rgba(255,255,255,.9);
+    rgba(255,255,255,.75);
 
 
     backdrop-filter:
 
-    blur(15px);
+    blur(18px);
 
 
     border-bottom:
@@ -371,14 +422,14 @@ a{
 
     padding:
 
-    14px 0;
+    15px 0;
 
+
+    transition:
+
+    var(--transition);
 
 }
-
-
-
-
 
 
 
@@ -394,26 +445,21 @@ a{
     justify-content:space-between;
 
 
-    gap:15px;
+    gap:18px;
 
 
 }
 
 
 
-
-
-
-/* ================================
+/* =====================================================
    LOGO
-================================ */
+===================================================== */
 
 
 .logo{
 
-
     min-width:max-content;
-
 
 }
 
@@ -422,16 +468,27 @@ a{
 .logo h1{
 
 
-    font-size:1.4rem;
+    font-size:
+
+    clamp(1.1rem,3vw,1.5rem);
 
 
-    font-weight:950;
+    font-weight:1000;
 
 
-    color:var(--primary);
+    background:
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--accent)
+    );
 
 
-    line-height:1.2;
+    -webkit-background-clip:text;
+
+
+    color:transparent;
 
 
 }
@@ -441,26 +498,22 @@ a{
 .logo p{
 
 
-    font-size:.75rem;
-
-
     color:var(--muted);
 
 
-    font-weight:600;
+    font-size:.75rem;
+
+
+    font-weight:700;
 
 
 }
 
 
 
-
-
-
-
-/* ================================
+/* =====================================================
    SEARCH BOX
-================================ */
+===================================================== */
 
 
 .search-box{
@@ -469,7 +522,7 @@ a{
     flex:1;
 
 
-    max-width:500px;
+    max-width:550px;
 
 
     display:flex;
@@ -478,11 +531,10 @@ a{
     align-items:center;
 
 
-    gap:8px;
+    gap:10px;
 
 
 }
-
 
 
 
@@ -492,10 +544,17 @@ a{
     width:100%;
 
 
-    padding:13px 18px;
+    height:48px;
 
 
-    border-radius:var(--radius-pill);
+    padding:
+
+    0 20px;
+
+
+    border-radius:
+
+    var(--pill);
 
 
     border:
@@ -503,7 +562,9 @@ a{
     1px solid var(--border);
 
 
-    background:var(--card);
+    background:
+
+    rgba(255,255,255,.9);
 
 
     color:var(--text);
@@ -512,110 +573,51 @@ a{
     outline:none;
 
 
-    transition:var(--transition);
+    font-size:.95rem;
 
 
-}
+    transition:
 
-
-
-
-
-.search-box input::placeholder{
-
-
-    color:var(--muted);
-
+    var(--transition);
 
 }
 
 
+
+.search-box input:hover{
+
+
+    border-color:
+
+    var(--primary-light);
+
+}
 
 
 
 .search-box input:focus{
 
 
-    border-color:var(--primary);
+    border-color:
+
+    var(--primary);
 
 
     box-shadow:
 
-    0 0 0 4px rgba(37,99,235,.15);
+    0 0 0 5px rgba(37,99,235,.15);
 
 
 }
 
 
 
-
-
+/* =====================================================
+   SEARCH BUTTON
+===================================================== */
 
 
 .search-box button{
-
-
-    width:45px;
-
-
-    height:45px;
-
-
-    border-radius:50%;
-
-
-    display:flex;
-
-
-    align-items:center;
-
-
-    justify-content:center;
-
-
-    background:var(--primary);
-
-
-    color:white;
-
-
-    font-size:1.1rem;
-
-
-    transition:var(--transition);
-
-
-}
-
-
-
-
-.search-box button:hover{
-
-
-    background:var(--primary-dark);
-
-
-    transform:translateY(-2px);
-
-
-}
-
-
-
-
-
-
-
-/* ================================
-   CART BUTTON
-================================ */
-
-
-.cart-btn{
-
-
-    position:relative;
 
 
     width:48px;
@@ -627,12 +629,6 @@ a{
     border-radius:50%;
 
 
-    background:var(--primary);
-
-
-    color:white;
-
-
     display:flex;
 
 
@@ -640,191 +636,60 @@ a{
 
 
     justify-content:center;
+
+
+    background:
+
+    var(--primary);
+
+
+    color:white;
 
 
     font-size:1.2rem;
 
 
-    transition:var(--transition);
+    box-shadow:
+
+    var(--shadow-sm);
 
 
 }
 
 
 
+.search-box button:hover{
 
 
-.cart-btn:hover{
+    background:
+
+    var(--primary-dark);
 
 
-    background:var(--primary-dark);
+    transform:
 
-
-    transform:scale(1.05);
-
-
-}
-
-
-
-
-
-
-
-/* ================================
-   CART NUMBER
-================================ */
-
-
-#cart-count{
-
-
-    position:absolute;
-
-
-    top:-6px;
-
-
-    right:-6px;
-
-
-    min-width:21px;
-
-
-    height:21px;
-
-
-    border-radius:50%;
-
-
-    background:var(--danger);
-
-
-    color:white;
-
-
-    display:flex;
-
-
-    align-items:center;
-
-
-    justify-content:center;
-
-
-    font-size:.7rem;
-
-
-    font-weight:900;
+    translateY(-3px);
 
 
 }
 
-
-
-
-
-
-/* ================================
-   HEADER MOBILE
-================================ */
-
-
-@media(max-width:700px){
-
-
-    .header-content{
-
-
-        gap:10px;
-
-
-    }
-
-
-
-    .logo h1{
-
-
-        font-size:1.1rem;
-
-
-    }
-
-
-
-
-    .logo p{
-
-
-        display:none;
-
-
-    }
-
-
-
-    .search-box input{
-
-
-        padding:11px 12px;
-
-
-    }
-
-
-
-    .search-box button{
-
-
-        width:40px;
-
-
-        height:40px;
-
-
-    }
-
-
-
-    .cart-btn{
-
-
-        width:42px;
-
-
-        height:42px;
-
-
-    }
-
-
-}
 
 
 /* =====================================================
-   CSS PART 3/12
-
-   HERO SECTION
-   HERO BUTTONS
+   CART BUTTON
 ===================================================== */
 
 
-/* ================================
-   HERO
-================================ */
+.cart-btn{
 
 
-.hero{
+    width:50px;
 
 
-    margin:20px 16px;
+    height:50px;
 
 
-    padding:45px 20px;
-
-
-    border-radius:var(--radius-lg);
+    border-radius:50%;
 
 
     background:
@@ -839,13 +704,329 @@ a{
     color:white;
 
 
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    font-size:1.3rem;
+
+
+    position:relative;
+
+
+    box-shadow:
+
+    var(--shadow-sm);
+
+
+}
+
+
+
+.cart-btn:hover{
+
+
+    transform:
+
+    scale(1.08);
+
+
+    box-shadow:
+
+    var(--shadow-md);
+
+
+}
+
+
+
+/* =====================================================
+   CART COUNTER
+===================================================== */
+
+
+#cart-count{
+
+
+    position:absolute;
+
+
+    top:-7px;
+
+
+    right:-7px;
+
+
+    min-width:23px;
+
+
+    height:23px;
+
+
+    border-radius:50%;
+
+
+    background:
+
+    var(--danger);
+
+
+    color:white;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    font-size:.75rem;
+
+
+    font-weight:950;
+
+
+    border:
+
+    2px solid white;
+
+
+}
+
+
+
+/* =====================================================
+   MOBILE HEADER
+===================================================== */
+
+
+@media(max-width:700px){
+
+
+    .header-content{
+
+
+        gap:10px;
+
+    }
+
+
+
+    .logo h1{
+
+
+        font-size:1.1rem;
+
+    }
+
+
+
+    .logo p{
+
+
+        display:none;
+
+    }
+
+
+
+    .search-box{
+
+
+        order:3;
+
+
+        width:100%;
+
+
+        max-width:none;
+
+
+    }
+
+
+
+    .search-box input{
+
+
+        height:44px;
+
+    }
+
+
+
+    .search-box button{
+
+
+        width:44px;
+
+
+        height:44px;
+
+    }
+
+
+
+    .cart-btn{
+
+
+        width:44px;
+
+
+        height:44px;
+
+    }
+
+
+}
+
+
+/* =====================================================
+   END CSS V6 PART 2/12
+===================================================== */
+
+
+/* =====================================================
+   CSS V6 PART 3/12
+
+   HERO SECTION
+   PREMIUM BUTTONS
+   LANDING EXPERIENCE
+===================================================== */
+
+
+/* =====================================================
+   HERO CONTAINER
+===================================================== */
+
+
+.hero{
+
+
+    margin:
+
+    25px 16px;
+
+
+    padding:
+
+    clamp(35px,6vw,70px) 25px;
+
+
+    border-radius:
+
+    var(--radius-xl);
+
+
+
+    background:
+
+
+    linear-gradient(
+        135deg,
+        #2563eb,
+        #06b6d4
+    );
+
+
+
+    color:white;
+
+
     text-align:center;
 
 
-    box-shadow:var(--shadow-md);
-
-
     overflow:hidden;
+
+
+    position:relative;
+
+
+    box-shadow:
+
+    var(--shadow-lg);
+
+
+
+}
+
+
+
+/* =====================================================
+   HERO LIGHT EFFECT
+===================================================== */
+
+
+.hero::before{
+
+
+    content:"";
+
+
+    position:absolute;
+
+
+    width:350px;
+
+
+    height:350px;
+
+
+    background:
+
+    rgba(255,255,255,.15);
+
+
+
+    border-radius:50%;
+
+
+    top:-150px;
+
+
+    right:-100px;
+
+
+}
+
+
+
+.hero::after{
+
+
+    content:"";
+
+
+    position:absolute;
+
+
+    width:250px;
+
+
+    height:250px;
+
+
+    background:
+
+    rgba(255,255,255,.1);
+
+
+
+    border-radius:50%;
+
+
+    bottom:-120px;
+
+
+    left:-80px;
 
 
 }
@@ -854,11 +1035,78 @@ a{
 
 
 
+/* =====================================================
+   HERO CONTENT
+===================================================== */
+
 
 .hero-content{
 
 
-    max-width:700px;
+    max-width:750px;
+
+
+    margin:auto;
+
+
+    position:relative;
+
+
+    z-index:2;
+
+
+}
+
+
+
+
+.hero h1{
+
+
+    font-size:
+
+
+    clamp(
+        2rem,
+        6vw,
+        3.5rem
+    );
+
+
+    font-weight:1000;
+
+
+    line-height:1.1;
+
+
+    letter-spacing:-1px;
+
+
+    margin-bottom:18px;
+
+
+}
+
+
+
+
+.hero p{
+
+
+    font-size:
+
+
+    clamp(
+        .95rem,
+        2vw,
+        1.15rem
+    );
+
+
+    opacity:.9;
+
+
+    max-width:600px;
 
 
     margin:auto;
@@ -871,53 +1119,9 @@ a{
 
 
 
-
-.hero h1{
-
-
-    font-size:
-
-    clamp(2rem,6vw,3rem);
-
-
-    font-weight:950;
-
-
-    line-height:1.15;
-
-
-    margin-bottom:15px;
-
-
-}
-
-
-
-
-
-.hero p{
-
-
-    font-size:1.05rem;
-
-
-    opacity:.9;
-
-
-    margin-bottom:10px;
-
-
-}
-
-
-
-
-
-
-
-/* ================================
-   HERO BUTTON GROUP
-================================ */
+/* =====================================================
+   HERO BUTTON AREA
+===================================================== */
 
 
 .hero-buttons{
@@ -932,13 +1136,13 @@ a{
     align-items:center;
 
 
-    gap:15px;
-
-
     flex-wrap:wrap;
 
 
-    margin-top:25px;
+    gap:15px;
+
+
+    margin-top:30px;
 
 
 }
@@ -948,40 +1152,23 @@ a{
 
 
 
-
-
-/* ================================
-   BUTTON SYSTEM
-================================ */
-
-
-.primary-btn,
-
-
-.secondary-btn{
-
-
-    padding:14px 28px;
-
-
-    border-radius:var(--radius-pill);
-
-
-    font-weight:900;
-
-
-    transition:var(--transition);
-
-
-}
-
-
-
-
-
+/* =====================================================
+   PRIMARY BUTTON
+===================================================== */
 
 
 .primary-btn{
+
+
+    padding:
+
+    14px 30px;
+
+
+    border-radius:
+
+    var(--pill);
+
 
 
     background:white;
@@ -990,8 +1177,25 @@ a{
     color:var(--primary);
 
 
-}
 
+    font-weight:950;
+
+
+    font-size:.95rem;
+
+
+    box-shadow:
+
+    var(--shadow-sm);
+
+
+    transition:
+
+    var(--transition);
+
+
+
+}
 
 
 
@@ -999,27 +1203,44 @@ a{
 .primary-btn:hover{
 
 
-    transform:translateY(-3px);
+    transform:
+
+    translateY(-4px);
 
 
-    box-shadow:var(--shadow-md);
+    box-shadow:
+
+    var(--shadow-md);
+
 
 
 }
 
 
 
-
-
+/* =====================================================
+   SECONDARY BUTTON
+===================================================== */
 
 
 .secondary-btn{
 
 
-    background:rgba(255,255,255,.15);
+    padding:
+
+    14px 30px;
 
 
-    color:white;
+    border-radius:
+
+    var(--pill);
+
+
+
+    background:
+
+    rgba(255,255,255,.15);
+
 
 
     border:
@@ -1027,8 +1248,22 @@ a{
     1px solid rgba(255,255,255,.5);
 
 
-}
 
+    color:white;
+
+
+
+    font-weight:950;
+
+
+
+    backdrop-filter:
+
+    blur(10px);
+
+
+
+}
 
 
 
@@ -1042,7 +1277,10 @@ a{
     color:var(--primary);
 
 
-    transform:translateY(-3px);
+    transform:
+
+    translateY(-4px);
+
 
 
 }
@@ -1052,29 +1290,17 @@ a{
 
 
 
-
-
-/* ================================
-   GENERAL BUTTON EFFECT
-================================ */
-
-
-button{
-
-
-    transition:var(--transition);
-
-
-}
-
-
-
+/* =====================================================
+   BUTTON CLICK EFFECT
+===================================================== */
 
 
 button:active{
 
 
-    transform:scale(.97);
+    transform:
+
+    scale(.96);
 
 
 }
@@ -1084,11 +1310,9 @@ button:active{
 
 
 
-
-
-/* ================================
-   MOBILE HERO
-================================ */
+/* =====================================================
+   HERO MOBILE
+===================================================== */
 
 
 @media(max-width:600px){
@@ -1098,10 +1322,15 @@ button:active{
     .hero{
 
 
-        padding:35px 15px;
+        margin:
+
+        15px;
 
 
-        margin:15px;
+
+        padding:
+
+        35px 18px;
 
 
     }
@@ -1111,11 +1340,12 @@ button:active{
     .hero h1{
 
 
-        font-size:2rem;
+        font-size:
+
+        2rem;
 
 
     }
-
 
 
 
@@ -1129,37 +1359,37 @@ button:active{
 
 
 
-
-    .primary-btn,
-
-
-    .secondary-btn{
+    .hero-buttons button{
 
 
         width:100%;
 
 
-        max-width:280px;
+        max-width:300px;
 
 
     }
 
 
+
 }
-
-
+ 
 
 /* =====================================================
-   CSS PART 4/12
+   END CSS V6 PART 3/12
+===================================================== */
+
+/* =====================================================
+   CSS V6 PART 4/12
 
    STATS SECTION
-   STAT CARDS
+   CATEGORY MARKETPLACE SYSTEM
 ===================================================== */
 
 
-/* ================================
+/* =====================================================
    STATS CONTAINER
-================================ */
+===================================================== */
 
 
 .stats{
@@ -1170,18 +1400,19 @@ button:active{
 
     grid-template-columns:
 
+
     repeat(
         auto-fit,
-        minmax(150px,1fr)
+        minmax(170px,1fr)
     );
 
 
-    gap:16px;
+    gap:20px;
 
 
     padding:
 
-    20px 16px;
+    25px 16px;
 
 
 }
@@ -1190,11 +1421,9 @@ button:active{
 
 
 
-
-
-/* ================================
+/* =====================================================
    STAT CARD
-================================ */
+===================================================== */
 
 
 .stat-card{
@@ -1202,7 +1431,12 @@ button:active{
 
     background:
 
-    var(--card);
+
+    linear-gradient(
+        145deg,
+        var(--card),
+        #f8fafc
+    );
 
 
 
@@ -1220,7 +1454,7 @@ button:active{
 
     padding:
 
-    24px 15px;
+    28px 18px;
 
 
 
@@ -1231,6 +1465,14 @@ button:active{
     box-shadow:
 
     var(--shadow-sm);
+
+
+
+    position:relative;
+
+
+
+    overflow:hidden;
 
 
 
@@ -1246,25 +1488,35 @@ button:active{
 
 
 
-
-.stat-card:hover{
-
-
-    transform:
-
-    translateY(-5px);
+.stat-card::before{
 
 
-
-    box-shadow:
-
-    var(--shadow-md);
+    content:"";
 
 
+    position:absolute;
 
-    border-color:
 
-    var(--primary);
+    width:100px;
+
+
+    height:100px;
+
+
+    border-radius:50%;
+
+
+    background:
+
+    rgba(37,99,235,.08);
+
+
+
+    top:-40px;
+
+
+    right:-30px;
+
 
 
 }
@@ -1273,26 +1525,43 @@ button:active{
 
 
 
+.stat-card:hover{
 
 
-/* ================================
-   STAT NUMBER
-================================ */
+    transform:
+
+    translateY(-8px);
+
+
+    box-shadow:
+
+    var(--shadow-md);
+
+
+    border-color:
+
+    var(--primary);
+
+
+
+}
+
+
+
 
 
 .stat-card h3{
 
 
+    position:relative;
+
+
     font-size:
 
-    2.2rem;
+    2.3rem;
 
 
-
-    font-weight:
-
-    950;
-
+    font-weight:1000;
 
 
     color:
@@ -1301,25 +1570,16 @@ button:active{
 
 
 
-    margin-bottom:
-
-    5px;
-
-
 }
 
 
 
 
 
-
-
-/* ================================
-   STAT LABEL
-================================ */
-
-
 .stat-card p{
+
+
+    margin-top:8px;
 
 
     color:
@@ -1328,16 +1588,7 @@ button:active{
 
 
 
-    font-size:
-
-    .9rem;
-
-
-
-    font-weight:
-
-    700;
-
+    font-weight:750;
 
 
 }
@@ -1346,74 +1597,11 @@ button:active{
 
 
 
-
-
-/* ================================
-   MOBILE STATS
-================================ */
-
-
-@media(max-width:600px){
-
-
-    .stats{
-
-
-        grid-template-columns:
-
-        repeat(2,1fr);
-
-
-        gap:12px;
-
-
-        padding:
-
-        15px;
-
-
-    }
-
-
-
-    .stat-card{
-
-
-        padding:
-
-        18px 10px;
-
-
-    }
-
-
-
-    .stat-card h3{
-
-
-        font-size:
-
-        1.8rem;
-
-
-    }
-
-
-}
 
 
 /* =====================================================
-   CSS PART 5/12
-
    CATEGORY SECTION
-   CATEGORY GRID
-   CATEGORY BUTTONS
 ===================================================== */
-
-
-/* ================================
-   CATEGORY SECTION
-================================ */
 
 
 .categories{
@@ -1421,11 +1609,12 @@ button:active{
 
     padding:
 
-    25px 16px;
-
+    30px 16px;
 
 
 }
+
+
 
 
 
@@ -1434,20 +1623,15 @@ button:active{
 
     font-size:
 
-    1.6rem;
+    1.7rem;
 
 
-
-    font-weight:
-
-    950;
-
+    font-weight:1000;
 
 
     margin-bottom:
 
-    20px;
-
+    22px;
 
 
 }
@@ -1458,9 +1642,9 @@ button:active{
 
 
 
-/* ================================
+/* =====================================================
    CATEGORY GRID
-================================ */
+===================================================== */
 
 
 .category-grid{
@@ -1469,19 +1653,19 @@ button:active{
     display:grid;
 
 
-
     grid-template-columns:
+
 
     repeat(
         auto-fit,
-        minmax(100px,1fr)
+        minmax(110px,1fr)
     );
 
 
 
     gap:
 
-    14px;
+    16px;
 
 
 
@@ -1493,9 +1677,9 @@ button:active{
 
 
 
-/* ================================
+/* =====================================================
    CATEGORY BUTTON
-================================ */
+===================================================== */
 
 
 .category-btn{
@@ -1503,7 +1687,7 @@ button:active{
 
     min-height:
 
-    90px;
+    100px;
 
 
 
@@ -1537,18 +1721,6 @@ button:active{
 
 
 
-    font-size:
-
-    .9rem;
-
-
-
-    font-weight:
-
-    850;
-
-
-
     display:flex;
 
 
@@ -1565,7 +1737,11 @@ button:active{
 
 
 
-    gap:6px;
+    gap:8px;
+
+
+
+    font-weight:900;
 
 
 
@@ -1575,9 +1751,13 @@ button:active{
 
 
 
+    box-shadow:
+
+    var(--shadow-sm);
+
+
+
 }
-
-
 
 
 
@@ -1588,7 +1768,7 @@ button:active{
 
     transform:
 
-    translateY(-5px);
+    translateY(-6px);
 
 
 
@@ -1610,11 +1790,9 @@ button:active{
 
 
 
-
-
-/* ================================
+/* =====================================================
    ACTIVE CATEGORY
-================================ */
+===================================================== */
 
 
 .category-btn.active{
@@ -1622,25 +1800,29 @@ button:active{
 
     background:
 
-    var(--primary);
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--accent)
+    );
 
 
 
-    color:
-
-    white;
+    color:white;
 
 
 
     border-color:
 
-    var(--primary);
+    transparent;
 
 
 
     box-shadow:
 
-    0 10px 25px rgba(37,99,235,.25);
+
+    0 15px 35px rgba(37,99,235,.35);
 
 
 
@@ -1652,34 +1834,59 @@ button:active{
 
 
 
-/* ================================
-   CATEGORY ICON SIZE
-================================ */
-
-
-.category-btn::first-line{
-
-
-    font-size:
-
-    1.5rem;
-
-
-
-}
-
-
-
-
-
-
-
-/* ================================
-   MOBILE CATEGORY
-================================ */
+/* =====================================================
+   MOBILE OPTIMIZATION
+===================================================== */
 
 
 @media(max-width:600px){
+
+
+    .stats{
+
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+
+        gap:12px;
+
+
+        padding:
+
+        15px;
+
+
+
+    }
+
+
+
+
+    .stat-card{
+
+
+        padding:
+
+        20px 10px;
+
+
+    }
+
+
+
+    .stat-card h3{
+
+
+        font-size:
+
+        1.8rem;
+
+
+    }
+
+
 
 
     .category-grid{
@@ -1691,12 +1898,11 @@ button:active{
 
 
 
-        gap:
-
-        10px;
+        gap:10px;
 
 
     }
+
 
 
 
@@ -1706,7 +1912,6 @@ button:active{
         min-height:
 
         80px;
-
 
 
         font-size:
@@ -1733,25 +1938,31 @@ button:active{
         repeat(2,1fr);
 
 
-    }
 
+    }
 
 
 }
 
 
-/* =====================================================
-   CSS PART 6/12
 
-   FEATURED PRODUCTS
-   PRODUCT GRID
-   PRODUCT CARD
+/* =====================================================
+   END CSS V6 PART 4/12
 ===================================================== */
 
 
-/* ================================
-   FEATURED SECTION
-================================ */
+/* =====================================================
+   CSS V6 PART 5/12
+
+   PRODUCT GRID
+   PREMIUM PRODUCT CARDS
+   MARKETPLACE EXPERIENCE
+===================================================== */
+
+
+/* =====================================================
+   PRODUCT SECTION
+===================================================== */
 
 
 .featured-section{
@@ -1759,20 +1970,13 @@ button:active{
 
     padding:
 
-    25px 16px;
-
+    30px 16px;
 
 
 }
 
 
 
-
-
-
-/* ================================
-   SECTION HEADER
-================================ */
 
 
 .section-header{
@@ -1781,19 +1985,18 @@ button:active{
     display:flex;
 
 
-
     align-items:center;
-
 
 
     justify-content:space-between;
 
 
+    gap:15px;
+
 
     margin-bottom:
 
-    20px;
-
+    25px;
 
 
 }
@@ -1805,17 +2008,16 @@ button:active{
 
     font-size:
 
-    1.6rem;
-
+    1.7rem;
 
 
     font-weight:
 
-    950;
-
+    1000;
 
 
 }
+
 
 
 
@@ -1825,7 +2027,6 @@ button:active{
 
 
     background:none;
-
 
 
     color:
@@ -1845,7 +2046,6 @@ button:active{
     8px 12px;
 
 
-
 }
 
 
@@ -1853,10 +2053,7 @@ button:active{
 .view-all:hover{
 
 
-    text-decoration:
-
-    underline;
-
+    text-decoration:underline;
 
 
 }
@@ -1866,10 +2063,9 @@ button:active{
 
 
 
-
-/* ================================
+/* =====================================================
    PRODUCT GRID
-================================ */
+===================================================== */
 
 
 .products{
@@ -1881,16 +2077,17 @@ button:active{
 
     grid-template-columns:
 
+
     repeat(
         auto-fit,
-        minmax(220px,1fr)
+        minmax(230px,1fr)
     );
 
 
 
     gap:
 
-    20px;
+    22px;
 
 
 
@@ -1902,9 +2099,9 @@ button:active{
 
 
 
-/* ================================
+/* =====================================================
    PRODUCT CARD
-================================ */
+===================================================== */
 
 
 .card{
@@ -1932,6 +2129,10 @@ button:active{
 
 
 
+    position:relative;
+
+
+
     box-shadow:
 
     var(--shadow-sm);
@@ -1941,10 +2142,6 @@ button:active{
     transition:
 
     var(--transition);
-
-
-
-    position:relative;
 
 
 
@@ -1961,7 +2158,7 @@ button:active{
 
     transform:
 
-    translateY(-7px);
+    translateY(-10px);
 
 
 
@@ -1973,7 +2170,7 @@ button:active{
 
     border-color:
 
-    var(--primary);
+    rgba(37,99,235,.4);
 
 
 
@@ -1985,9 +2182,9 @@ button:active{
 
 
 
-/* ================================
+/* =====================================================
    PRODUCT IMAGE
-================================ */
+===================================================== */
 
 
 .card img{
@@ -1999,13 +2196,19 @@ button:active{
 
     height:
 
-    220px;
+    230px;
 
 
 
     object-fit:
 
     cover;
+
+
+
+    transition:
+
+    .5s ease;
 
 
 
@@ -2017,9 +2220,25 @@ button:active{
 
 
 
-/* ================================
+.card:hover img{
+
+
+    transform:
+
+    scale(1.06);
+
+
+
+}
+
+
+
+
+
+
+/* =====================================================
    PRODUCT CONTENT
-================================ */
+===================================================== */
 
 
 .card-content{
@@ -2027,8 +2246,7 @@ button:active{
 
     padding:
 
-    16px;
-
+    18px;
 
 
 }
@@ -2050,19 +2268,32 @@ button:active{
 
     font-weight:
 
-    900;
+    950;
 
 
 
-    color:
+    margin:
 
-    var(--text);
+    12px 0 8px;
 
 
 
-    margin-bottom:
+    display:
 
-    8px;
+    -webkit-box;
+
+
+    -webkit-line-clamp:
+
+    2;
+
+
+    -webkit-box-orient:
+
+    vertical;
+
+
+    overflow:hidden;
 
 
 
@@ -2074,27 +2305,29 @@ button:active{
 
 
 
-/* ================================
-   CATEGORY LABEL
-================================ */
+/* =====================================================
+   CATEGORY BADGE
+===================================================== */
 
 
 .category{
 
 
-    display:inline-block;
+    display:inline-flex;
 
+
+    align-items:center;
 
 
     padding:
 
-    5px 12px;
+    6px 14px;
 
 
 
     border-radius:
 
-    var(--radius-pill);
+    var(--pill);
 
 
 
@@ -2112,13 +2345,13 @@ button:active{
 
     font-size:
 
-    .8rem;
+    .78rem;
 
 
 
     font-weight:
 
-    800;
+    900;
 
 
 
@@ -2130,17 +2363,63 @@ button:active{
 
 
 
-/* ================================
-   PRODUCT PRICE
-================================ */
+/* =====================================================
+   RATING
+===================================================== */
+
+
+.rating{
+
+
+    font-size:
+
+    .85rem;
+
+
+
+    font-weight:
+
+    800;
+
+
+
+    color:
+
+    #f59e0b;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   PRICE
+===================================================== */
 
 
 .price{
 
 
-    margin-top:
+    margin:
 
-    12px;
+    12px 0;
+
+
+
+    font-size:
+
+    1.35rem;
+
+
+
+    font-weight:
+
+    1000;
 
 
 
@@ -2150,9 +2429,193 @@ button:active{
 
 
 
+}
+
+
+
+
+
+
+
+/* =====================================================
+   CONDITION + LOCATION
+===================================================== */
+
+
+.condition,
+.location{
+
+
+    color:
+
+    var(--muted);
+
+
+
     font-size:
 
-    1.25rem;
+    .85rem;
+
+
+
+    font-weight:
+
+    700;
+
+
+
+    margin-top:
+
+    5px;
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   ADD CART BUTTON
+===================================================== */
+
+
+.add-to-cart{
+
+
+    width:100%;
+
+
+
+    margin-top:
+
+    16px;
+
+
+
+    padding:
+
+    14px;
+
+
+
+    border-radius:
+
+    var(--radius-md);
+
+
+
+    background:
+
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--accent)
+    );
+
+
+
+    color:white;
+
+
+
+    font-weight:
+
+    950;
+
+
+
+}
+
+
+
+.add-to-cart:hover{
+
+
+    transform:
+
+    translateY(-3px);
+
+
+
+    box-shadow:
+
+    var(--shadow-md);
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   EMPTY PRODUCT STATE
+===================================================== */
+
+
+.empty-state{
+
+
+    padding:
+
+    50px 20px;
+
+
+
+    text-align:center;
+
+
+
+    background:
+
+    var(--card);
+
+
+
+    border-radius:
+
+    var(--radius-lg);
+
+
+
+    border:
+
+    1px solid var(--border);
+
+
+
+    color:
+
+    var(--muted);
+
+
+
+}
+
+
+
+
+
+.empty-state h3{
+
+
+    color:
+
+    var(--text);
+
+
+
+    margin:
+
+    10px 0;
 
 
 
@@ -2170,136 +2633,9 @@ button:active{
 
 
 
-/* ================================
-   ADD TO CART BUTTON
-================================ */
-
-
-.add-to-cart{
-
-
-    width:100%;
-
-
-
-    margin-top:
-
-    15px;
-
-
-
-    padding:
-
-    13px;
-
-
-
-    border-radius:
-
-    var(--radius-md);
-
-
-
-    background:
-
-    var(--primary);
-
-
-
-    color:white;
-
-
-
-    font-weight:
-
-    900;
-
-
-
-    transition:
-
-    var(--transition);
-
-
-
-}
-
-
-
-
-
-
-
-.add-to-cart:hover{
-
-
-    background:
-
-    var(--primary-dark);
-
-
-
-    transform:
-
-    translateY(-2px);
-
-
-
-}
-
-
-
-
-
-
-
-/* ================================
-   EMPTY PRODUCTS STATE
-================================ */
-
-
-.empty-state{
-
-
-    text-align:center;
-
-
-
-    padding:
-
-    40px 20px;
-
-
-
-    background:
-
-    var(--card);
-
-
-
-    border-radius:
-
-    var(--radius-lg);
-
-
-
-    color:
-
-    var(--muted);
-
-
-
-}
-
-
-
-
-
-
-
-/* ================================
+/* =====================================================
    MOBILE PRODUCTS
-================================ */
+===================================================== */
 
 
 @media(max-width:600px){
@@ -2329,7 +2665,7 @@ button:active{
 
         height:
 
-        150px;
+        160px;
 
 
 
@@ -2368,7 +2704,27 @@ button:active{
 
         font-size:
 
-        1rem;
+        1.05rem;
+
+
+
+    }
+
+
+
+}
+
+
+
+@media(max-width:380px){
+
+
+    .products{
+
+
+        grid-template-columns:
+
+        1fr;
 
 
 
@@ -2380,9 +2736,17 @@ button:active{
 
 
 /* =====================================================
-   HORNM ARKET PREMIUM MARKETPLACE UI
-   CSS PART 7/12
-   SELL PAGE + FORMS + INPUT SYSTEM
+   END CSS V6 PART 5/12
+===================================================== */
+
+
+
+/* =====================================================
+   CSS V6 PART 6/12
+
+   SELL PAGE
+   SELLER FORM
+   INPUT SYSTEM
 ===================================================== */
 
 
@@ -2393,7 +2757,18 @@ button:active{
 
 #sell-page{
 
-    min-height:70vh;
+
+    min-height:
+
+    70vh;
+
+
+
+    padding-bottom:
+
+    40px;
+
+
 
 }
 
@@ -2401,9 +2776,34 @@ button:active{
 
 #sell-page h2{
 
-    margin-bottom:25px;
+
+    text-align:center;
+
+
+
+    font-size:
+
+    1.8rem;
+
+
+
+    font-weight:
+
+    1000;
+
+
+
+    margin-bottom:
+
+    30px;
+
+
 
 }
+
+
+
+
 
 
 
@@ -2414,17 +2814,33 @@ button:active{
 
 #sell-form{
 
+
     width:100%;
 
-    max-width:650px;
 
-    margin:auto;
 
-    padding:25px;
+    max-width:
+
+    700px;
+
+
+
+    margin:
+
+    auto;
+
+
+
+    padding:
+
+    30px;
+
 
 
     background:
+
     var(--card);
+
 
 
     border:
@@ -2432,14 +2848,18 @@ button:active{
     1px solid var(--border);
 
 
+
     border-radius:
 
-    var(--radius-lg);
+    var(--radius-xl);
+
 
 
     box-shadow:
 
-    var(--shadow-md);
+    var(--shadow-lg);
+
+
 
 }
 
@@ -2447,8 +2867,54 @@ button:active{
 
 
 
+
+
 /* =====================================================
-   FORM INPUTS
+   FORM LABELS
+===================================================== */
+
+
+#sell-form label{
+
+
+    display:block;
+
+
+
+    margin-bottom:
+
+    8px;
+
+
+
+    font-size:
+
+    .9rem;
+
+
+
+    font-weight:
+
+    900;
+
+
+
+    color:
+
+    var(--text);
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   INPUT SYSTEM
 ===================================================== */
 
 
@@ -2460,12 +2926,17 @@ button:active{
     width:100%;
 
 
+
     padding:
 
-    14px 16px;
+    15px 18px;
 
 
-    margin-bottom:18px;
+
+    margin-bottom:
+
+    18px;
+
 
 
     border:
@@ -2473,14 +2944,17 @@ button:active{
     1px solid var(--border);
 
 
+
     border-radius:
 
     var(--radius-md);
 
 
+
     background:
 
-    var(--bg);
+    #f8fafc;
+
 
 
     color:
@@ -2488,17 +2962,27 @@ button:active{
     var(--text);
 
 
-    font-size:1rem;
-
 
     outline:none;
+
+
+
+    font-size:
+
+    .95rem;
+
 
 
     transition:
 
     var(--transition);
 
+
+
 }
+
+
+
 
 
 
@@ -2509,9 +2993,32 @@ button:active{
 
     color:
 
-    var(--muted);
+    #94a3b8;
+
+
 
 }
+
+
+
+
+
+
+
+#sell-form input:hover,
+#sell-form textarea:hover,
+#sell-form select:hover{
+
+
+    border-color:
+
+    var(--primary-light);
+
+
+
+}
+
+
 
 
 
@@ -2522,19 +3029,22 @@ button:active{
 #sell-form select:focus{
 
 
+    background:white;
+
+
+
     border-color:
 
     var(--primary);
 
 
-    background:
-
-    var(--card);
-
 
     box-shadow:
 
-    0 0 0 4px rgba(37,99,235,.15);
+
+    0 0 0 5px rgba(37,99,235,.15);
+
+
 
 }
 
@@ -2542,18 +3052,26 @@ button:active{
 
 
 
+
+
 /* =====================================================
-   TEXTAREA
+   TEXT AREA
 ===================================================== */
 
 
 #sell-form textarea{
 
 
-    min-height:150px;
+    min-height:
+
+    160px;
 
 
-    resize:vertical;
+
+    resize:
+
+    vertical;
+
 
 
 }
@@ -2563,20 +3081,131 @@ button:active{
 
 
 
+
 /* =====================================================
-   PRIMARY BUTTON SYSTEM
+   FILE / IMAGE FIELD SUPPORT
 ===================================================== */
 
 
-.primary-btn{
+#sell-form input[type="file"]{
+
+
+    padding:
+
+    12px;
+
+
+
+    background:
+
+    var(--bg);
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   SUBMIT BUTTON
+===================================================== */
+
+
+#sell-form .primary-btn{
 
 
     width:100%;
 
 
+
+    margin-top:
+
+    10px;
+
+
+
     padding:
 
-    14px 20px;
+    16px;
+
+
+
+    border-radius:
+
+    var(--pill);
+
+
+
+    background:
+
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--accent)
+    );
+
+
+
+    color:white;
+
+
+
+    font-weight:
+
+    1000;
+
+
+
+    font-size:
+
+    1rem;
+
+
+
+}
+
+
+
+#sell-form .primary-btn:hover{
+
+
+    transform:
+
+    translateY(-4px);
+
+
+
+    box-shadow:
+
+    var(--shadow-md);
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   FORM SUCCESS STYLE
+===================================================== */
+
+
+.form-success{
+
+
+    padding:
+
+    15px;
+
 
 
     border-radius:
@@ -2584,107 +3213,24 @@ button:active{
     var(--radius-md);
 
 
-    background:
-
-    var(--primary);
-
-
-    color:white;
-
-
-    font-size:1rem;
-
-
-    font-weight:900;
-
-
-    transition:
-
-    var(--transition);
-
-
-}
-
-
-
-
-.primary-btn:hover{
-
 
     background:
 
-    var(--primary-dark);
+    rgba(34,197,94,.12);
 
-
-    transform:
-
-    translateY(-3px);
-
-
-    box-shadow:
-
-    var(--shadow-md);
-
-}
-
-
-
-
-
-
-/* =====================================================
-   SECONDARY BUTTON
-===================================================== */
-
-
-.secondary-btn{
-
-
-    padding:
-
-    14px 25px;
-
-
-    border-radius:
-
-    var(--radius-pill);
-
-
-    background:
-
-    white;
 
 
     color:
 
-    var(--primary);
-
-
-    font-weight:900;
-
-
-    transition:
-
-    var(--transition);
-
-
-}
+    var(--success);
 
 
 
+    font-weight:
+
+    800;
 
 
-.secondary-btn:hover{
-
-
-    transform:
-
-    translateY(-3px);
-
-
-    box-shadow:
-
-    var(--shadow-sm);
 
 }
 
@@ -2695,44 +3241,7 @@ button:active{
 
 
 /* =====================================================
-   HERO BUTTON GROUP
-===================================================== */
-
-
-.hero-buttons{
-
-
-    display:flex;
-
-
-    justify-content:center;
-
-
-    gap:15px;
-
-
-    margin-top:25px;
-
-
-}
-
-
-
-
-.hero-buttons button{
-
-
-    width:auto;
-
-
-}
-
-
-
-
-
-/* =====================================================
-   FORM RESPONSIVE
+   MOBILE SELL PAGE
 ===================================================== */
 
 
@@ -2744,39 +3253,49 @@ button:active{
 
         padding:
 
-        18px;
+        20px;
+
+
+
+        border-radius:
+
+        var(--radius-lg);
+
+
 
     }
 
 
 
-    .hero-buttons{
+    #sell-page h2{
 
 
-        flex-direction:column;
+        font-size:
 
-    }
-
-
-
-    .hero-buttons button{
+        1.5rem;
 
 
-        width:100%;
 
     }
+
 
 
 }
 
 
 /* =====================================================
-   HORNM ARKET PREMIUM MARKETPLACE UI
-   CSS PART 8/12
+   END CSS V6 PART 6/12
+===================================================== */
+
+
+
+
+/* =====================================================
+   CSS V6 PART 7/12
 
    ACCOUNT PAGE
    SELLER DASHBOARD
-   DASHBOARD CARDS
+   STATISTICS PANEL
 ===================================================== */
 
 
@@ -2788,7 +3307,16 @@ button:active{
 #account-page{
 
 
-    min-height:70vh;
+    min-height:
+
+    70vh;
+
+
+
+    padding-bottom:
+
+    40px;
+
 
 
 }
@@ -2798,9 +3326,22 @@ button:active{
 #account-page h2{
 
 
+    font-size:
+
+    1.8rem;
+
+
+
+    font-weight:
+
+    1000;
+
+
+
     margin-bottom:
 
-    25px;
+    30px;
+
 
 
 }
@@ -2812,7 +3353,7 @@ button:active{
 
 
 /* =====================================================
-   ACCOUNT CARD
+   ACCOUNT PROFILE CARD
 ===================================================== */
 
 
@@ -2833,13 +3374,13 @@ button:active{
 
     border-radius:
 
-    var(--radius-lg);
+    var(--radius-xl);
 
 
 
     padding:
 
-    25px;
+    30px;
 
 
 
@@ -2849,7 +3390,60 @@ button:active{
 
 
 
+    margin-bottom:
+
+    25px;
+
+
+
+    position:relative;
+
+
+
+    overflow:hidden;
+
+
+
 }
+
+
+
+
+
+.account-card::after{
+
+
+    content:"";
+
+
+    position:absolute;
+
+
+    width:180px;
+
+
+    height:180px;
+
+
+    border-radius:50%;
+
+
+    background:
+
+    rgba(37,99,235,.08);
+
+
+
+    right:-60px;
+
+
+    top:-60px;
+
+
+
+}
+
+
 
 
 
@@ -2858,15 +3452,21 @@ button:active{
 .account-card h3{
 
 
+    position:relative;
+
+
+    z-index:1;
+
+
     font-size:
 
-    1.4rem;
+    1.5rem;
 
 
 
     font-weight:
 
-    950;
+    1000;
 
 
 
@@ -2876,18 +3476,19 @@ button:active{
 
 
 
-    margin-bottom:
-
-    8px;
-
-
-
 }
 
 
 
 
+
 .account-card p{
+
+
+    position:relative;
+
+
+    z-index:1;
 
 
     color:
@@ -2896,9 +3497,15 @@ button:active{
 
 
 
-    margin-bottom:
+    font-weight:
 
-    20px;
+    700;
+
+
+
+    margin-top:
+
+    8px;
 
 
 
@@ -2924,16 +3531,17 @@ button:active{
 
     grid-template-columns:
 
+
     repeat(
         auto-fit,
-        minmax(200px,1fr)
+        minmax(220px,1fr)
     );
 
 
 
     gap:
 
-    18px;
+    20px;
 
 
 
@@ -2946,7 +3554,7 @@ button:active{
 
 
 /* =====================================================
-   DASHBOARD CARD
+   DASHBOARD CARDS
 ===================================================== */
 
 
@@ -2955,7 +3563,12 @@ button:active{
 
     background:
 
-    var(--bg);
+
+    linear-gradient(
+        145deg,
+        var(--card),
+        #f8fafc
+    );
 
 
 
@@ -2973,11 +3586,17 @@ button:active{
 
     padding:
 
-    22px;
+    25px;
 
 
 
     text-align:center;
+
+
+
+    box-shadow:
+
+    var(--shadow-sm);
 
 
 
@@ -2993,26 +3612,24 @@ button:active{
 
 
 
-
-
 .dashboard-card:hover{
 
 
     transform:
 
-    translateY(-5px);
-
-
-
-    border-color:
-
-    var(--primary);
+    translateY(-8px);
 
 
 
     box-shadow:
 
     var(--shadow-md);
+
+
+
+    border-color:
+
+    var(--primary);
 
 
 
@@ -3041,7 +3658,7 @@ button:active{
 
     font-weight:
 
-    800;
+    850;
 
 
 
@@ -3068,13 +3685,13 @@ button:active{
 
     font-size:
 
-    2rem;
+    2.4rem;
 
 
 
     font-weight:
 
-    950;
+    1000;
 
 
 
@@ -3093,7 +3710,7 @@ button:active{
 
 
 /* =====================================================
-   SELLER STAT COLORS
+   DASHBOARD INDICATORS
 ===================================================== */
 
 
@@ -3110,12 +3727,107 @@ button:active{
 
 
 
+#seller-count{
+
+
+    color:
+
+    var(--primary);
+
+
+
+}
+
+
+
+#order-count{
+
+
+    color:
+
+    var(--warning);
+
+
+
+}
+
+
+
 
 
 
 
 /* =====================================================
-   ACCOUNT MOBILE
+   SELLER ACTION BUTTONS
+===================================================== */
+
+
+.account-card button{
+
+
+    margin-top:
+
+    20px;
+
+
+
+    padding:
+
+    13px 25px;
+
+
+
+    border-radius:
+
+    var(--pill);
+
+
+
+    background:
+
+    var(--primary);
+
+
+
+    color:white;
+
+
+
+    font-weight:
+
+    900;
+
+
+
+}
+
+
+
+.account-card button:hover{
+
+
+    transform:
+
+    translateY(-3px);
+
+
+
+    box-shadow:
+
+    var(--shadow-sm);
+
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   MOBILE DASHBOARD
 ===================================================== */
 
 
@@ -3127,7 +3839,7 @@ button:active{
 
         padding:
 
-        18px;
+        20px;
 
 
 
@@ -3144,6 +3856,12 @@ button:active{
 
 
 
+        gap:
+
+        15px;
+
+
+
     }
 
 
@@ -3153,7 +3871,7 @@ button:active{
 
         font-size:
 
-        1.7rem;
+        2rem;
 
 
 
@@ -3163,17 +3881,20 @@ button:active{
 }
 
 
+/* =====================================================
+   END CSS V6 PART 7/12
+===================================================== */
 
 /* =====================================================
-   HORNM ARKET PREMIUM MARKETPLACE UI
-   CSS PART 9/12
+   CSS V6 PART 8/12
 
    PRODUCT MODAL
+   PRODUCT DETAILS POPUP
 ===================================================== */
 
 
 /* =====================================================
-   MODAL BACKGROUND
+   MODAL OVERLAY
 ===================================================== */
 
 
@@ -3198,19 +3919,27 @@ button:active{
     justify-content:center;
 
 
-    padding:20px;
+    padding:
+
+    20px;
 
 
 
     background:
 
-    rgba(0,0,0,.55);
+    rgba(15,23,42,.65);
 
 
 
     backdrop-filter:
 
-    blur(5px);
+    blur(10px);
+
+
+
+    animation:
+
+    fadeModal .25s ease;
 
 
 
@@ -3233,7 +3962,20 @@ button:active{
     width:100%;
 
 
-    max-width:500px;
+
+    max-width:
+
+    520px;
+
+
+
+    max-height:
+
+    90vh;
+
+
+
+    overflow-y:auto;
 
 
 
@@ -3245,13 +3987,13 @@ button:active{
 
     border-radius:
 
-    var(--radius-lg);
+    var(--radius-xl);
 
 
 
     padding:
 
-    25px;
+    28px;
 
 
 
@@ -3267,7 +4009,7 @@ button:active{
 
     animation:
 
-    modalOpen .25s ease;
+    modalScale .3s ease;
 
 
 
@@ -3280,7 +4022,7 @@ button:active{
 
 
 /* =====================================================
-   MODAL IMAGE
+   PRODUCT IMAGE
 ===================================================== */
 
 
@@ -3290,16 +4032,22 @@ button:active{
     width:100%;
 
 
-    height:260px;
+
+    height:
+
+    280px;
 
 
-    object-fit:cover;
+
+    object-fit:
+
+    cover;
 
 
 
     border-radius:
 
-    var(--radius-md);
+    var(--radius-lg);
 
 
 
@@ -3329,23 +4077,33 @@ button:active{
 
 
 
-    top:15px;
+    top:
+
+    15px;
 
 
 
-    right:15px;
+    right:
+
+    15px;
 
 
 
-    width:38px;
+    width:
+
+    42px;
 
 
 
-    height:38px;
+    height:
+
+    42px;
 
 
 
-    border-radius:50%;
+    border-radius:
+
+    50%;
 
 
 
@@ -3359,7 +4117,15 @@ button:active{
 
 
 
-    font-size:1.2rem;
+    font-size:
+
+    1.2rem;
+
+
+
+    font-weight:
+
+    900;
 
 
 
@@ -3375,13 +4141,13 @@ button:active{
 
 
 
-    transition:
-
-    var(--transition);
+    z-index:2;
 
 
 
 }
+
+
 
 
 
@@ -3411,7 +4177,7 @@ button:active{
 
 
 /* =====================================================
-   MODAL TEXT
+   MODAL TITLE
 ===================================================== */
 
 
@@ -3420,19 +4186,25 @@ button:active{
 
     font-size:
 
-    1.5rem;
+    1.6rem;
 
 
 
     font-weight:
 
-    950;
+    1000;
 
 
 
     margin-bottom:
 
-    10px;
+    12px;
+
+
+
+    color:
+
+    var(--text);
 
 
 
@@ -3442,6 +4214,11 @@ button:active{
 
 
 
+
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
 
 
 #modal-description{
@@ -3455,7 +4232,13 @@ button:active{
 
     line-height:
 
-    1.6;
+    1.7;
+
+
+
+    font-size:
+
+    .95rem;
 
 
 
@@ -3467,12 +4250,29 @@ button:active{
 
 
 
+/* =====================================================
+   MODAL PRICE
+===================================================== */
+
+
 #modal-price{
 
 
     margin:
 
-    18px 0;
+    20px 0;
+
+
+
+    font-size:
+
+    1.6rem;
+
+
+
+    font-weight:
+
+    1000;
 
 
 
@@ -3482,9 +4282,56 @@ button:active{
 
 
 
+}
+
+
+
+
+
+
+
+/* =====================================================
+   ADD TO CART MODAL BUTTON
+===================================================== */
+
+
+#modal-cart{
+
+
+    width:100%;
+
+
+
+    padding:
+
+    16px;
+
+
+
+    border-radius:
+
+    var(--pill);
+
+
+
+    background:
+
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--accent)
+    );
+
+
+
+    color:white;
+
+
+
     font-size:
 
-    1.4rem;
+    1rem;
 
 
 
@@ -3498,31 +4345,18 @@ button:active{
 
 
 
+#modal-cart:hover{
+
+
+    transform:
+
+    translateY(-4px);
 
 
 
+    box-shadow:
 
-/* =====================================================
-   MODAL CART BUTTON
-===================================================== */
-
-
-#modal-cart{
-
-
-    width:100%;
-
-
-
-    padding:
-
-    14px;
-
-
-
-    border-radius:
-
-    var(--radius-md);
+    var(--shadow-md);
 
 
 
@@ -3539,7 +4373,7 @@ button:active{
 ===================================================== */
 
 
-@keyframes modalOpen{
+@keyframes modalScale{
 
 
     from{
@@ -3550,7 +4384,7 @@ button:active{
 
         transform:
 
-        scale(.9);
+        scale(.85);
 
 
 
@@ -3578,6 +4412,33 @@ button:active{
 
 
 
+@keyframes fadeModal{
+
+
+    from{
+
+
+        opacity:0;
+
+
+    }
+
+
+
+    to{
+
+
+        opacity:1;
+
+
+    }
+
+
+}
+
+
+
+
 
 
 
@@ -3589,12 +4450,31 @@ button:active{
 @media(max-width:600px){
 
 
+    .modal{
+
+
+        padding:
+
+        15px;
+
+
+
+    }
+
+
+
     .modal-content{
 
 
         padding:
 
-        18px;
+        20px;
+
+
+
+        border-radius:
+
+        var(--radius-lg);
 
 
 
@@ -3607,7 +4487,7 @@ button:active{
 
         height:
 
-        200px;
+        210px;
 
 
 
@@ -3620,90 +4500,550 @@ button:active{
 
         font-size:
 
-        1.2rem;
+        1.3rem;
 
 
 
     }
 
 
+
 }
+
+
+/* =====================================================
+   END CSS V6 PART 8/12
+===================================================== */
+
+
+/* =====================================================
+   HORNM ARKET PREMIUM MARKETPLACE UI
+   CSS V6 PART 9/12
+
+   PRODUCT MODAL SYSTEM
+   PREMIUM UI UPGRADE
+===================================================== */
+
+
+/* =====================================================
+   MODAL OVERLAY
+===================================================== */
+
+
+.modal{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:5000;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+
+    rgba(15,23,42,.65);
+
+    backdrop-filter:
+
+    blur(12px);
+
+    animation:
+
+    fadeIn .25s ease;
+
+}
+
+
+
+
+
+/* =====================================================
+   MODAL CARD
+===================================================== */
+
+
+.modal-content{
+
+    width:100%;
+
+    max-width:520px;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    background:
+
+    var(--card);
+
+    border:
+
+    1px solid var(--border);
+
+    border-radius:
+
+    28px;
+
+    padding:
+
+    25px;
+
+    box-shadow:
+
+    0 25px 80px rgba(0,0,0,.25);
+
+    position:relative;
+
+    animation:
+
+    modalScale .3s ease;
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   MODAL PRODUCT IMAGE
+===================================================== */
+
+
+.modal-content img{
+
+    width:100%;
+
+    height:280px;
+
+    object-fit:cover;
+
+    border-radius:
+
+    22px;
+
+    margin-bottom:20px;
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   CLOSE BUTTON
+===================================================== */
+
+
+#close-modal{
+
+    position:absolute;
+
+    top:15px;
+
+    right:15px;
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+
+    var(--danger);
+
+    color:white;
+
+    font-size:1.2rem;
+
+    font-weight:900;
+
+    box-shadow:
+
+    var(--shadow-sm);
+
+}
+
+
+
+
+
+
+#close-modal:hover{
+
+    transform:
+
+    rotate(90deg)
+    scale(1.05);
+
+}
+
+
+
+
+
+/* =====================================================
+   PRODUCT TITLE
+===================================================== */
+
+
+#modal-name{
+
+    font-size:
+
+    1.7rem;
+
+    font-weight:
+
+    950;
+
+    margin-bottom:
+
+    12px;
+
+    color:
+
+    var(--text);
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+
+#modal-description{
+
+    color:
+
+    var(--muted);
+
+    line-height:
+
+    1.7;
+
+    font-size:
+
+    .95rem;
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   PRICE
+===================================================== */
+
+
+#modal-price{
+
+    margin:
+
+    20px 0;
+
+    color:
+
+    var(--primary);
+
+    font-size:
+
+    1.6rem;
+
+    font-weight:
+
+    950;
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   MODAL CART BUTTON
+===================================================== */
+
+
+#modal-cart{
+
+    width:100%;
+
+    padding:
+
+    15px;
+
+    border-radius:
+
+    16px;
+
+    background:
+
+    var(--primary);
+
+    color:white;
+
+    font-size:
+
+    1rem;
+
+    font-weight:
+
+    900;
+
+    box-shadow:
+
+    0 10px 25px rgba(37,99,235,.25);
+
+}
+
+
+
+#modal-cart:hover{
+
+    background:
+
+    var(--primary-dark);
+
+    transform:
+
+    translateY(-3px);
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+    }
+
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+
+
+
+@keyframes modalScale{
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+        scale(.85)
+        translateY(30px);
+
+    }
+
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+        scale(1)
+        translateY(0);
+
+    }
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   MOBILE MODAL
+===================================================== */
+
+
+@media(max-width:600px){
+
+
+    .modal{
+
+        padding:
+
+        12px;
+
+    }
+
+
+
+    .modal-content{
+
+        padding:
+
+        18px;
+
+        border-radius:
+
+        22px;
+
+    }
+
+
+
+    .modal-content img{
+
+        height:
+
+        210px;
+
+    }
+
+
+
+    #modal-name{
+
+        font-size:
+
+        1.3rem;
+
+    }
+
+
+
+}
+
+
+
+
+
+
+/* =====================================================
+   DARK MODE MODAL FIX
+===================================================== */
+
+
+body.dark .modal-content{
+
+    background:
+
+    var(--card);
+
+    border-color:
+
+    var(--border);
+
+}
+
+
+
+body.dark #modal-description{
+
+    color:
+
+    var(--muted);
+
+}
+
+
+/* =====================================================
+   END CSS PART 9/12
+===================================================== */
 
 
 
 /* =====================================================
    HORNM ARKET PREMIUM MARKETPLACE UI
-   CSS PART 10/12
+   CSS V6 PART 10/12
 
    CART PANEL
    CART ITEMS
-   CHECKOUT
+   CHECKOUT SYSTEM
 ===================================================== */
 
 
 /* =====================================================
-   CART PANEL
+   CART PANEL OVERLAY
 ===================================================== */
 
 
 .cart-panel{
 
-
     position:fixed;
-
-
 
     top:0;
 
-
-
     right:0;
 
-
-
-    width:min(420px,100%);
-
-
+    width:min(430px,100%);
 
     height:100vh;
 
-
-
-    z-index:2500;
-
-
+    z-index:4000;
 
     background:
 
     var(--bg);
 
-
-
     padding:
 
-    20px;
-
-
+    22px;
 
     overflow-y:auto;
 
-
-
     box-shadow:
 
-    -10px 0 40px rgba(0,0,0,.25);
-
-
+    -20px 0 60px rgba(0,0,0,.25);
 
     animation:
 
-    cartSlide .3s ease;
-
-
+    cartOpen .35s ease;
 
 }
-
-
 
 
 
@@ -3716,24 +5056,23 @@ button:active{
 
 .cart-header{
 
-
     display:flex;
-
-
 
     align-items:center;
 
-
-
     justify-content:space-between;
 
+    padding-bottom:
 
+    18px;
 
     margin-bottom:
 
-    25px;
+    20px;
 
+    border-bottom:
 
+    1px solid var(--border);
 
 }
 
@@ -3741,20 +5080,20 @@ button:active{
 
 .cart-header h2{
 
-
     font-size:
 
-    1.5rem;
-
-
+    1.6rem;
 
     font-weight:
 
     950;
 
+    color:
 
+    var(--text);
 
 }
+
 
 
 
@@ -3762,40 +5101,68 @@ button:active{
 
 .cart-header button{
 
-
     width:
 
-    40px;
-
-
+    42px;
 
     height:
 
-    40px;
-
-
+    42px;
 
     border-radius:
 
     50%;
 
-
-
     background:
 
     var(--danger);
 
-
-
     color:white;
-
-
 
     font-size:
 
-    1.1rem;
+    1.2rem;
+
+    font-weight:
+
+    900;
+
+}
 
 
+
+
+
+
+.cart-header button:hover{
+
+    transform:
+
+    rotate(90deg);
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   CART ITEMS CONTAINER
+===================================================== */
+
+
+#cart-items{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:
+
+    14px;
 
 }
 
@@ -3806,83 +5173,79 @@ button:active{
 
 
 /* =====================================================
-   CART ITEMS
+   CART ITEM CARD
 ===================================================== */
 
 
-#cart-items{
-
-
-    display:flex;
-
-
-
-    flex-direction:column;
-
-
-
-    gap:
-
-    12px;
-
-
-
-}
-
-
-
-
-
-
-
 .cart-item{
-
-
-    display:flex;
-
-
-
-    align-items:center;
-
-
-
-    justify-content:space-between;
-
-
-
-    gap:
-
-    10px;
-
-
-
-    padding:
-
-    15px;
-
-
 
     background:
 
     var(--card);
 
-
-
     border:
 
     1px solid var(--border);
 
-
-
     border-radius:
 
-    var(--radius-md);
+    18px;
 
+    padding:
 
+    15px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:
+
+    12px;
+
+    box-shadow:
+
+    var(--shadow-sm);
+
+    transition:
+
+    var(--transition);
 
 }
 
 
+
+.cart-item:hover{
+
+    transform:
+
+    translateY(-3px);
+
+    box-shadow:
+
+    var(--shadow-md);
+
+}
+
+
+
+
+
+
+
+.cart-item h4{
+
+    font-weight:
+
+    900;
+
+    color:
+
+    var(--text);
+
+}
 
 
 
@@ -3890,12 +5253,13 @@ button:active{
 
 .cart-item span{
 
-
     font-weight:
 
     800;
 
+    color:
 
+    var(--muted);
 
 }
 
@@ -3906,46 +5270,19 @@ button:active{
 
 
 /* =====================================================
-   QUANTITY BUTTONS
+   QUANTITY CONTROL
 ===================================================== */
 
 
-.qty-btn{
+.qty-control{
 
+    display:flex;
 
-    width:
+    align-items:center;
 
-    32px;
+    gap:
 
-
-
-    height:
-
-    32px;
-
-
-
-    border-radius:
-
-    50%;
-
-
-
-    background:
-
-    var(--primary);
-
-
-
-    color:white;
-
-
-
-    font-weight:
-
-    900;
-
-
+    8px;
 
 }
 
@@ -3953,16 +5290,51 @@ button:active{
 
 
 
+.qty-btn{
+
+    width:
+
+    34px;
+
+    height:
+
+    34px;
+
+    border-radius:
+
+    50%;
+
+    background:
+
+    var(--primary);
+
+    color:white;
+
+    font-weight:
+
+    950;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+
+
 
 
 .qty-btn:hover{
-
 
     background:
 
     var(--primary-dark);
 
+    transform:
 
+    scale(1.08);
 
 }
 
@@ -3979,34 +5351,29 @@ button:active{
 
 .remove-btn{
 
+    margin-top:
+
+    8px;
 
     padding:
 
-    8px 12px;
-
-
+    8px 14px;
 
     border-radius:
 
-    var(--radius-sm);
-
-
+    12px;
 
     background:
 
+    rgba(239,68,68,.12);
+
+    color:
+
     var(--danger);
-
-
-
-    color:white;
-
-
 
     font-weight:
 
-    800;
-
-
+    900;
 
 }
 
@@ -4014,14 +5381,13 @@ button:active{
 
 
 
-
-
 .remove-btn:hover{
 
+    background:
 
-    opacity:.85;
+    var(--danger);
 
-
+    color:white;
 
 }
 
@@ -4032,60 +5398,47 @@ button:active{
 
 
 /* =====================================================
-   CART TOTAL
+   CART TOTAL BOX
 ===================================================== */
 
 
 #cart-total{
 
-
     margin-top:
 
     25px;
 
-
-
     padding:
 
-    18px;
-
-
+    20px;
 
     background:
 
     var(--card);
 
-
-
     border:
 
     1px solid var(--border);
 
-
-
     border-radius:
 
-    var(--radius-lg);
-
-
-
-    color:
-
-    var(--primary);
-
-
+    20px;
 
     font-size:
 
-    1.3rem;
-
-
+    1.35rem;
 
     font-weight:
 
     950;
 
+    color:
 
+    var(--primary);
+
+    box-shadow:
+
+    var(--shadow-sm);
 
 }
 
@@ -4102,56 +5455,51 @@ button:active{
 
 .checkout-btn{
 
-
     width:100%;
-
-
 
     margin-top:
 
     15px;
 
-
-
     padding:
 
-    15px;
-
-
+    16px;
 
     border-radius:
 
-    var(--radius-md);
-
-
+    18px;
 
     background:
 
     var(--success);
 
-
-
     color:white;
-
-
 
     font-size:
 
     1rem;
 
-
-
     font-weight:
 
     950;
 
+    box-shadow:
+
+    0 10px 25px rgba(22,163,74,.25);
+
+}
 
 
-    transition:
 
-    var(--transition);
+.checkout-btn:hover{
 
+    background:
 
+    #15803d;
+
+    transform:
+
+    translateY(-3px);
 
 }
 
@@ -4159,20 +5507,26 @@ button:active{
 
 
 
-.checkout-btn:hover{
 
+
+/* =====================================================
+   EMPTY CART
+===================================================== */
+
+
+#cart-items .empty-state{
 
     background:
 
-    #15803d;
+    var(--card);
 
+    border-radius:
 
+    20px;
 
-    transform:
+    padding:
 
-    translateY(-3px);
-
-
+    40px 20px;
 
 }
 
@@ -4187,33 +5541,25 @@ button:active{
 ===================================================== */
 
 
-@keyframes cartSlide{
+@keyframes cartOpen{
 
 
     from{
-
 
         transform:
 
         translateX(100%);
 
-
-
     }
 
 
-
     to{
-
 
         transform:
 
         translateX(0);
 
-
-
     }
-
 
 }
 
@@ -4233,95 +5579,127 @@ button:active{
 
     .cart-panel{
 
-
         width:
 
         100%;
 
+        padding:
 
+        18px;
 
     }
 
 
 
+    .cart-header h2{
+
+        font-size:
+
+        1.3rem;
+
+    }
+
+
+
+    #cart-total{
+
+        font-size:
+
+        1.15rem;
+
+    }
+
+
 }
 
 
-/* =====================================================
-   HORNM ARKET PREMIUM MARKETPLACE UI
-   CSS PART 11/12
 
-   MOBILE BOTTOM NAVIGATION
-===================================================== */
+
+
 
 
 /* =====================================================
-   BOTTOM NAV CONTAINER
+   DARK MODE CART
 ===================================================== */
 
 
-.bottom-nav{
+body.dark .cart-panel{
+
+    background:
+
+    var(--bg);
+
+}
 
 
-    position:fixed;
-
-
-
-    bottom:0;
-
-
-
-    left:0;
-
-
-
-    width:100%;
-
-
-
-    height:75px;
-
-
-
-    z-index:2000;
-
-
-
-    display:flex;
-
-
-
-    align-items:center;
-
-
-
-    justify-content:space-around;
-
-
+body.dark .cart-item{
 
     background:
 
     var(--card);
 
+}
 
+
+
+/* =====================================================
+   END CSS PART 10/12
+===================================================== */
+
+
+/* =====================================================
+   HORNM ARKET PREMIUM MARKETPLACE UI
+   CSS V6 PART 11/12
+
+   MOBILE BOTTOM NAVIGATION
+   APP EXPERIENCE
+===================================================== */
+
+
+/* =====================================================
+   BOTTOM NAVIGATION
+===================================================== */
+
+
+.bottom-nav{
+
+    position:fixed;
+
+    left:0;
+
+    bottom:0;
+
+    width:100%;
+
+    height:78px;
+
+    z-index:3000;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-around;
+
+    padding:
+
+    8px 12px;
+
+    background:
+
+    rgba(255,255,255,.92);
+
+    backdrop-filter:
+
+    blur(18px);
 
     border-top:
 
     1px solid var(--border);
 
-
-
     box-shadow:
 
-    0 -8px 25px rgba(0,0,0,.12);
-
-
-
-    padding:
-
-    8px;
-
-
+    0 -10px 35px rgba(0,0,0,.12);
 
 }
 
@@ -4332,74 +5710,59 @@ button:active{
 
 
 /* =====================================================
-   NAV BUTTONS
+   NAV BUTTON
 ===================================================== */
 
 
 .bottom-nav button{
 
-
     flex:1;
 
+    height:
 
+    62px;
 
-    height:60px;
+    max-width:
 
+    100px;
 
+    border-radius:
 
-    background:none;
+    18px;
 
+    background:
 
+    transparent;
 
     color:
 
     var(--muted);
 
-
-
     display:flex;
-
-
 
     flex-direction:column;
 
-
-
     align-items:center;
-
-
 
     justify-content:center;
 
+    gap:
 
-
-    gap:4px;
-
-
+    4px;
 
     font-size:
 
     .75rem;
 
-
-
     font-weight:
 
-    800;
+    850;
 
-
-
-    border-radius:
-
-    var(--radius-md);
-
-
+    position:relative;
 
     transition:
 
     var(--transition);
-
-
 
 }
 
@@ -4411,19 +5774,14 @@ button:active{
 
 .bottom-nav button:hover{
 
-
     color:
 
     var(--primary);
-
-
 
     background:
 
     rgba(37,99,235,.08);
 
-
-
 }
 
 
@@ -4433,24 +5791,50 @@ button:active{
 
 
 /* =====================================================
-   ACTIVE NAV BUTTON
+   ACTIVE NAV ITEM
 ===================================================== */
 
 
 .bottom-nav button.active{
 
-
     color:
 
     var(--primary);
-
-
 
     background:
 
     rgba(37,99,235,.12);
 
+}
 
+
+
+
+
+
+.bottom-nav button.active::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-8px;
+
+    width:
+
+    35px;
+
+    height:
+
+    4px;
+
+    border-radius:
+
+    10px;
+
+    background:
+
+    var(--primary);
 
 }
 
@@ -4461,19 +5845,16 @@ button:active{
 
 
 /* =====================================================
-   NAV ICON SIZE
-=============================================== */
+   NAV ICON STYLE
+===================================================== */
 
 
 .bottom-nav button::first-line{
-
 
     font-size:
 
     1.4rem;
 
-
-
 }
 
 
@@ -4483,26 +5864,53 @@ button:active{
 
 
 /* =====================================================
-   SAFE MOBILE AREA
+   CART NAV BADGE
 ===================================================== */
 
 
-@supports(padding-bottom:env(safe-area-inset-bottom)){
+.bottom-nav #cart-count{
 
+    position:absolute;
 
-    .bottom-nav{
+    top:
 
+    8px;
 
-        padding-bottom:
+    right:
 
-        calc(
-            8px + env(safe-area-inset-bottom)
-        );
+    25%;
 
+    min-width:
 
+    20px;
 
-    }
+    height:
 
+    20px;
+
+    border-radius:
+
+    50%;
+
+    background:
+
+    var(--danger);
+
+    color:white;
+
+    font-size:
+
+    .7rem;
+
+    font-weight:
+
+    950;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
 
 }
 
@@ -4513,7 +5921,7 @@ button:active{
 
 
 /* =====================================================
-   HIDE ON LARGE DESKTOP
+   DESKTOP OPTIMIZATION
 ===================================================== */
 
 
@@ -4522,36 +5930,25 @@ button:active{
 
     .bottom-nav{
 
-
         max-width:
 
-        600px;
-
-
+        620px;
 
         left:
 
         50%;
 
-
-
         transform:
 
         translateX(-50%);
-
-
-
-        border-radius:
-
-        var(--radius-lg);
-
-
 
         bottom:
 
         20px;
 
+        border-radius:
 
+        25px;
 
     }
 
@@ -4565,34 +5962,63 @@ button:active{
 
 
 /* =====================================================
-   SMALL PHONE OPTIMIZATION
+   MOBILE SAFE AREA
 ===================================================== */
 
 
-@media(max-width:400px){
-
-
-    .bottom-nav button{
-
-
-        font-size:
-
-        .7rem;
-
-
-
-    }
-
+@supports(padding-bottom:env(safe-area-inset-bottom)){
 
 
     .bottom-nav{
 
+        padding-bottom:
+
+        calc(
+            8px + env(safe-area-inset-bottom)
+        );
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   SMALL PHONES
+===================================================== */
+
+
+@media(max-width:420px){
+
+
+    .bottom-nav{
 
         height:
 
         70px;
 
+        padding:
 
+        5px;
+
+    }
+
+
+
+    .bottom-nav button{
+
+        height:
+
+        55px;
+
+        font-size:
+
+        .7rem;
 
     }
 
@@ -4604,34 +6030,92 @@ button:active{
 
 
 
+
+/* =====================================================
+   DARK MODE NAV
+===================================================== */
+
+
+body.dark .bottom-nav{
+
+    background:
+
+    rgba(15,23,42,.92);
+
+    border-color:
+
+    var(--border);
+
+}
+
+
+
+body.dark .bottom-nav button{
+
+    color:
+
+    var(--muted);
+
+}
+
+
+
+body.dark .bottom-nav button.active{
+
+    color:
+
+    #60a5fa;
+
+    background:
+
+    rgba(96,165,250,.12);
+
+}
+
+
+
+/* =====================================================
+   END CSS PART 11/12
+===================================================== */
+
+
 /* =====================================================
    HORNM ARKET PREMIUM MARKETPLACE UI
-   CSS PART 12/12
+   CSS V6 PART 12/12
 
    FINAL POLISH
-   DARK MODE
    ANIMATIONS
-   RESPONSIVE
+   DARK MODE
    ACCESSIBILITY
+   PERFORMANCE
 ===================================================== */
 
 
 /* =====================================================
-   SMOOTH TRANSITIONS
+   GLOBAL SMOOTH EFFECTS
 ===================================================== */
+
+
+*{
+
+    -webkit-tap-highlight-color:
+    transparent;
+
+}
+
 
 
 body,
+button,
 .card,
 .modal-content,
 .cart-panel,
-.account-card,
-.dashboard-card,
 .category-btn,
+.dashboard-card,
+.account-card,
 input,
 textarea,
-button{
-
+select{
 
     transition:
 
@@ -4641,8 +6125,9 @@ button{
 
     border-color .3s ease,
 
-    transform .25s ease;
+    transform .25s ease,
 
+    box-shadow .3s ease;
 
 }
 
@@ -4653,56 +6138,114 @@ button{
 
 
 /* =====================================================
-   LOADING EFFECT
+   TOAST NOTIFICATION
+===================================================== */
+
+
+#toast{
+
+    position:fixed;
+
+    left:50%;
+
+    bottom:100px;
+
+    transform:
+
+    translateX(-50%)
+    translateY(30px);
+
+    background:
+
+    #0f172a;
+
+    color:white;
+
+    padding:
+
+    14px 22px;
+
+    border-radius:
+
+    999px;
+
+    font-weight:
+
+    800;
+
+    opacity:
+
+    0;
+
+    pointer-events:none;
+
+    z-index:9000;
+
+    box-shadow:
+
+    var(--shadow-lg);
+
+}
+
+
+
+#toast.show{
+
+    opacity:
+
+    1;
+
+    transform:
+
+    translateX(-50%)
+    translateY(0);
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   LOADING SPINNER
 ===================================================== */
 
 
 .loader{
 
-
     width:
 
-    45px;
-
-
+    48px;
 
     height:
 
-    45px;
-
-
+    48px;
 
     border-radius:
 
     50%;
 
-
-
     border:
 
-    4px solid var(--border);
-
-
+    5px solid var(--border);
 
     border-top-color:
 
     var(--primary);
 
-
-
     animation:
 
     spin 1s linear infinite;
 
-
-
     margin:
 
-    30px auto;
-
-
+    40px auto;
 
 }
+
+
 
 
 
@@ -4711,11 +6254,56 @@ button{
 
     from{
 
-
         transform:
 
         rotate(0deg);
 
+    }
+
+
+    to{
+
+        transform:
+
+        rotate(360deg);
+
+    }
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   PAGE TRANSITION
+===================================================== */
+
+
+.page{
+
+    animation:
+
+    pageFade .3s ease;
+
+}
+
+
+
+
+
+@keyframes pageFade{
+
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+        translateY(10px);
 
     }
 
@@ -4723,14 +6311,13 @@ button{
 
     to{
 
+        opacity:1;
 
         transform:
 
-        rotate(360deg);
-
+        translateY(0);
 
     }
-
 
 }
 
@@ -4741,28 +6328,68 @@ button{
 
 
 /* =====================================================
-   EMPTY STATE
+   IMAGE OPTIMIZATION
+===================================================== */
+
+
+img{
+
+    object-fit:
+
+    cover;
+
+    user-select:none;
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   EMPTY STATE PREMIUM STYLE
 ===================================================== */
 
 
 .empty-state{
 
+    background:
 
-    text-align:center;
+    var(--card);
 
+    border:
 
+    1px solid var(--border);
+
+    border-radius:
+
+    24px;
 
     padding:
 
-    50px 20px;
+    45px 20px;
+
+    text-align:center;
+
+    box-shadow:
+
+    var(--shadow-sm);
+
+}
 
 
 
-    color:
+.empty-state h2{
 
-    var(--muted);
+    font-size:
 
+    3rem;
 
+    margin-bottom:
+
+    10px;
 
 }
 
@@ -4770,18 +6397,27 @@ button{
 
 .empty-state h3{
 
-
     color:
 
     var(--text);
 
+    font-weight:
+
+    950;
+
+}
 
 
-    margin-bottom:
 
-    10px;
+.empty-state p{
 
+    color:
 
+    var(--muted);
+
+    margin-top:
+
+    8px;
 
 }
 
@@ -4792,7 +6428,7 @@ button{
 
 
 /* =====================================================
-   DARK MODE SUPPORT
+   DARK MODE SYSTEM
 ===================================================== */
 
 
@@ -4809,10 +6445,7 @@ body.dark{
 
     --border:#1e293b;
 
-
 }
-
-
 
 
 
@@ -4825,7 +6458,24 @@ body.dark .app-header{
 
     rgba(15,23,42,.9);
 
+}
 
+
+
+
+
+body.dark input,
+body.dark textarea,
+body.dark select{
+
+
+    background:
+
+    #111827;
+
+    color:
+
+    white;
 
 }
 
@@ -4835,20 +6485,33 @@ body.dark .app-header{
 
 
 
-body.dark .secondary-btn{
+body.dark .category-btn,
+body.dark .card,
+body.dark .stat-card,
+body.dark .dashboard-card{
 
 
     background:
 
     var(--card);
 
+}
 
+
+
+
+
+
+
+body.dark #toast{
+
+    background:
+
+    #f8fafc;
 
     color:
 
-    white;
-
-
+    #020617;
 
 }
 
@@ -4859,26 +6522,57 @@ body.dark .secondary-btn{
 
 
 /* =====================================================
-   FOCUS ACCESSIBILITY
+   ACCESSIBILITY
 ===================================================== */
 
 
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
+select:focus-visible,
 a:focus-visible{
 
 
     outline:
 
-    3px solid var(--primary);
-
-
+    3px solid var(--accent);
 
     outline-offset:
 
     3px;
 
+}
+
+
+
+
+
+
+
+/* =====================================================
+   REDUCE MOTION SUPPORT
+===================================================== */
+
+
+@media(prefers-reduced-motion:reduce){
+
+
+    *,
+    *::before,
+    *::after{
+
+
+        animation-duration:
+
+        .01ms!important;
+
+
+        transition-duration:
+
+        .01ms!important;
+
+
+    }
 
 
 }
@@ -4890,21 +6584,18 @@ a:focus-visible{
 
 
 /* =====================================================
-   LARGE SCREEN OPTIMIZATION
+   TABLET RESPONSIVE
 ===================================================== */
 
 
-@media(min-width:1200px){
+@media(max-width:900px){
 
 
-    #app{
+    .container{
 
+        width:
 
-        max-width:
-
-        1200px;
-
-
+        94%;
 
     }
 
@@ -4912,26 +6603,10 @@ a:focus-visible{
 
     .products{
 
-
-        grid-template-columns:
-
-        repeat(4,1fr);
-
-
-
-    }
-
-
-
-    .dashboard{
-
-
         grid-template-columns:
 
         repeat(3,1fr);
 
-
-
     }
 
 
@@ -4944,59 +6619,7 @@ a:focus-visible{
 
 
 /* =====================================================
-   TABLET OPTIMIZATION
-===================================================== */
-
-
-@media(max-width:900px){
-
-
-    .header-content{
-
-
-        flex-wrap:
-
-        wrap;
-
-
-
-    }
-
-
-
-    .search-box{
-
-
-        order:
-
-        3;
-
-
-
-        width:
-
-        100%;
-
-
-
-        max-width:none;
-
-
-
-    }
-
-
-
-}
-
-
-
-
-
-
-
-/* =====================================================
-   MOBILE FINAL FIXES
+   MOBILE FINAL OPTIMIZATION
 ===================================================== */
 
 
@@ -5005,12 +6628,9 @@ a:focus-visible{
 
     body{
 
-
         padding-bottom:
 
-        90px;
-
-
+        95px;
 
     }
 
@@ -5018,12 +6638,43 @@ a:focus-visible{
 
     .page{
 
-
         padding:
 
         15px;
 
+    }
 
+
+
+    .products{
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+        gap:
+
+        12px;
+
+    }
+
+
+
+    .card{
+
+        border-radius:
+
+        18px;
+
+    }
+
+
+
+    .card img{
+
+        height:
+
+        160px;
 
     }
 
@@ -5031,18 +6682,34 @@ a:focus-visible{
 
     .hero{
 
+        border-radius:
 
-        padding:
+        22px;
 
-        30px 15px;
-
-
-
-        margin:
-
-        15px;
+    }
 
 
+}
+
+
+
+
+
+
+
+/* =====================================================
+   EXTRA SMALL DEVICES
+===================================================== */
+
+
+@media(max-width:380px){
+
+
+    .products{
+
+        grid-template-columns:
+
+        1fr;
 
     }
 
@@ -5050,54 +6717,21 @@ a:focus-visible{
 
     .hero h1{
 
+        font-size:
+
+        1.6rem;
+
+    }
+
+
+
+    .page h2{
 
         font-size:
 
-        1.8rem;
-
-
+        1.3rem;
 
     }
-
-
-
-    .stats{
-
-
-        grid-template-columns:
-
-        repeat(2,1fr);
-
-
-
-    }
-
-
-
-    .stat-card{
-
-
-        padding:
-
-        15px;
-
-
-
-    }
-
-
-
-    .stat-card h3{
-
-
-        font-size:
-
-        1.5rem;
-
-
-
-    }
-
 
 
 }
@@ -5109,52 +6743,20 @@ a:focus-visible{
 
 
 /* =====================================================
-   VERY SMALL DEVICES
+   PRINT SAFETY
 ===================================================== */
 
 
-@media(max-width:380px){
+@media print{
 
 
-    .stats{
+    .bottom-nav,
+    .cart-panel,
+    .modal,
+    button{
 
 
-        grid-template-columns:
-
-        1fr;
-
-
-
-    }
-
-
-
-    .logo h1{
-
-
-        font-size:
-
-        1rem;
-
-
-
-    }
-
-
-
-    .cart-btn{
-
-
-        width:
-
-        38px;
-
-
-
-        height:
-
-        38px;
-
+        display:none!important;
 
 
     }
@@ -5169,30 +6771,11 @@ a:focus-visible{
 
 
 /* =====================================================
-   IMAGE SAFETY
+   END OF HORNM ARKET CSS V6 ENGINE
 ===================================================== */
 
 
-img{
 
-
-    object-fit:
-
-    cover;
-
-
-
-}
-
-
-
-
-
-
-
-/* =====================================================
-   END OF HORNM ARKET CSS ENGINE
-===================================================== */
 
 
 
