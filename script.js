@@ -1,157 +1,192 @@
 /* ==========================================================
    HORNM ARKET PREMIUM MARKETPLACE
-   JAVASCRIPT V4
+   JAVASCRIPT V5
    PART 1/6 - CORE ENGINE
 ========================================================== */
 
 
 /* ==========================================================
-   APP STATE
+   SAFE STORAGE SYSTEM
 ========================================================== */
+
+function loadData(key, fallback){
+
+    try{
+
+        const data = localStorage.getItem(key);
+
+        return data ? JSON.parse(data) : fallback;
+
+    }
+
+    catch(error){
+
+        console.warn(
+            "Storage error:",
+            error
+        );
+
+        return fallback;
+
+    }
+
+}
+
+
+
+
+function saveStorage(key,value){
+
+    try{
+
+        localStorage.setItem(
+            key,
+            JSON.stringify(value)
+        );
+
+    }
+
+    catch(error){
+
+        console.warn(
+            "Save error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+
+
+/* ==========================================================
+   APPLICATION STATE
+========================================================== */
+
 
 const state = {
 
+
     products:
-        JSON.parse(localStorage.getItem("products")) || [],
+    loadData(
+        "products",
+        []
+    ),
+
+
 
     cart:
-        JSON.parse(localStorage.getItem("cart")) || [],
+    loadData(
+        "cart",
+        []
+    ),
 
-    page: "home",
 
-    search: "",
 
-    category: "all"
+    page:
+    localStorage.getItem("page")
+    || "home",
+
+
+
+    search:"",
+
+
+
+    category:"all",
+
+
+
+    sort:"newest",
+
+
+
+    selectedProduct:null
+
+
 
 };
 
 
 
 
-/* ==========================================================
-   DOM SHORTCUTS
-========================================================== */
-
-const $ = id => document.getElementById(id);
-
-const $$ = selector => document.querySelectorAll(selector);
-
 
 
 
 /* ==========================================================
-   SAVE DATA
+   DOM HELPERS
 ========================================================== */
+
+
+const $ = id =>
+document.getElementById(id);
+
+
+
+const $$ = selector =>
+document.querySelectorAll(selector);
+
+
+
+
+
+
+
+/* ==========================================================
+   SAVE APPLICATION DATA
+========================================================== */
+
 
 function saveData(){
 
-    localStorage.setItem(
+
+    saveStorage(
         "products",
-        JSON.stringify(state.products)
+        state.products
+    );
+
+
+    saveStorage(
+        "cart",
+        state.cart
     );
 
 
     localStorage.setItem(
-        "cart",
-        JSON.stringify(state.cart)
-    );
-
-}
-
-
-
-
-/* ==========================================================
-   PAGE NAVIGATION
-========================================================== */
-
-function showPage(page){
-
-    state.page = page;
-
-
-    $$(".page").forEach(section=>{
-
-        section.classList.add("hidden");
-
-    });
-
-
-
-    const target = $(page + "-page");
-
-
-    if(target){
-
-        target.classList.remove("hidden");
-
-    }
-
-
-    updateNavigation();
-
-}
-
-
-
-
-
-/* ==========================================================
-   ACTIVE NAV BUTTON
-========================================================== */
-
-function updateNavigation(){
-
-
-    $$("[data-page]").forEach(button=>{
-
-
-        if(button.dataset.page === state.page){
-
-            button.classList.add("active");
-
-        }
-
-        else{
-
-            button.classList.remove("active");
-
-        }
-
-
-    });
-
-
-}
-
-
-
-
-
-/* ==========================================================
-   CART COUNT
-========================================================== */
-
-function updateCartCount(){
-
-
-    const count = state.cart.reduce(
-
-        (total,item)=> total + item.qty,
-
-        0
-
+        "page",
+        state.page
     );
 
 
-    if($("cart-count")){
+}
 
-        $("cart-count").textContent = count;
 
-    }
+
+
+
+
+
+
+/* ==========================================================
+   UNIQUE ID GENERATOR
+========================================================== */
+
+
+function generateID(){
+
+
+    return Date.now()
+    +
+    Math.floor(
+        Math.random()*10000
+    );
 
 
 }
+
+
 
 
 
@@ -161,9 +196,17 @@ function updateCartCount(){
    PRICE FORMAT
 ========================================================== */
 
+
 function formatPrice(price){
 
-    return Number(price).toLocaleString() + " Birr";
+
+    return Number(price)
+    .toLocaleString(
+        "en-US"
+    )
+    +
+    " Birr";
+
 
 }
 
@@ -171,13 +214,58 @@ function formatPrice(price){
 
 
 
+
+
 /* ==========================================================
-   ID GENERATOR
+   PAGE NAVIGATION
 ========================================================== */
 
-function generateID(){
 
-    return Date.now();
+function showPage(page){
+
+
+    state.page = page;
+
+
+    saveData();
+
+
+
+    $$(".page")
+    .forEach(section=>{
+
+
+        section.classList.add(
+            "hidden"
+        );
+
+
+    });
+
+
+
+
+
+    const target =
+    $(page+"-page");
+
+
+
+    if(target){
+
+
+        target.classList.remove(
+            "hidden"
+        );
+
+
+    }
+
+
+
+    updateNavigation();
+
+
 
 }
 
@@ -185,19 +273,178 @@ function generateID(){
 
 
 
+
+
 /* ==========================================================
-   MAIN RENDER
+   NAVIGATION ACTIVE STATE
 ========================================================== */
+
+
+function updateNavigation(){
+
+
+    $$("[data-page]")
+    .forEach(button=>{
+
+
+        const active =
+        button.dataset.page
+        ===
+        state.page;
+
+
+
+        button.classList.toggle(
+            "active",
+            active
+        );
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   CART COUNT
+========================================================== */
+
+
+function updateCartCount(){
+
+
+    const count =
+    state.cart.reduce(
+
+        (total,item)=>
+        total + item.qty,
+
+        0
+
+    );
+
+
+
+    const counter =
+    $("cart-count");
+
+
+
+    if(counter){
+
+
+        counter.textContent =
+        count;
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================
+   TOAST NOTIFICATION
+========================================================== */
+
+
+function showToast(message){
+
+
+    let toast =
+    $("toast");
+
+
+
+    if(!toast){
+
+
+        toast =
+        document.createElement(
+            "div"
+        );
+
+
+        toast.id =
+        "toast";
+
+
+        document.body.appendChild(
+            toast
+        );
+
+
+    }
+
+
+
+    toast.textContent =
+    message;
+
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+
+    setTimeout(()=>{
+
+
+        toast.classList.remove(
+            "show"
+        );
+
+
+    },2500);
+
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================
+   MAIN RENDER ENGINE
+========================================================== */
+
 
 function render(){
 
-    showPage(state.page);
+
+    showPage(
+        state.page
+    );
+
 
     updateCartCount();
 
+
     renderProducts();
 
+
     renderCart();
+
+
+    updateDashboard();
+
 
 }
 
@@ -205,9 +452,12 @@ function render(){
 
 
 
+
+
 /* ==========================================================
-   INITIAL START
+   APP START
 ========================================================== */
+
 
 document.addEventListener(
 
@@ -215,7 +465,14 @@ document.addEventListener(
 
 ()=>{
 
+
     render();
+
+
+    console.log(
+        "🛒 HornMarket V5 Started"
+    );
+
 
 }
 
@@ -226,43 +483,135 @@ document.addEventListener(
    END PART 1/6
 ========================================================== */
 
-/* ==========================================================
-   HORNM ARKET PREMIUM MARKETPLACE
-   JAVASCRIPT V4
-   PART 2/6 - PRODUCT ENGINE
-========================================================== */
+ /* ==========================================================
+    HORNM ARKET PREMIUM MARKETPLACE
+    JAVASCRIPT V5
+    PART 2/6 - PRODUCT ENGINE
+ ========================================================== */
 
 
 /* ==========================================================
-   ADD PRODUCT
+   CREATE PRODUCT
 ========================================================== */
+
 
 function addProduct(data){
 
 
+    const name =
+    data.name.trim();
+
+
+
+    const price =
+    Number(data.price);
+
+
+
+    if(!name){
+
+        showToast(
+            "❌ Product name required"
+        );
+
+        return;
+
+    }
+
+
+
+    if(!price || price <= 0){
+
+        showToast(
+            "❌ Invalid price"
+        );
+
+        return;
+
+    }
+
+
+
+
     const product = {
 
-        id: generateID(),
 
-        name: data.name.trim(),
+        id:
+        generateID(),
 
-        price: Number(data.price),
 
-        category: data.category.trim(),
 
-        image: data.image.trim(),
+        name,
+
+
+
+        price,
+
+
+
+        category:
+        data.category
+        .trim()
+        ||
+        "Other",
+
+
+
+        condition:
+        data.condition
+        ||
+        "New",
+
+
+
+        image:
+        data.image
+        .trim()
+        ||
+        "images/default-product.png",
+
+
 
         description:
-        data.description || "No description",
+        data.description
+        .trim()
+        ||
+        "No description available",
+
+
 
         location:
-        "Ethiopia"
+        data.location
+        ||
+        "Ethiopia",
+
+
+
+        seller:
+        data.seller
+        ||
+        "Anonymous",
+
+
+
+        rating:
+        5,
+
+
+
+        createdAt:
+        Date.now()
+
 
     };
 
 
 
-    state.products.unshift(product);
+
+
+    state.products.unshift(
+        product
+    );
 
 
 
@@ -272,6 +621,13 @@ function addProduct(data){
 
     render();
 
+
+
+    showToast(
+        "✅ Product published"
+    );
+
+
 }
 
 
@@ -279,15 +635,21 @@ function addProduct(data){
 
 
 
+
+
 /* ==========================================================
-   SEARCH PRODUCTS
+   SEARCH SYSTEM
 ========================================================== */
+
 
 function searchProducts(value){
 
 
     state.search =
-    value.toLowerCase();
+    value
+    .toLowerCase()
+    .trim();
+
 
 
     renderProducts();
@@ -300,15 +662,19 @@ function searchProducts(value){
 
 
 
+
+
 /* ==========================================================
-   FILTER CATEGORY
+   CATEGORY FILTER
 ========================================================== */
+
 
 function setCategory(category){
 
 
     state.category =
-    category.toLowerCase();
+    category
+    .toLowerCase();
 
 
 
@@ -322,41 +688,21 @@ function setCategory(category){
 
 
 
+
 /* ==========================================================
-   GET PRODUCTS
+   SORT PRODUCTS
 ========================================================== */
 
-function getProducts(){
+
+function sortProducts(type){
 
 
-    return state.products.filter(product=>{
-
-
-        const nameMatch =
-
-        product.name
-        .toLowerCase()
-        .includes(state.search);
+    state.sort =
+    type;
 
 
 
-        const categoryMatch =
-
-        state.category === "all"
-
-        ||
-
-        product.category
-        .toLowerCase()
-        ===
-        state.category;
-
-
-
-        return nameMatch && categoryMatch;
-
-
-    });
+    renderProducts();
 
 
 }
@@ -368,14 +714,165 @@ function getProducts(){
 
 
 /* ==========================================================
-   PRODUCT CARD
+   GET FILTERED PRODUCTS
 ========================================================== */
+
+
+function getProducts(){
+
+
+    let products =
+    [...state.products];
+
+
+
+
+
+    /* SEARCH */
+
+
+    if(state.search){
+
+
+        products =
+        products.filter(product=>{
+
+
+            return (
+
+                product.name
+                .toLowerCase()
+                .includes(state.search)
+
+
+                ||
+
+                product.category
+                .toLowerCase()
+                .includes(state.search)
+
+
+                ||
+
+                product.description
+                .toLowerCase()
+                .includes(state.search)
+
+
+            );
+
+
+        });
+
+
+    }
+
+
+
+
+
+    /* CATEGORY */
+
+
+    if(
+        state.category !== "all"
+    ){
+
+
+        products =
+        products.filter(product=>{
+
+
+            return (
+
+                product.category
+                .toLowerCase()
+                ===
+                state.category
+
+            );
+
+
+        });
+
+
+    }
+
+
+
+
+
+
+
+    /* SORT */
+
+
+    if(
+        state.sort === "price-low"
+    ){
+
+
+        products.sort(
+            (a,b)=>
+            a.price-b.price
+        );
+
+
+    }
+
+
+
+    else if(
+        state.sort === "price-high"
+    ){
+
+
+        products.sort(
+            (a,b)=>
+            b.price-a.price
+        );
+
+
+    }
+
+
+
+    else{
+
+
+        products.sort(
+            (a,b)=>
+            b.createdAt-a.createdAt
+        );
+
+
+    }
+
+
+
+
+
+    return products;
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   PRODUCT CARD CREATOR
+========================================================== */
+
 
 function createProductCard(product){
 
 
 return `
-
 
 <article 
 class="card"
@@ -385,20 +882,20 @@ data-id="${product.id}"
 
 <img
 
-src="${product.image || 'https://via.placeholder.com/400x300'}"
+src="${product.image}"
 
 alt="${product.name}"
 
-onerror="this.src='https://via.placeholder.com/400x300'"
+loading="lazy"
+
+onerror="
+this.src='images/default-product.png'
+"
 
 >
 
 
-
 <div class="card-content">
-
-
-<div class="card-top">
 
 
 <span class="category">
@@ -407,8 +904,6 @@ ${product.category}
 
 </span>
 
-
-</div>
 
 
 
@@ -420,9 +915,25 @@ ${product.name}
 
 
 
+<p class="rating">
+
+⭐ ${product.rating}
+
+</p>
+
+
+
 <p class="price">
 
 ${formatPrice(product.price)}
+
+</p>
+
+
+
+<p class="condition">
+
+${product.condition}
 
 </p>
 
@@ -436,15 +947,19 @@ ${formatPrice(product.price)}
 
 
 
+
 <button
 
 class="add-to-cart"
 
-onclick="addToCart(${product.id})">
+data-cart="${product.id}"
 
-Add To Cart
+>
+
+🛒 Add To Cart
 
 </button>
+
 
 
 
@@ -452,7 +967,9 @@ Add To Cart
 
 class="primary-btn"
 
-onclick="openProductModal(${product.id})">
+data-view="${product.id}"
+
+>
 
 View Details
 
@@ -477,9 +994,11 @@ View Details
 
 
 
+
 /* ==========================================================
-   EMPTY PRODUCT MESSAGE
+   EMPTY PRODUCTS
 ========================================================== */
+
 
 function emptyProducts(){
 
@@ -499,14 +1018,14 @@ return `
 
 <h3>
 
-No Products Yet
+No Products Found
 
 </h3>
 
 
 <p>
 
-Be the first seller on HornMarket.
+Try another search or category.
 
 </p>
 
@@ -516,6 +1035,7 @@ Be the first seller on HornMarket.
 
 `;
 
+
 }
 
 
@@ -524,14 +1044,19 @@ Be the first seller on HornMarket.
 
 
 
+
+
 /* ==========================================================
-   DISPLAY PRODUCTS
+   RENDER PRODUCTS
 ========================================================== */
+
 
 function renderProducts(){
 
 
-    const products = getProducts();
+    const products =
+    getProducts();
+
 
 
 
@@ -542,6 +1067,8 @@ function renderProducts(){
 
     const featuredBox =
     $("featured-products");
+
+
 
 
 
@@ -560,13 +1087,14 @@ function renderProducts(){
         .map(createProductCard)
         .join("")
 
-
         :
 
         emptyProducts();
 
 
     }
+
+
 
 
 
@@ -579,7 +1107,9 @@ function renderProducts(){
 
         products
         .slice(0,4)
+
         .map(createProductCard)
+
         .join("");
 
 
@@ -589,11 +1119,13 @@ function renderProducts(){
 
 
 
+
+
     if($("product-count")){
 
 
-        $("product-count").textContent =
-
+        $("product-count")
+        .textContent =
         state.products.length;
 
 
@@ -608,176 +1140,88 @@ function renderProducts(){
 
 
 
+
 /* ==========================================================
-   SELL FORM
+   SELL FORM SETUP
 ========================================================== */
+
 
 function setupSellForm(){
 
 
-const form = $("sell-form");
-
-
-if(!form) return;
-
-
-
-form.addEventListener(
-
-"submit",
-
-event=>{
-
-
-event.preventDefault();
+    const form =
+    $("sell-form");
 
 
 
-addProduct({
-
-name:
-$("product-name").value,
-
-
-price:
-$("product-price").value,
-
-
-category:
-$("product-category").value,
-
-
-image:
-$("product-image").value,
-
-
-description:
-$("product-description").value
-
-
-});
+    if(!form)
+    return;
 
 
 
-form.reset();
+
+    form.addEventListener(
+
+    "submit",
+
+    event=>{
+
+
+        event.preventDefault();
 
 
 
-showPage("home");
+
+        addProduct({
+
+
+            name:
+            $("product-name").value,
 
 
 
-});
+            price:
+            $("product-price").value,
 
 
-}
+
+            category:
+            $("product-category").value,
+
+
+
+            image:
+            $("product-image").value,
+
+
+
+            description:
+            $("product-description").value
+
+
+        });
 
 
 
 
 
-
-
-/* ==========================================================
-   SEARCH EVENT
-========================================================== */
-
-function setupSearch(){
-
-
-const input = $("search");
-
-
-if(!input) return;
+        form.reset();
 
 
 
-input.addEventListener(
-
-"input",
-
-event=>{
+        showPage(
+            "home"
+        );
 
 
-searchProducts(
-event.target.value
-);
 
-
-});
+    });
 
 
 }
 
 
 
-
-
-
-
-/* ==========================================================
-   CATEGORY BUTTONS
-========================================================== */
-
-function setupCategories(){
-
-
-const buttons =
-document.querySelectorAll(".category-btn");
-
-
-
-buttons.forEach(button=>{
-
-
-button.addEventListener(
-
-"click",
-
-()=>{
-
-
-buttons.forEach(btn=>
-
-btn.classList.remove("active")
-
-);
-
-
-
-button.classList.add("active");
-
-
-
-const category =
-
-button.textContent
-.replace(/[^\w\s]/gi,"")
-.trim();
-
-
-
-if(category==="All"){
-
-setCategory("all");
-
-}
-
-else{
-
-setCategory(category);
-
-}
-
-
-
-});
-
-
-});
-
-
-}
 
 
 
@@ -788,46 +1232,63 @@ setCategory(category);
 
 /* ==========================================================
    HORNM ARKET PREMIUM MARKETPLACE
-   JAVASCRIPT V4
+   JAVASCRIPT V5
+
    PART 3/6 - CART ENGINE
 ========================================================== */
 
 
-
 /* ==========================================================
-   ADD TO CART
+   ADD PRODUCT TO CART
 ========================================================== */
+
 
 function addToCart(id){
 
 
-    const product = state.products.find(
+    const product =
+    state.products.find(
 
-        item => item.id === id
+        item =>
+        item.id === id
+
+    );
+
+
+
+    if(!product){
+
+        showToast(
+            "❌ Product not found"
+        );
+
+        return;
+
+    }
+
+
+
+
+    const existing =
+    state.cart.find(
+
+        item =>
+        item.id === id
 
     );
 
 
-
-    if(!product) return;
-
-
-
-    const existing = state.cart.find(
-
-        item => item.id === id
-
-    );
 
 
 
     if(existing){
 
 
-        existing.qty++;
+        existing.qty += 1;
 
 
     }
+
 
     else{
 
@@ -845,13 +1306,22 @@ function addToCart(id){
 
 
 
+
+
     saveData();
 
 
     render();
 
 
+
+    showToast(
+        "🛒 Added to cart"
+    );
+
+
 }
+
 
 
 
@@ -863,22 +1333,31 @@ function addToCart(id){
    CHANGE QUANTITY
 ========================================================== */
 
-function changeQuantity(id, amount){
+
+function changeQuantity(id,amount){
 
 
-    const item = state.cart.find(
 
-        product => product.id === id
+    const item =
+    state.cart.find(
+
+        product =>
+        product.id === id
 
     );
 
 
 
-    if(!item) return;
+    if(!item)
+    return;
+
+
 
 
 
     item.qty += amount;
+
+
 
 
 
@@ -895,6 +1374,7 @@ function changeQuantity(id, amount){
 
 
 
+
     saveData();
 
 
@@ -902,6 +1382,7 @@ function changeQuantity(id, amount){
 
 
 }
+
 
 
 
@@ -914,12 +1395,16 @@ function changeQuantity(id, amount){
    REMOVE FROM CART
 ========================================================== */
 
+
 function removeFromCart(id){
 
 
-    state.cart = state.cart.filter(
 
-        item => item.id !== id
+    state.cart =
+    state.cart.filter(
+
+        item =>
+        item.id !== id
 
     );
 
@@ -931,29 +1416,9 @@ function removeFromCart(id){
     render();
 
 
-}
 
-
-
-
-
-
-
-/* ==========================================================
-   CART TOTAL
-========================================================== */
-
-function getCartTotal(){
-
-
-    return state.cart.reduce(
-
-        (total,item)=>
-
-        total + (item.price * item.qty),
-
-        0
-
+    showToast(
+        "🗑 Removed from cart"
     );
 
 
@@ -965,23 +1430,139 @@ function getCartTotal(){
 
 
 
+
+
+/* ==========================================================
+   CLEAR CART
+========================================================== */
+
+
+function clearCart(){
+
+
+
+    state.cart = [];
+
+
+
+    saveData();
+
+
+
+    render();
+
+
+
+    showToast(
+        "Cart cleared"
+    );
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   CART CALCULATIONS
+========================================================== */
+
+
+function getCartSummary(){
+
+
+    const subtotal =
+
+    state.cart.reduce(
+
+        (total,item)=>
+
+        total +
+
+        (
+            item.price *
+            item.qty
+        ),
+
+        0
+
+    );
+
+
+
+
+
+    const delivery =
+
+    subtotal > 2000
+
+    ?
+
+    0
+
+    :
+
+    50;
+
+
+
+
+
+    return {
+
+
+        subtotal,
+
+        delivery,
+
+
+        total:
+
+        subtotal + delivery
+
+
+    };
+
+
+}
+
+
+
+
+
+
+
+
+
 /* ==========================================================
    RENDER CART
 ========================================================== */
 
+
 function renderCart(){
 
 
-    const box = $("cart-items");
+
+    const box =
+    $("cart-items");
 
 
 
-    if(!box) return;
+    if(!box)
+    return;
 
 
 
 
-    if(state.cart.length === 0){
+
+    if(
+        state.cart.length === 0
+    ){
 
 
         box.innerHTML = `
@@ -999,7 +1580,7 @@ function renderCart(){
 
         <p>
 
-        Add products to your cart.
+        Your shopping journey starts here.
 
         </p>
 
@@ -1010,9 +1591,12 @@ function renderCart(){
         `;
 
 
+
     }
 
+
     else{
+
 
 
         box.innerHTML =
@@ -1021,83 +1605,89 @@ function renderCart(){
 
 
 
-<div class="cart-item">
+        <div class="cart-item">
 
 
-<div>
+            <div>
 
 
-<h4>
+                <h4>
 
-${item.name}
+                ${item.name}
 
-</h4>
-
-
-<p>
-
-${formatPrice(item.price)}
-
-</p>
+                </h4>
 
 
-</div>
+                <p>
+
+                ${formatPrice(item.price)}
+
+                </p>
 
 
-
-
-<div class="cart-controls">
-
-
-
-<button
-
-onclick="changeQuantity(${item.id},-1)">
-
-−
-
-</button>
-
-
-
-<span>
-
-${item.qty}
-
-</span>
-
-
-
-<button
-
-onclick="changeQuantity(${item.id},1)">
-
-+
-
-</button>
+            </div>
 
 
 
 
-<button
 
-onclick="removeFromCart(${item.id})">
-
-Remove
-
-</button>
+            <div class="cart-controls">
 
 
 
-</div>
+                <button
+
+                onclick="changeQuantity(${item.id},-1)">
+
+                −
+
+                </button>
 
 
 
-</div>
+
+
+                <span>
+
+                ${item.qty}
+
+                </span>
 
 
 
-`).join("");
+
+
+                <button
+
+                onclick="changeQuantity(${item.id},1)">
+
+                +
+
+                </button>
+
+
+
+
+
+                <button
+
+                onclick="removeFromCart(${item.id})">
+
+                Remove
+
+                </button>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+        `).join("");
 
 
 
@@ -1107,24 +1697,85 @@ Remove
 
 
 
-    if($("cart-total")){
+    const summary =
+    getCartSummary();
 
 
-        $("cart-total").textContent =
 
-        "Total: " +
 
-        formatPrice(
 
-            getCartTotal()
+    const total =
+    $("cart-total");
 
+
+
+    if(total){
+
+
+        total.innerHTML = `
+
+
+        Subtotal:
+
+        ${formatPrice(summary.subtotal)}
+
+        <br>
+
+
+        Delivery:
+
+        ${formatPrice(summary.delivery)}
+
+        <hr>
+
+
+        Total:
+
+        ${formatPrice(summary.total)}
+
+
+        `;
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   OPEN CART PANEL
+========================================================== */
+
+
+function openCart(){
+
+
+
+    const panel =
+    $("cart-panel");
+
+
+
+    if(panel){
+
+
+        panel.classList.remove(
+            "hidden"
         );
 
 
     }
 
 
-
 }
 
 
@@ -1133,49 +1784,34 @@ Remove
 
 
 
-/* ==========================================================
-   OPEN CART
-========================================================== */
-
-function openCart(){
-
-
-    const cart = $("cart-panel");
-
-
-    if(cart){
-
-        cart.classList.remove("hidden");
-
-    }
-
-
-}
-
-
-
-
-
-
 
 /* ==========================================================
-   CLOSE CART
+   CLOSE CART PANEL
 ========================================================== */
+
 
 function closeCart(){
 
 
-    const cart = $("cart-panel");
+
+    const panel =
+    $("cart-panel");
 
 
-    if(cart){
 
-        cart.classList.add("hidden");
+    if(panel){
+
+
+        panel.classList.add(
+            "hidden"
+        );
+
 
     }
 
 
 }
+
 
 
 
@@ -1187,13 +1823,20 @@ function closeCart(){
    CHECKOUT
 ========================================================== */
 
+
 function checkout(){
 
 
-    if(state.cart.length === 0){
+
+    if(
+        state.cart.length === 0
+    ){
 
 
-        alert("Your cart is empty.");
+        showToast(
+            "🛒 Cart is empty"
+        );
+
 
         return;
 
@@ -1202,24 +1845,87 @@ function checkout(){
 
 
 
-    alert(
 
-        "Order placed successfully!"
 
+
+    const order = {
+
+
+        id:
+        generateID(),
+
+
+
+        items:
+        state.cart,
+
+
+
+        total:
+        getCartSummary().total,
+
+
+
+        date:
+        new Date()
+
+
+    };
+
+
+
+
+
+
+    const orders =
+
+    loadData(
+        "orders",
+        []
     );
+
+
+
+
+
+    orders.push(order);
+
+
+
+
+
+    saveStorage(
+        "orders",
+        orders
+    );
+
+
 
 
 
     state.cart = [];
 
 
+
     saveData();
+
 
 
     render();
 
 
 
+
+    closeCart();
+
+
+
+    showToast(
+        "✅ Order completed"
+    );
+
+
+
 }
 
 
@@ -1228,51 +1934,53 @@ function checkout(){
 
 
 
+
+
 /* ==========================================================
-   CART BUTTON EVENTS
+   CART EVENTS
 ========================================================== */
+
 
 function setupCart(){
 
 
-    $("open-cart")
 
+    $("open-cart")
     ?.addEventListener(
 
-    "click",
+        "click",
 
-    ()=>{
+        openCart
 
-        openCart();
+    );
 
-    });
+
+
 
 
     $("close-cart")
-
     ?.addEventListener(
 
-    "click",
+        "click",
 
-    ()=>{
+        closeCart
 
-        closeCart();
-
-    });
+    );
 
 
 
-    document.querySelector(".checkout-btn")
 
+
+    document
+    .querySelector(".checkout-btn")
     ?.addEventListener(
 
-    "click",
+        "click",
 
-    ()=>{
+        checkout
 
-        checkout();
+    );
 
-    });
 
 
 }
@@ -1282,15 +1990,34 @@ function setupCart(){
 
 
 
+
 /* ==========================================================
-   GLOBAL ACCESS FOR HTML BUTTONS
+   GLOBAL ACCESS
 ========================================================== */
 
-window.addToCart = addToCart;
 
-window.changeQuantity = changeQuantity;
+window.addToCart =
+addToCart;
 
-window.removeFromCart = removeFromCart;
+
+window.changeQuantity =
+changeQuantity;
+
+
+window.removeFromCart =
+removeFromCart;
+
+
+window.openCart =
+openCart;
+
+
+window.closeCart =
+closeCart;
+
+
+window.checkout =
+checkout;
 
 
 
@@ -1299,19 +2026,59 @@ window.removeFromCart = removeFromCart;
 ========================================================== */
 
 
+
+
+
+
 /* ==========================================================
    HORNM ARKET PREMIUM MARKETPLACE
-   JAVASCRIPT V4
-   PART 4/6 - PRODUCT MODAL SYSTEM
+   JAVASCRIPT V5
+
+   PART 4/6 - PRODUCT DETAILS + FAVORITES
 ========================================================== */
+
+
+/* ==========================================================
+   FAVORITES STORAGE
+========================================================== */
+
+
+if(!state.favorites){
+
+    state.favorites =
+    loadData(
+        "favorites",
+        []
+    );
+
+}
+
+
+
+
 
 
 
 /* ==========================================================
-   SELECTED PRODUCT
+   SAVE FAVORITES
 ========================================================== */
 
-let selectedProduct = null;
+
+function saveFavorites(){
+
+
+    saveStorage(
+
+        "favorites",
+
+        state.favorites
+
+    );
+
+
+}
+
+
 
 
 
@@ -1322,22 +2089,58 @@ let selectedProduct = null;
    OPEN PRODUCT MODAL
 ========================================================== */
 
+
 function openProductModal(id){
 
 
-    const product = state.products.find(
 
-        item => item.id === id
+    const product =
+
+    state.products.find(
+
+        item =>
+
+        item.id === id
 
     );
 
 
 
-    if(!product) return;
+
+
+    if(!product){
+
+        showToast(
+            "Product unavailable"
+        );
+
+        return;
+
+    }
 
 
 
-    selectedProduct = product;
+
+
+    state.selectedProduct =
+    product;
+
+
+
+
+
+    // Increase views
+
+    product.views =
+
+    (product.views || 0) + 1;
+
+
+
+
+
+    saveData();
+
 
 
 
@@ -1347,9 +2150,8 @@ function openProductModal(id){
 
         $("modal-image").src =
 
-        product.image ||
+        product.image;
 
-        "https://via.placeholder.com/400x300";
 
 
     }
@@ -1366,6 +2168,7 @@ function openProductModal(id){
         product.name;
 
 
+
     }
 
 
@@ -1380,6 +2183,7 @@ function openProductModal(id){
         product.description;
 
 
+
     }
 
 
@@ -1391,7 +2195,10 @@ function openProductModal(id){
 
         $("modal-price").textContent =
 
-        formatPrice(product.price);
+        formatPrice(
+            product.price
+        );
+
 
 
     }
@@ -1400,8 +2207,28 @@ function openProductModal(id){
 
 
 
-    $("product-modal")
+    if($("modal-category")){
 
+
+        $("modal-category").textContent =
+
+        product.category;
+
+
+
+    }
+
+
+
+
+
+    updateFavoriteButton();
+
+
+
+
+
+    $("product-modal")
     ?.classList.remove(
 
         "hidden"
@@ -1409,6 +2236,7 @@ function openProductModal(id){
     );
 
 
+
 }
 
 
@@ -1417,15 +2245,18 @@ function openProductModal(id){
 
 
 
+
+
 /* ==========================================================
-   CLOSE PRODUCT MODAL
+   CLOSE MODAL
 ========================================================== */
+
 
 function closeProductModal(){
 
 
-    $("product-modal")
 
+    $("product-modal")
     ?.classList.add(
 
         "hidden"
@@ -1433,7 +2264,10 @@ function closeProductModal(){
     );
 
 
-    selectedProduct = null;
+
+    state.selectedProduct =
+    null;
+
 
 
 }
@@ -1444,25 +2278,34 @@ function closeProductModal(){
 
 
 
+
 /* ==========================================================
-   ADD FROM MODAL TO CART
+   ADD PRODUCT FROM MODAL
 ========================================================== */
+
 
 function addModalToCart(){
 
 
-    if(!selectedProduct) return;
+
+    if(!state.selectedProduct)
+
+    return;
+
+
 
 
 
     addToCart(
 
-        selectedProduct.id
+        state.selectedProduct.id
 
     );
 
 
+
     closeProductModal();
+
 
 
 }
@@ -1473,27 +2316,189 @@ function addModalToCart(){
 
 
 
+
 /* ==========================================================
-   MODAL EVENTS
+   FAVORITE SYSTEM
 ========================================================== */
+
+
+function toggleFavorite(id){
+
+
+
+    const exists =
+
+    state.favorites.includes(id);
+
+
+
+
+
+    if(exists){
+
+
+        state.favorites =
+
+        state.favorites.filter(
+
+            item =>
+
+            item !== id
+
+        );
+
+
+
+        showToast(
+            "Removed from favorites"
+        );
+
+
+    }
+
+
+    else{
+
+
+        state.favorites.push(id);
+
+
+
+        showToast(
+            "❤️ Added to favorites"
+        );
+
+
+    }
+
+
+
+
+
+
+    saveFavorites();
+
+
+
+    updateFavoriteButton();
+
+
+
+    renderProducts();
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   CHECK FAVORITE
+========================================================== */
+
+
+function isFavorite(id){
+
+
+
+    return state.favorites.includes(id);
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   UPDATE FAVORITE BUTTON
+========================================================== */
+
+
+function updateFavoriteButton(){
+
+
+
+    const button =
+
+    $("favorite-btn");
+
+
+
+    if(
+        !button ||
+        !state.selectedProduct
+    )
+
+    return;
+
+
+
+
+
+
+    button.textContent =
+
+
+
+    isFavorite(
+        state.selectedProduct.id
+    )
+
+
+
+    ?
+
+
+
+    "❤️ Saved"
+
+
+
+    :
+
+
+
+    "♡ Favorite";
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   PRODUCT MODAL EVENTS
+========================================================== */
+
 
 function setupModal(){
 
 
 
     $("close-modal")
-
     ?.addEventListener(
 
-    "click",
+        "click",
 
-    ()=>{
+        closeProductModal
 
-
-        closeProductModal();
-
-
-    });
+    );
 
 
 
@@ -1501,18 +2506,45 @@ function setupModal(){
 
 
     $("modal-cart")
-
     ?.addEventListener(
 
-    "click",
+        "click",
 
-    ()=>{
+        addModalToCart
+
+    );
 
 
-        addModalToCart();
 
 
-    });
+
+
+    $("favorite-btn")
+    ?.addEventListener(
+
+        "click",
+
+        ()=>{
+
+
+            if(
+                state.selectedProduct
+            ){
+
+
+                toggleFavorite(
+
+                    state.selectedProduct.id
+
+                );
+
+
+            }
+
+
+        }
+
+    );
 
 
 
@@ -1521,29 +2553,31 @@ function setupModal(){
 
 
     $("product-modal")
-
     ?.addEventListener(
 
-    "click",
+        "click",
 
-    event=>{
-
-
-        if(
-
-            event.target === $("product-modal")
-
-        ){
+        event=>{
 
 
-            closeProductModal();
+            if(
+
+            event.target ===
+
+            $("product-modal")
+
+            ){
+
+
+                closeProductModal();
+
+
+            }
 
 
         }
 
-
-    });
-
+    );
 
 
 }
@@ -1556,8 +2590,9 @@ function setupModal(){
 
 
 /* ==========================================================
-   KEYBOARD CONTROL
+   KEYBOARD CONTROLS
 ========================================================== */
+
 
 document.addEventListener(
 
@@ -1566,7 +2601,10 @@ document.addEventListener(
 event=>{
 
 
-    if(event.key === "Escape"){
+
+    if(
+        event.key === "Escape"
+    ){
 
 
         closeProductModal();
@@ -1578,7 +2616,137 @@ event=>{
     }
 
 
+
 });
+
+
+
+
+
+
+
+
+/* ==========================================================
+   PRODUCT CARD BUTTON EVENTS
+========================================================== */
+
+
+document.addEventListener(
+
+"click",
+
+event=>{
+
+
+
+    const cartButton =
+
+    event.target.closest(
+
+        "[data-cart]"
+
+    );
+
+
+
+
+    if(cartButton){
+
+
+
+        addToCart(
+
+            Number(
+
+            cartButton.dataset.cart
+
+            )
+
+        );
+
+
+        return;
+
+    }
+
+
+
+
+
+
+
+    const viewButton =
+
+    event.target.closest(
+
+        "[data-view]"
+
+    );
+
+
+
+
+
+    if(viewButton){
+
+
+
+        openProductModal(
+
+            Number(
+
+            viewButton.dataset.view
+
+            )
+
+        );
+
+
+        return;
+
+    }
+
+
+
+
+
+
+
+    const card =
+
+    event.target.closest(
+
+        ".card"
+
+    );
+
+
+
+
+
+
+    if(card){
+
+
+
+        openProductModal(
+
+            Number(
+
+            card.dataset.id
+
+            )
+
+        );
+
+
+    }
+
+
+
+});
+
+
 
 
 
@@ -1590,9 +2758,17 @@ event=>{
    GLOBAL ACCESS
 ========================================================== */
 
-window.openProductModal = openProductModal;
 
-window.closeProductModal = closeProductModal;
+window.openProductModal =
+openProductModal;
+
+
+window.closeProductModal =
+closeProductModal;
+
+
+window.toggleFavorite =
+toggleFavorite;
 
 
 
@@ -1604,52 +2780,68 @@ window.closeProductModal = closeProductModal;
 
 
 
-
 /* ==========================================================
    HORNM ARKET PREMIUM MARKETPLACE
-   JAVASCRIPT V4
-   PART 5/6 - EVENTS + APP START
+   JAVASCRIPT V5
+
+   PART 5/6 - EVENTS + APP CONTROLLER
 ========================================================== */
-
-
 
 
 
 /* ==========================================================
-   PAGE NAVIGATION EVENTS
+   NAVIGATION SYSTEM
 ========================================================== */
+
 
 function setupNavigation(){
 
 
+
     document.addEventListener(
 
-    "click",
+        "click",
 
-    event=>{
-
-
-        const button =
-
-        event.target.closest("[data-page]");
+        event=>{
 
 
 
-        if(!button) return;
+            const button =
+
+            event.target.closest(
+
+                "[data-page]"
+
+            );
 
 
 
-        showPage(
-
-            button.dataset.page
-
-        );
 
 
-    });
+            if(!button)
+
+            return;
+
+
+
+
+
+            showPage(
+
+                button.dataset.page
+
+            );
+
+
+
+        }
+
+    );
+
 
 
 }
+
 
 
 
@@ -1658,48 +2850,56 @@ function setupNavigation(){
 
 
 /* ==========================================================
-   CATEGORY ACTIVE STATE
+   SEARCH EVENTS
 ========================================================== */
 
-function setupCategoryActive(){
 
-
-    document
-
-    .querySelectorAll(".category-btn")
-
-    .forEach(button=>{
-
-
-        button.addEventListener(
-
-        "click",
-
-        ()=>{
-
-
-            document
-
-            .querySelectorAll(".category-btn")
-
-            .forEach(btn=>{
-
-                btn.classList.remove("active");
-
-            });
+function setupSearch(){
 
 
 
-            button.classList.add("active");
+    const input =
+
+    $("search");
 
 
-        });
+
+    if(!input)
+
+    return;
 
 
-    });
+
+
+
+
+    input.addEventListener(
+
+        "input",
+
+        event=>{
+
+
+
+            searchProducts(
+
+                event.target.value
+
+            );
+
+
+
+        }
+
+    );
+
+
+
 
 
 }
+
+
 
 
 
@@ -1711,29 +2911,42 @@ function setupCategoryActive(){
    SEARCH BUTTON
 ========================================================== */
 
+
 function setupSearchButton(){
 
 
-    $("search-btn")
 
+    $("search-btn")
     ?.addEventListener(
 
-    "click",
+        "click",
 
-    ()=>{
-
-
-        searchProducts(
-
-            $("search").value
-
-        );
+        ()=>{
 
 
-        showPage("products");
+
+            searchProducts(
+
+                $("search").value
+
+            );
 
 
-    });
+
+
+
+            showPage(
+
+                "products"
+
+            );
+
+
+
+        }
+
+    );
+
 
 
 }
@@ -1744,35 +2957,547 @@ function setupSearchButton(){
 
 
 
+
+
 /* ==========================================================
-   FORM + EVENTS STARTER
+   CATEGORY SYSTEM
 ========================================================== */
+
+
+function setupCategories(){
+
+
+
+    const buttons =
+
+    document.querySelectorAll(
+
+        ".category-btn"
+
+    );
+
+
+
+
+
+
+    buttons.forEach(
+
+        button=>{
+
+
+
+            button.addEventListener(
+
+                "click",
+
+                ()=>{
+
+
+
+                    buttons.forEach(
+
+                        btn=>{
+
+                            btn.classList.remove(
+
+                                "active"
+
+                            );
+
+                        }
+
+                    );
+
+
+
+
+
+
+                    button.classList.add(
+
+                        "active"
+
+                    );
+
+
+
+
+
+
+                    let category =
+
+                    button.textContent
+
+                    .replace(
+
+                        /[^\w\s]/gi,
+
+                        ""
+
+                    )
+
+                    .trim();
+
+
+
+
+
+
+
+
+                    if(
+
+                    category.toLowerCase()
+
+                    ===
+
+                    "all"
+
+                    ){
+
+
+                        setCategory(
+
+                            "all"
+
+                        );
+
+
+                    }
+
+                    else{
+
+
+                        setCategory(
+
+                            category
+
+                        );
+
+
+                    }
+
+
+
+
+                }
+
+            );
+
+
+
+        }
+
+    );
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   SELL FORM UPGRADE
+========================================================== */
+
+
+function setupSellForm(){
+
+
+
+    const form =
+
+    $("sell-form");
+
+
+
+    if(!form)
+
+    return;
+
+
+
+
+
+
+    form.addEventListener(
+
+        "submit",
+
+        event=>{
+
+
+
+            event.preventDefault();
+
+
+
+
+
+
+
+            addProduct({
+
+
+
+                name:
+
+                $("product-name").value,
+
+
+
+
+
+                price:
+
+                $("product-price").value,
+
+
+
+
+
+                category:
+
+                $("product-category").value,
+
+
+
+
+
+                condition:
+
+                $("product-condition")
+
+                ?
+
+                $("product-condition").value
+
+                :
+
+                "New",
+
+
+
+
+
+
+                image:
+
+                $("product-image").value,
+
+
+
+
+
+
+
+                description:
+
+                $("product-description").value,
+
+
+
+
+
+
+
+                location:
+
+                $("product-location")
+
+                ?
+
+                $("product-location").value
+
+                :
+
+                "Ethiopia"
+
+
+
+
+            });
+
+
+
+
+
+
+
+            form.reset();
+
+
+
+
+
+            showPage(
+
+                "home"
+
+            );
+
+
+
+
+        }
+
+    );
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   DASHBOARD SYSTEM
+========================================================== */
+
+
+function updateDashboard(){
+
+
+
+    const products =
+
+    $("my-products");
+
+
+
+    if(products){
+
+
+
+        products.textContent =
+
+        state.products.length;
+
+
+
+    }
+
+
+
+
+
+
+
+    const favorites =
+
+    $("favorite-count");
+
+
+
+    if(favorites){
+
+
+
+        favorites.textContent =
+
+        state.favorites
+
+        ?
+
+        state.favorites.length
+
+        :
+
+        0;
+
+
+
+    }
+
+
+
+
+
+
+
+
+    const orders =
+
+    $("order-count");
+
+
+
+    if(orders){
+
+
+
+        const data =
+
+        loadData(
+
+            "orders",
+
+            []
+
+        );
+
+
+
+
+        orders.textContent =
+
+        data.length;
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+/* ==========================================================
+   DARK MODE
+========================================================== */
+
+
+function toggleTheme(){
+
+
+
+    document.body.classList.toggle(
+
+        "dark"
+
+    );
+
+
+
+
+
+    const mode =
+
+    document.body.classList.contains(
+
+        "dark"
+
+    );
+
+
+
+
+
+    localStorage.setItem(
+
+        "theme",
+
+        mode
+
+    );
+
+
+
+}
+
+
+
+
+
+
+
+
+function loadTheme(){
+
+
+
+    const dark =
+
+    localStorage.getItem(
+
+        "theme"
+
+    );
+
+
+
+
+
+    if(dark === "true"){
+
+
+
+        document.body.classList.add(
+
+            "dark"
+
+        );
+
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   APP CONTROLLER
+========================================================== */
+
 
 function startApp(){
 
 
-    setupSellForm();
+
+    loadTheme();
+
+
+
+    setupNavigation();
+
 
 
     setupSearch();
 
 
+
     setupSearchButton();
+
 
 
     setupCategories();
 
 
-    setupCategoryActive();
+
+    setupSellForm();
+
 
 
     setupCart();
 
 
+
     setupModal();
-
-
-    setupNavigation();
 
 
 
@@ -1789,9 +3514,11 @@ function startApp(){
 
 
 
+
 /* ==========================================================
-   LOAD APPLICATION
+   FINAL APPLICATION LOAD
 ========================================================== */
+
 
 document.addEventListener(
 
@@ -1803,7 +3530,20 @@ document.addEventListener(
     startApp();
 
 
-});
+
+    console.log(
+
+        "🛒 HornMarket V5 Ready"
+
+    );
+
+
+
+}
+
+);
+
+
 
 
 
@@ -1815,13 +3555,25 @@ document.addEventListener(
    GLOBAL FUNCTIONS
 ========================================================== */
 
-window.showPage = showPage;
 
-window.openCart = openCart;
+window.showPage =
+showPage;
 
-window.closeCart = closeCart;
 
-window.checkout = checkout;
+window.toggleTheme =
+toggleTheme;
+
+
+window.openCart =
+openCart;
+
+
+window.closeCart =
+closeCart;
+
+
+window.checkout =
+checkout;
 
 
 
@@ -1833,66 +3585,32 @@ window.checkout = checkout;
 
 /* ==========================================================
    HORNM ARKET PREMIUM MARKETPLACE
-   JAVASCRIPT V4
-   PART 6/6 - DASHBOARD + FINAL FIXES
+   JAVASCRIPT V5
+
+   PART 6/6 - FINAL POLISH + ADVANCED FEATURES
 ========================================================== */
 
 
 
 /* ==========================================================
-   UPDATE DASHBOARD
+   FAVORITES PAGE
 ========================================================== */
 
-function updateDashboard(){
+
+function getFavoriteProducts(){
 
 
-    // My products count
+    return state.products.filter(
 
-    if($("my-products")){
+        product =>
 
+        state.favorites.includes(
 
-        $("my-products").textContent =
+            product.id
 
-        state.products.length;
+        )
 
-
-    }
-
-
-
-
-
-    // Sellers count
-
-    if($("seller-count")){
-
-
-        $("seller-count").textContent =
-
-        state.products.length > 0
-
-        ? 1
-
-        : 0;
-
-
-    }
-
-
-
-
-
-    // Orders count
-
-    if($("order-count")){
-
-
-        $("order-count").textContent =
-
-        state.cart.length;
-
-
-    }
+    );
 
 
 }
@@ -1903,23 +3621,487 @@ function updateDashboard(){
 
 
 
+
+function renderFavorites(){
+
+
+
+    const box =
+
+    $("favorites-container");
+
+
+
+    if(!box)
+
+    return;
+
+
+
+
+
+
+    const products =
+
+    getFavoriteProducts();
+
+
+
+
+
+
+    box.innerHTML =
+
+    products.length
+
+    ?
+
+
+    products
+
+    .map(createProductCard)
+
+    .join("")
+
+
+
+    :
+
+
+
+    `
+
+    <div class="empty-state">
+
+    <h3>
+
+    ❤️ No Favorites
+
+    </h3>
+
+
+    <p>
+
+    Save products you like.
+
+    </p>
+
+
+    </div>
+
+    `;
+
+
+
+}
+
+
+
+
+
+
+
+
+
 /* ==========================================================
-   EXTEND RENDER FUNCTION
+   DELETE PRODUCT
 ========================================================== */
 
 
-const oldRender = render;
+function deleteProduct(id){
+
+
+
+    const confirmDelete =
+
+    confirm(
+
+        "Delete this product?"
+
+    );
+
+
+
+
+
+    if(!confirmDelete)
+
+    return;
+
+
+
+
+
+
+    state.products =
+
+    state.products.filter(
+
+        product =>
+
+        product.id !== id
+
+    );
+
+
+
+
+
+
+
+    state.cart =
+
+    state.cart.filter(
+
+        item =>
+
+        item.id !== id
+
+    );
+
+
+
+
+
+
+
+
+    state.favorites =
+
+    state.favorites.filter(
+
+        item =>
+
+        item !== id
+
+    );
+
+
+
+
+
+
+    saveData();
+
+
+    saveFavorites();
+
+
+    render();
+
+
+
+    showToast(
+
+        "🗑 Product deleted"
+
+    );
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   SELLER STATISTICS
+========================================================== */
+
+
+function getSellerStats(){
+
+
+
+    return {
+
+
+        products:
+
+        state.products.length,
+
+
+
+        totalValue:
+
+        state.products.reduce(
+
+            (sum,item)=>
+
+            sum + item.price,
+
+            0
+
+        ),
+
+
+
+        favorites:
+
+        state.favorites.length
+
+
+
+    };
+
+
+}
+
+
+
+
+
+
+
+
+function renderSellerStats(){
+
+
+
+    const stats =
+
+    getSellerStats();
+
+
+
+
+
+    if($("seller-products")){
+
+
+        $("seller-products")
+
+        .textContent =
+
+        stats.products;
+
+
+    }
+
+
+
+
+
+    if($("seller-value")){
+
+
+        $("seller-value")
+
+        .textContent =
+
+        formatPrice(
+
+            stats.totalValue
+
+        );
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   EXPORT DATA BACKUP
+========================================================== */
+
+
+function exportData(){
+
+
+
+    const backup = {
+
+
+        products:
+
+        state.products,
+
+
+
+        cart:
+
+        state.cart,
+
+
+
+        favorites:
+
+        state.favorites
+
+
+
+    };
+
+
+
+
+
+    const file =
+
+    new Blob(
+
+        [
+
+        JSON.stringify(
+
+            backup,
+
+            null,
+
+            2
+
+        )
+
+        ],
+
+
+        {
+
+        type:"application/json"
+
+        }
+
+    );
+
+
+
+
+
+
+
+    const link =
+
+    document.createElement(
+
+        "a"
+
+    );
+
+
+
+
+
+    link.href =
+
+    URL.createObjectURL(
+
+        file
+
+    );
+
+
+
+
+
+    link.download =
+
+    "hornmarket-backup.json";
+
+
+
+
+
+    link.click();
+
+
+
+
+
+    showToast(
+
+        "Backup created"
+
+    );
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   PRODUCT COUNT UPDATE
+========================================================== */
+
+
+function updateProductCount(){
+
+
+
+    const count =
+
+    $("product-count");
+
+
+
+    if(count){
+
+
+        count.textContent =
+
+        state.products.length;
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   EXTEND MAIN RENDER
+========================================================== */
+
+
+const originalRender = render;
 
 
 
 render = function(){
 
 
-    oldRender();
+
+    originalRender();
 
 
 
-    updateDashboard();
+    renderFavorites();
+
+
+
+    renderSellerStats();
+
+
+
+    updateProductCount();
 
 
 
@@ -1932,67 +4114,11 @@ render = function(){
 
 
 
-/* ==========================================================
-   PRODUCT CLICK SUPPORT
-========================================================== */
-
-
-document.addEventListener(
-
-"click",
-
-event=>{
-
-
-    const card =
-
-    event.target.closest(".card");
-
-
-
-    if(!card) return;
-
-
-
-    if(
-
-        event.target.closest("button")
-
-    ){
-
-        return;
-
-    }
-
-
-
-    const id =
-
-    Number(card.dataset.id);
-
-
-
-    if(id){
-
-
-        openProductModal(id);
-
-
-    }
-
-
-});
-
-
-
-
-
-
-
 
 /* ==========================================================
-   ERROR PROTECTION
+   GLOBAL ERROR PROTECTION
 ========================================================== */
+
 
 window.addEventListener(
 
@@ -2001,13 +4127,15 @@ window.addEventListener(
 event=>{
 
 
+
     console.warn(
 
-        "HornMarket error:",
+        "HornMarket Error:",
 
         event.message
 
     );
+
 
 
 });
@@ -2020,24 +4148,98 @@ event=>{
 
 
 /* ==========================================================
-   FINAL START CHECK
+   IMAGE FALLBACK PROTECTION
 ========================================================== */
 
 
-console.log(
+document.addEventListener(
 
-    "🛒 HornMarket V4 Loaded Successfully"
+"error",
+
+event=>{
+
+
+
+    if(
+
+        event.target.tagName === "IMG"
+
+    ){
+
+
+
+        event.target.src =
+
+        "images/default-product.png";
+
+
+
+    }
+
+
+
+},
+
+true
 
 );
 
 
 
 
+
+
+
+
 /* ==========================================================
-   END JAVASCRIPT V4 COMPLETE
+   AUTO SAVE BEFORE EXIT
 ========================================================== */
 
 
+window.addEventListener(
+
+"beforeunload",
+
+()=>{
+
+
+    saveData();
+
+
+    saveFavorites();
+
+
+
+});
+
+
+
+
+
+
+
+
+
+/* ==========================================================
+   FINAL INITIAL CHECK
+========================================================== */
+
+
+console.log(
+
+"🚀 HornMarket V5 Complete"
+
+);
+
+
+
+
+
+/* ==========================================================
+   END PART 6/6
+
+   HORNM ARKET JAVASCRIPT V5 FINISHED
+========================================================== */
 
 
 
