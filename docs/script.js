@@ -1,4 +1,3 @@
-
 /* ==========================================================
    HORN MARKET FRONTEND
 ========================================================== */
@@ -103,9 +102,51 @@ function renderAccount() {
     loginBox.classList.add("hidden");
     infoBox.classList.remove("hidden");
     $("account-name").textContent = state.user.name;
+    loadMyProducts();
   } else {
     loginBox.classList.remove("hidden");
     infoBox.classList.add("hidden");
+  }
+}
+
+async function loadMyProducts() {
+  const section = $("my-products-section");
+  if (!section || !state.user || state.user.role !== "seller") {
+    if (section) section.classList.add("hidden");
+    return;
+  }
+
+  try {
+    const all = await apiRequest("/products");
+    const mine = all.filter(p => p.sellerId === state.user.id);
+
+    section.classList.remove("hidden");
+    const list = $("my-products-list");
+
+    list.innerHTML = mine.length
+      ? mine.map(p => `
+        <div class="cart-item">
+          <div>
+            <h4>${p.name}</h4>
+            <p>${formatPrice(p.price)}</p>
+          </div>
+          <button onclick="deleteProduct('${p.id}')">🗑 Delete</button>
+        </div>
+      `).join("")
+      : `<p style="font-size:13px;color:var(--text-light)">No products yet.</p>`;
+  } catch (err) {
+    showToast("❌ Failed to load your products");
+  }
+}
+
+async function deleteProduct(id) {
+  try {
+    await apiRequest("/products/" + id, { method: "DELETE" });
+    showToast("🗑 Product deleted");
+    loadMyProducts();
+    loadProducts();
+  } catch (err) {
+    showToast("❌ " + err.message);
   }
 }
 
@@ -397,3 +438,4 @@ window.changeQuantity = changeQuantity;
 window.removeFromCart = removeFromCart;
 window.checkout = checkout;
 window.openProductModal = openProductModal;
+window.deleteProduct = deleteProduct;
