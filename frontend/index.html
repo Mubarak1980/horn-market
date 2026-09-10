@@ -1,1 +1,149 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HornMarket | Ethiopia Marketplace</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="top-bar">
+🇪🇹 Ethiopia's Digital Marketplace | Buy • Sell • Discover
+</div>
+
+<header class="app-header">
+<div class="container header-content">
+<div class="logo">
+<h1>🛒 HornMarket</h1>
+<p>Ethiopia Marketplace</p>
+</div>
+<div class="search-box">
+<input type="search" id="search" placeholder="Search products..." oninput="searchProducts(this.value)">
+<button id="search-btn">🔍</button>
+</div>
+<button class="cart-btn" id="open-cart">🛒<span id="cart-count">0</span></button>
+</div>
+</header>
+
+<main id="app">
+
+<section id="home-page" class="page">
+<div class="hero">
+<div class="hero-content">
+<h1>Everything You Need,<br>In One Marketplace</h1>
+<p>Buy and sell products easily across Ethiopia.</p>
+<div class="hero-buttons">
+<button class="primary-btn" data-page="products">Start Shopping</button>
+<button class="secondary-btn" data-page="sell">Sell Product</button>
+</div>
+</div>
+</div>
+
+<section class="stats">
+<div class="stat-card"><h3 id="product-count">0</h3><p>Products</p></div>
+<div class="stat-card"><h3 id="seller-count">0</h3><p>Sellers</p></div>
+<div class="stat-card"><h3 id="order-count">0</h3><p>Orders</p></div>
+<div class="stat-card"><h3>🇪🇹</h3><p>Ethiopia</p></div>
+</section>
+
+<section class="categories">
+<h2>Shop By Category</h2>
+<div class="category-grid">
+<button class="category-btn active" onclick="setCategory('all')">🛍️<br>All</button>
+<button class="category-btn" onclick="setCategory('Electronics')">📱<br>Electronics</button>
+<button class="category-btn" onclick="setCategory('Fashion')">👕<br>Fashion</button>
+<button class="category-btn" onclick="setCategory('Food')">🍔<br>Food</button>
+<button class="category-btn" onclick="setCategory('Home')">🏠<br>Home</button>
+<button class="category-btn" onclick="setCategory('Vehicles')">🚗<br>Vehicles</button>
+<button class="category-btn" onclick="setCategory('Computers')">💻<br>Computers</button>
+<button class="category-btn" onclick="setCategory('Books')">📚<br>Books</button>
+</div>
+</section>
+
+<section class="featured-section">
+<div class="section-header">
+<h2>Featured Products</h2>
+<button class="view-all" data-page="products">View All</button>
+</div>
+<div id="featured-products" class="products"></div>
+</section>
+
+</section>
+
+<section id="products-page" class="page hidden">
+<h2>All Products</h2>
+<div id="products-container" class="products"></div>
+</section>
+
+<section id="sell-page" class="page hidden">
+<h2>Sell Product</h2>
+<form id="sell-form">
+<input id="product-name" type="text" placeholder="Product name" required>
+<input id="product-price" type="number" placeholder="Price in Birr" required>
+<input id="product-category" type="text" placeholder="Category" required>
+<input id="product-image" type="url" placeholder="Image URL">
+<textarea id="product-description" placeholder="Product description"></textarea>
+<button class="primary-btn">Publish Product</button>
+</form>
+</section>
+
+<section id="account-page" class="page hidden">
+<h2>My Account</h2>
+<div id="auth-forms">
+<div id="login-form-box">
+<h3>Login</h3>
+<input id="login-email" type="email" placeholder="Email">
+<input id="login-password" type="password" placeholder="Password">
+<button class="primary-btn" onclick="login($('login-email').value, $('login-password').value)">Login</button>
+<h3>Sign Up</h3>
+<input id="signup-name" type="text" placeholder="Name">
+<input id="signup-email" type="email" placeholder="Email">
+<input id="signup-password" type="password" placeholder="Password">
+<select id="signup-role">
+<option value="buyer">Buyer</option>
+<option value="seller">Seller</option>
+</select>
+<button class="primary-btn" onclick="signup($('signup-name').value, $('signup-email').value, $('signup-password').value, $('signup-role').value)">Sign Up</button>
+</div>
+<div id="account-info" class="hidden">
+<h3>Welcome, <span id="account-name"></span></h3>
+<button class="primary-btn" onclick="logout()">Logout</button>
+</div>
+</div>
+</section>
+
+</main>
+
+<div id="product-modal" class="modal hidden">
+<div class="modal-content">
+<button id="close-modal">✕</button>
+<img id="modal-image">
+<h2 id="modal-name">Product Name</h2>
+<p id="modal-description">Description</p>
+<h3 id="modal-price">0 Birr</h3>
+<button class="primary-btn" id="modal-cart">Add To Cart</button>
+</div>
+</div>
+
+<div id="cart-panel" class="cart-panel hidden">
+<div class="cart-header">
+<h2>Your Cart</h2>
+<button id="close-cart">✕</button>
+</div>
+<div id="cart-items"></div>
+<h3 id="cart-total">Total: 0 Birr</h3>
+<button class="checkout-btn" onclick="checkout()">Checkout</button>
+</div>
+
+<nav class="bottom-nav">
+<button data-page="home">🏠<br>Home</button>
+<button data-page="products">📦<br>Products</button>
+<button data-page="sell">➕<br>Sell</button>
+<button data-page="account">👤<br>Account</button>
+</nav>
+
+<script src="script.js"></script>
+</body>
+  </html>
