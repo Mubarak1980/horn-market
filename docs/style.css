@@ -1,4 +1,3 @@
-
 /* ==========================================================
    HORN MARKET STYLES
 ========================================================== */
@@ -13,6 +12,20 @@
   --text-light: #64748b;
   --border: #e2e8f0;
   --danger: #dc2626;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary: #22c55e;
+    --primary-dark: #16a34a;
+    --accent: #fbbf24;
+    --bg: #0f172a;
+    --card-bg: #1e293b;
+    --text: #f1f5f9;
+    --text-light: #94a3b8;
+    --border: #334155;
+    --danger: #ef4444;
+  }
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,7 +52,7 @@ body {
 
 /* Header */
 .app-header {
-  background: white;
+  background: var(--card-bg);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -70,6 +83,8 @@ body {
   padding: 8px 12px;
   font-size: 14px;
   outline: none;
+  background: var(--card-bg);
+  color: var(--text);
 }
 
 .search-box button {
@@ -84,6 +99,7 @@ body {
   border: none;
   background: none;
   font-size: 22px;
+  color: var(--text);
 }
 
 #cart-count {
@@ -171,6 +187,7 @@ body {
   padding: 10px 4px;
   font-size: 11px;
   cursor: pointer;
+  color: var(--text);
 }
 
 .category-btn.active {
@@ -227,7 +244,7 @@ body {
   font-weight: 600;
 }
 
-.card h3 { font-size: 13px; margin: 4px 0; }
+.card h3 { font-size: 13px; margin: 4px 0; color: var(--text); }
 .card .price { font-weight: 700; color: var(--text); font-size: 14px; margin-bottom: 8px; }
 
 .add-to-cart, .card .primary-btn {
@@ -265,6 +282,8 @@ body {
   border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 14px;
+  background: var(--card-bg);
+  color: var(--text);
 }
 
 #sell-form textarea { min-height: 80px; }
@@ -280,6 +299,31 @@ body {
   margin-bottom: 10px;
   border: 1px solid var(--border);
   border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+/* My Products (seller list) */
+#my-products-section { margin-top: 12px; }
+
+#my-products-list .cart-item {
+  align-items: center;
+}
+
+#my-products-list .cart-item > button {
+  background: var(--danger);
+  color: white;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#my-products-list .cart-item > button:active {
+  opacity: 0.8;
 }
 
 /* Modal */
@@ -293,7 +337,7 @@ body {
 }
 
 .modal-content {
-  background: white;
+  background: var(--card-bg);
   width: 100%;
   border-radius: 16px 16px 0 0;
   padding: 16px;
@@ -314,16 +358,17 @@ body {
   position: absolute;
   top: 12px;
   right: 12px;
-  background: white;
+  background: var(--card-bg);
   border: none;
   border-radius: 50%;
   width: 32px;
   height: 32px;
+  color: var(--text);
 }
 
-.modal-content h2 { font-size: 18px; margin: 12px 0 6px; }
+.modal-content h2 { font-size: 18px; margin: 12px 0 6px; color: var(--text); }
 .modal-content p { font-size: 13px; color: var(--text-light); margin-bottom: 10px; }
-.modal-content h3 { font-size: 20px; margin-bottom: 12px; }
+.modal-content h3 { font-size: 20px; margin-bottom: 12px; color: var(--text); }
 
 /* Cart panel */
 .cart-panel {
@@ -331,7 +376,7 @@ body {
   top: 0; right: 0; bottom: 0;
   width: 85%;
   max-width: 380px;
-  background: white;
+  background: var(--card-bg);
   z-index: 200;
   padding: 16px;
   box-shadow: -4px 0 20px rgba(0,0,0,0.15);
@@ -349,6 +394,7 @@ body {
   background: none;
   border: none;
   font-size: 18px;
+  color: var(--text);
 }
 
 .cart-item {
@@ -359,7 +405,7 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
-.cart-item h4 { font-size: 13px; }
+.cart-item h4 { font-size: 13px; color: var(--text); }
 .cart-item p { font-size: 12px; color: var(--text-light); }
 
 .cart-controls {
@@ -370,13 +416,14 @@ body {
 
 .cart-controls button {
   border: 1px solid var(--border);
-  background: white;
+  background: var(--card-bg);
+  color: var(--text);
   width: 26px;
   height: 26px;
   border-radius: 6px;
 }
 
-#cart-total { margin: 16px 0; font-size: 13px; line-height: 1.8; }
+#cart-total { margin: 16px 0; font-size: 13px; line-height: 1.8; color: var(--text); }
 
 .checkout-btn { width: 100%; }
 
@@ -384,7 +431,7 @@ body {
 .bottom-nav {
   position: fixed;
   bottom: 0; left: 0; right: 0;
-  background: white;
+  background: var(--card-bg);
   border-top: 1px solid var(--border);
   display: flex;
   z-index: 50;
@@ -408,7 +455,7 @@ body {
   left: 50%;
   transform: translateX(-50%) translateY(20px);
   background: var(--text);
-  color: white;
+  color: var(--bg);
   padding: 10px 18px;
   border-radius: 8px;
   font-size: 13px;
@@ -420,4 +467,4 @@ body {
 #toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
-  }
+}
