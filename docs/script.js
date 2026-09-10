@@ -130,7 +130,10 @@ async function loadMyProducts() {
             <h4>${p.name}</h4>
             <p>${formatPrice(p.price)}</p>
           </div>
-          <button onclick="deleteProduct('${p.id}')">🗑 Delete</button>
+          <div class="cart-controls">
+            <button onclick="editProduct('${p.id}', '${p.name.replace(/'/g, "\\'")}', ${p.price})">✏️ Edit</button>
+            <button onclick="deleteProduct('${p.id}')">🗑 Delete</button>
+          </div>
         </div>
       `).join("")
       : `<p style="font-size:13px;color:var(--text-light)">No products yet.</p>`;
@@ -143,6 +146,27 @@ async function deleteProduct(id) {
   try {
     await apiRequest("/products/" + id, { method: "DELETE" });
     showToast("🗑 Product deleted");
+    loadMyProducts();
+    loadProducts();
+  } catch (err) {
+    showToast("❌ " + err.message);
+  }
+}
+
+async function editProduct(id, currentName, currentPrice) {
+  const newPrice = prompt(`Update price for "${currentName}" (Birr):`, currentPrice);
+  if (newPrice === null) return;
+  const price = Number(newPrice);
+  if (!price || price <= 0) {
+    showToast("❌ Invalid price");
+    return;
+  }
+  try {
+    await apiRequest("/products/" + id, {
+      method: "PUT",
+      body: JSON.stringify({ price })
+    });
+    showToast("✅ Product updated");
     loadMyProducts();
     loadProducts();
   } catch (err) {
@@ -439,3 +463,4 @@ window.removeFromCart = removeFromCart;
 window.checkout = checkout;
 window.openProductModal = openProductModal;
 window.deleteProduct = deleteProduct;
+window.editProduct = editProduct;
