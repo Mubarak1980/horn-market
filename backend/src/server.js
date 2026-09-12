@@ -7,6 +7,7 @@ const productRoutes = require('./routes/products');
 const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/orders');
 const paymentRoutes = require('./routes/payments');
+const chapaRoutes = require('./routes/chapa');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/payments/chapa', chapaRoutes);
 
 const PORT = process.env.PORT || 5000;
 
