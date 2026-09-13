@@ -46,6 +46,30 @@ async function apiRequest(endpoint, options = {}) {
   return data;
 }
 
+/* ---------- AUTH UI HELPERS ---------- */
+
+function switchAuthTab(tab) {
+  $("tab-login").classList.toggle("active", tab === "login");
+  $("tab-signup").classList.toggle("active", tab === "signup");
+  $("login-panel").classList.toggle("hidden", tab !== "login");
+  $("signup-panel").classList.toggle("hidden", tab !== "signup");
+}
+
+function togglePassword(inputId, btn) {
+  const input = $(inputId);
+  if (!input) return;
+  const isHidden = input.type === "password";
+  input.type = isHidden ? "text" : "password";
+  btn.textContent = isHidden ? "🙈" : "👁️";
+}
+
+function setAuthLoading(btnId, loading, label) {
+  const btn = $(btnId);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.textContent = loading ? "⏳ Please wait..." : label;
+}
+
 /* ---------- IMAGE UPLOAD ---------- */
 
 async function uploadImageToCloudinary(file) {
@@ -90,6 +114,11 @@ function setupImageUpload() {
 /* ---------- AUTH ---------- */
 
 async function signup(name, email, password, role) {
+  if (!name || !email || !password) {
+    showToast("❌ Please fill in all fields");
+    return;
+  }
+  setAuthLoading("signup-btn", true);
   try {
     const data = await apiRequest("/auth/signup", {
       method: "POST",
@@ -104,10 +133,17 @@ async function signup(name, email, password, role) {
     loadCart();
   } catch (err) {
     showToast("❌ " + err.message);
+  } finally {
+    setAuthLoading("signup-btn", false, "Sign Up");
   }
 }
 
 async function login(email, password) {
+  if (!email || !password) {
+    showToast("❌ Please fill in all fields");
+    return;
+  }
+  setAuthLoading("login-btn", true);
   try {
     const data = await apiRequest("/auth/login", {
       method: "POST",
@@ -122,6 +158,8 @@ async function login(email, password) {
     loadCart();
   } catch (err) {
     showToast("❌ " + err.message);
+  } finally {
+    setAuthLoading("login-btn", false, "Login");
   }
 }
 
@@ -137,18 +175,18 @@ function logout() {
 }
 
 function renderAccount() {
-  const loginBox = $("login-form-box");
+  const authCard = document.querySelector(".auth-card");
   const infoBox = $("account-info");
-  if (!loginBox || !infoBox) return;
+  if (!authCard || !infoBox) return;
 
   if (state.user) {
-    loginBox.classList.add("hidden");
+    authCard.classList.add("hidden");
     infoBox.classList.remove("hidden");
     $("account-name").textContent = state.user.name;
     loadMyProducts();
     loadMyOrders();
   } else {
-    loginBox.classList.remove("hidden");
+    authCard.classList.remove("hidden");
     infoBox.classList.add("hidden");
   }
 }
@@ -546,3 +584,5 @@ window.checkout = checkout;
 window.openProductModal = openProductModal;
 window.deleteProduct = deleteProduct;
 window.editProduct = editProduct;
+window.switchAuthTab = switchAuthTab;
+window.togglePassword = togglePassword;
