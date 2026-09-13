@@ -46,7 +46,10 @@ async function getMyOrders(req, res) {
   try {
     const orders = await prisma.order.findMany({
       where: { buyerId: req.user.id },
-      include: { items: true, payment: true },
+      include: {
+        items: { include: { product: true } },
+        payment: true
+      },
       orderBy: { createdAt: 'desc' }
     });
     res.json(orders);
@@ -60,7 +63,10 @@ async function getOrder(req, res) {
   try {
     const order = await prisma.order.findUnique({
       where: { id: req.params.id },
-      include: { items: true, payment: true }
+      include: {
+        items: { include: { product: true } },
+        payment: true
+      }
     });
 
     if (!order) return res.status(404).json({ error: 'Order not found' });
