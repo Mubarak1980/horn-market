@@ -43,7 +43,11 @@ async function initializePayment(req, res) {
     res.json({ checkoutUrl: response.data.data.checkout_url });
   } catch (err) {
     console.error(err.response?.data || err.message);
-    res.status(500).json({ error: 'Failed to initialize payment' });
+    res.status(500).json({
+      error: 'Failed to initialize payment',
+      debugMessage: err.message,
+      debugDetails: err.response?.data || null
+    });
   }
 }
 
