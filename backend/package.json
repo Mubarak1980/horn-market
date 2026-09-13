@@ -16,7 +16,8 @@
     "@prisma/client": "^5.18.0",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
-    "stripe": "^16.8.0"
+    "stripe": "^16.8.0",
+    "axios": "^1.7.7"
   },
   "devDependencies": {
     "prisma": "^5.18.0",
