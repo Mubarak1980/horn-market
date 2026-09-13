@@ -96,21 +96,43 @@ Horn Africa's Digital Marketplace | Buy • Sell • Discover
 <section id="account-page" class="page hidden">
 <h2>My Account</h2>
 <div id="auth-forms">
-<div id="login-form-box">
-<h3>Login</h3>
-<input id="login-email" type="email" placeholder="Email">
-<input id="login-password" type="password" placeholder="Password">
-<button class="primary-btn" onclick="login($('login-email').value, $('login-password').value)">Login</button>
-<h3>Sign Up</h3>
-<input id="signup-name" type="text" placeholder="Name">
-<input id="signup-email" type="email" placeholder="Email">
-<input id="signup-password" type="password" placeholder="Password">
-<select id="signup-role">
-<option value="buyer">Buyer</option>
-<option value="seller">Seller</option>
-</select>
-<button class="primary-btn" onclick="signup($('signup-name').value, $('signup-email').value, $('signup-password').value, $('signup-role').value)">Sign Up</button>
+
+<div class="auth-card">
+  <div class="auth-tabs">
+    <button type="button" class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Login</button>
+    <button type="button" class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Sign Up</button>
+  </div>
+
+  <div id="login-panel" class="auth-panel">
+    <div class="input-group">
+      <input id="login-email" type="email" placeholder="Email">
+    </div>
+    <div class="input-group">
+      <input id="login-password" type="password" placeholder="Password">
+      <button type="button" class="toggle-password" onclick="togglePassword('login-password', this)">👁️</button>
+    </div>
+    <button class="primary-btn auth-submit" id="login-btn" onclick="login($('login-email').value, $('login-password').value)">Login</button>
+  </div>
+
+  <div id="signup-panel" class="auth-panel hidden">
+    <div class="input-group">
+      <input id="signup-name" type="text" placeholder="Full name">
+    </div>
+    <div class="input-group">
+      <input id="signup-email" type="email" placeholder="Email">
+    </div>
+    <div class="input-group">
+      <input id="signup-password" type="password" placeholder="Password">
+      <button type="button" class="toggle-password" onclick="togglePassword('signup-password', this)">👁️</button>
+    </div>
+    <select id="signup-role">
+      <option value="buyer">Buyer</option>
+      <option value="seller">Seller</option>
+    </select>
+    <button class="primary-btn auth-submit" id="signup-btn" onclick="signup($('signup-name').value, $('signup-email').value, $('signup-password').value, $('signup-role').value)">Sign Up</button>
+  </div>
 </div>
+
 <div id="account-info" class="hidden">
 <h3>Welcome, <span id="account-name"></span></h3>
 <button class="primary-btn" onclick="logout()">Logout</button>
@@ -161,4 +183,4 @@ Horn Africa's Digital Marketplace | Buy • Sell • Discover
 
 <script src="script.js"></script>
 </body>
-</html>
+  </html>
