@@ -586,3 +586,9 @@ window.deleteProduct = deleteProduct;
 window.editProduct = editProduct;
 window.switchAuthTab = switchAuthTab;
 window.togglePassword = togglePassword;
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/horn-market/sw.js");
+  });
+}
