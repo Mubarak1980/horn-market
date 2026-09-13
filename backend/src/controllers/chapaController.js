@@ -77,4 +77,35 @@ async function verifyPayment(req, res) {
   }
 }
 
-module.exports = { initializePayment, verifyPayment };
+async function handleWebhook(req, res) {
+  try {
+    const { tx_ref } = req.body;
+    if (!tx_ref) return res.status(400).json({ error: 'Missing tx_ref' });
+
+    const response = await axios.get(
+      `${CHAPA_BASE}/transaction/verify/${tx_ref}`,
+      { headers: { Authorization: `Bearer ${CHAPA_SECRET}` } }
+    );
+
+    const status = response.data.data.status === 'success' ? 'succeeded' : 'failed';
+
+    const payment = await prisma.payment.update({
+      where: { providerPaymentId: tx_ref },
+      data: { status }
+    });
+
+    if (status === 'succeeded') {
+      await prisma.order.update({
+        where: { id: payment.orderId },
+        data: { status: 'paid' }
+      });
+    }
+
+    res.status(200).json({ received: true });
+  } catch (err) {
+    console.error('Webhook error:', err.response?.data || err.message);
+    res.status(200).json({ received: true });
+  }
+}
+
+module.exports = { initializePayment, verifyPayment, handleWebhook };
