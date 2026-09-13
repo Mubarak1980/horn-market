@@ -410,10 +410,18 @@ async function checkout() {
   }
   try {
     const order = await apiRequest("/orders", { method: "POST" });
-    showToast("✅ Order placed! Order #" + order.id.slice(0, 8));
     state.cart = { items: [] };
     renderCart();
     closeCart();
+
+    showToast("✅ Order placed! Redirecting to payment...");
+
+    const payment = await apiRequest("/payments/chapa/initialize", {
+      method: "POST",
+      body: JSON.stringify({ orderId: order.id })
+    });
+
+    window.location.href = payment.checkoutUrl;
   } catch (err) {
     showToast("❌ " + err.message);
   }
