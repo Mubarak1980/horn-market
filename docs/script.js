@@ -3,6 +3,8 @@
 ========================================================== */
 
 const API_URL = "https://horn-market-production.up.railway.app/api";
+const CLOUDINARY_CLOUD_NAME = "alz2w0pj";
+const CLOUDINARY_UPLOAD_PRESET = "Horn Market";
 
 const state = {
   token: localStorage.getItem("token") || null,
@@ -42,6 +44,47 @@ async function apiRequest(endpoint, options = {}) {
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || "Request failed");
   return data;
+}
+
+/* ---------- IMAGE UPLOAD ---------- */
+
+async function uploadImageToCloudinary(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+    { method: "POST", body: formData }
+  );
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error?.message || "Image upload failed");
+  return data.secure_url;
+}
+
+function setupImageUpload() {
+  const fileInput = $("product-image-file");
+  const preview = $("image-preview");
+  const hiddenUrl = $("product-image");
+  if (!fileInput) return;
+
+  fileInput.addEventListener("change", async () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = "block";
+
+    try {
+      showToast("⬆️ Uploading image...");
+      const url = await uploadImageToCloudinary(file);
+      hiddenUrl.value = url;
+      showToast("✅ Image uploaded");
+    } catch (err) {
+      showToast("❌ " + err.message);
+      hiddenUrl.value = "";
+    }
+  });
 }
 
 /* ---------- AUTH ---------- */
@@ -310,6 +353,7 @@ function setupSellForm() {
         })
       });
       form.reset();
+      $("image-preview").style.display = "none";
       showToast("✅ Product published");
       showPage("home");
       loadProducts();
@@ -480,6 +524,7 @@ function setupCartEvents() {
 document.addEventListener("DOMContentLoaded", () => {
   setupNav();
   setupSellForm();
+  setupImageUpload();
   setupModalEvents();
   setupCartEvents();
   showPage("home");
