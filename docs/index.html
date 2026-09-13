@@ -16,7 +16,7 @@ Horn Africa's Digital Marketplace | Buy • Sell • Discover
 <div class="container header-content">
 <div class="logo">
 <h1>🛒 HornMarket</h1>
-<p>Ethiopia Marketplace</p>
+<p>Horn Africa Marketplace</p>
 </div>
 <div class="search-box">
 <input type="search" id="search" placeholder="Search products..." oninput="searchProducts(this.value)">
@@ -110,6 +110,12 @@ Horn Africa's Digital Marketplace | Buy • Sell • Discover
 <h3>Welcome, <span id="account-name"></span></h3>
 <button class="primary-btn" onclick="logout()">Logout</button>
 <button class="primary-btn" onclick="alert(localStorage.getItem('token'))">Show My Token</button>
+
+<div id="my-orders-section">
+<h3>My Orders</h3>
+<div id="my-orders-list"></div>
+</div>
+
 <div id="my-products-section" class="hidden">
 <h3>My Products</h3>
 <div id="my-products-list"></div>
@@ -150,4 +156,4 @@ Horn Africa's Digital Marketplace | Buy • Sell • Discover
 
 <script src="script.js"></script>
 </body>
-  </html>
+</html>
