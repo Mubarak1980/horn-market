@@ -103,6 +103,7 @@ function renderAccount() {
     infoBox.classList.remove("hidden");
     $("account-name").textContent = state.user.name;
     loadMyProducts();
+    loadMyOrders();
   } else {
     loginBox.classList.remove("hidden");
     infoBox.classList.add("hidden");
@@ -139,6 +140,34 @@ async function loadMyProducts() {
       : `<p style="font-size:13px;color:var(--text-light)">No products yet.</p>`;
   } catch (err) {
     showToast("❌ Failed to load your products");
+  }
+}
+
+async function loadMyOrders() {
+  const list = $("my-orders-list");
+  if (!list || !state.user) return;
+
+  try {
+    const orders = await apiRequest("/orders");
+
+    list.innerHTML = orders.length
+      ? orders.map(order => `
+        <div class="cart-item">
+          <div>
+            <h4>Order #${order.id.slice(0, 8)}</h4>
+            <p>${new Date(order.createdAt).toLocaleDateString()} — ${formatPrice(order.total)}</p>
+            <p style="font-size:13px;color:var(--text-light)">
+              ${order.items.map(i => `${i.product.name} × ${i.quantity}`).join(", ") || "No items"}
+            </p>
+            <p style="font-size:13px;font-weight:600;text-transform:capitalize">
+              Status: ${order.status}
+            </p>
+          </div>
+        </div>
+      `).join("")
+      : `<p style="font-size:13px;color:var(--text-light)">No orders yet.</p>`;
+  } catch (err) {
+    list.innerHTML = `<p style="font-size:13px;color:var(--text-light)">Failed to load orders.</p>`;
   }
 }
 
@@ -350,7 +379,7 @@ async function removeFromCart(cartItemId) {
 function getCartSummary() {
   const items = state.cart.items || [];
   const subtotal = items.reduce((sum, i) => sum + Number(i.product.price) * i.quantity, 0);
-  const delivery = subtotal > 2000 ? 0 : 50;
+  const delivery = subtotal > 0 && subtotal <= 2000 ? 50 : 0;
   return { subtotal, delivery, total: subtotal + delivery };
 }
 
